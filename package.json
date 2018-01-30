@@ -4,7 +4,8 @@
   "description": "EBH",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development BABEL_ENV=development babel-node server/server.development"
+    "start": "NODE_ENV=development BABEL_ENV=development babel-node server/server.development",
+    "start:win": "SET NODE_ENV=development&&SET BABEL_ENV=developmen&&babel-node server/server.development"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "chokidar": "^2.0.0",
     "css-loader": "^0.28.9",
     "html-webpack-plugin": "^2.30.1",
