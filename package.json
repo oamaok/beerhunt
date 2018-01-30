@@ -1,0 +1,19 @@
+{
+  "name": "ebh",
+  "version": "1.0.0",
+  "description": "EBH",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oamaok/ebh.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oamaok/ebh/issues"
+  },
+  "homepage": "https://github.com/oamaok/ebh#readme"
+}
