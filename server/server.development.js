@@ -15,6 +15,7 @@ const devServer = new WebpackDevServer(compiler, {
   hot: true,
   stats: { colors: true },
   historyApiFallback: true,
+  public: 'ebh.tunk.io:8080',
   proxy: {
     '/api': {
       target: `http://localhost:${API_PORT}`,
