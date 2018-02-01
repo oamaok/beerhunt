@@ -9,7 +9,8 @@ import BarListView from 'containers/BarListView';
 
 function Root({ route, auth }) {
   if (!auth.isAuthenticated) {
-    return <LoginView />;
+    // return <LoginView />;
+    return <BarListView />;
   }
 
   switch(route.name) {
