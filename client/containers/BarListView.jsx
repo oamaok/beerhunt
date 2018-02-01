@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'redux-router5';
 
 function BarListView() {
@@ -14,6 +15,31 @@ const bars = [
   {id: 2, name: 'bar 3'},
 ];
 
+// function BarSelectList({ bars, navigateTo }) {
+
+// 	function barToLink(bar) {
+// 		return (
+// 		  <li key={bar.id}>
+// 		    <a href="#" onClick={() => navigateTo('bar', {barId: bar.id}) }>{bar.name}</a>
+// 		  </li>
+// 		);
+// 	}
+
+// 	return (
+// 		<div className="bar-selector">
+// 		  <ul>    
+// 		    {bars.map(barToLink())}
+// 		  </ul>
+// 		</div>
+// 	)
+// }
+
+// export default connect(
+// 	bars,
+// 	dispatch => bindActionCreators({ navigateTo: actions.navigateTo }, dispatch)
+// )(BarSelectList)
+
+
 class BarSelector extends React.Component {
 
   barToLink = (bar) => {
@@ -25,7 +51,9 @@ class BarSelector extends React.Component {
   }
 
   handleClick = (evt) => {
-   	actions.navigateTo("/bar/:"+evt.toString());
+   	// actions.navigateTo("/bar/:"+evt.toString());
+	actions.navigateTo('bar', {barId: evt});
+	console.log(actions.navigateTo('bar', {barId: evt}));
   }
 
   render() {
