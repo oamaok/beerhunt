@@ -8,7 +8,8 @@ import BarView from 'containers/BarView';
 import BarListView from 'containers/BarListView';
 
 function Root({ route, auth }) {
-  if (!auth.isAuthenticated) {
+  console.log(route)
+  if (!auth.hasAuthenticated) {
     return <LoginView />;
   }
 
@@ -17,7 +18,7 @@ function Root({ route, auth }) {
       return <IndexView />;
     } break;
     case 'bar': {
-      return <BarView />;
+      return <BarView params={route.params} />;
     } break;
     case 'bars': {
       return <BarListView />;

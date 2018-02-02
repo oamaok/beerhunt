@@ -38,13 +38,13 @@ try {
 }
 
 const pathsToWatch = [
-  path.resolve(__dirname, '../common'),
   __dirname,
 ];
 
 const watcher = chokidar.watch(pathsToWatch);
 
 watcher.on('ready', () => {
+  console.log('Watching...')
   watcher.on('all', () => {
     process.stdout.write('Change detected in the server directory. \nClearing module cache and restarting the server... ');
 

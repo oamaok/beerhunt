@@ -1,0 +1,52 @@
+* {
+  font-family: Montserrat;
+  color: #eee;
+}
+
+$primary: #0f4c91;
+
+body {
+  background: $primary;
+  padding-top: 1em;
+}
+
+hr {
+  border-color: lighten($primary, 20%);
+}
+
+h1, h2 {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+
+option {
+  color: #333;
+}
+
+.login-view {
+}
+
+.bar-view {
+
+  .add-beer {
+    width: 100%;
+    font-size: 24px;
+  }
+}
+
+.stats {
+  .stat {
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid lighten($primary, 20%);
+    padding-bottom: 0.5em;
+  }
+  .label, .value {
+    display: inline-block;
+  }
+
+  .label {
+    margin-right: 1em;
+  }
+}
