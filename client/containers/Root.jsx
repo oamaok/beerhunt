@@ -6,11 +6,12 @@ import IndexView from 'containers/IndexView';
 import LoginView from 'containers/LoginView';
 import BarView from 'containers/BarView';
 import BarListView from 'containers/BarListView';
+import AddBeerView from 'containers/AddBeerView';
 
 function Root({ route, auth }) {
   if (!auth.isAuthenticated) {
     // return <LoginView />;
-    return <BarListView />;
+    return <AddBeerView />;
   }
 
   switch(route.name) {
@@ -22,6 +23,9 @@ function Root({ route, auth }) {
     } break;
     case 'bars': {
       return <BarListView />;
+    } break;
+    case 'bar.addBeer': {
+      return <AddBeerView />;
     } break;
     case 'index': {
       return <IndexView />;
