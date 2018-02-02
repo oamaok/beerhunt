@@ -26,7 +26,6 @@ router
     ctx.body = types;
   })
   .get('/beers', (ctx) => {
-    console.log(getData())
     ctx.body = getData();
   })
   .post('/beer', (ctx) => {

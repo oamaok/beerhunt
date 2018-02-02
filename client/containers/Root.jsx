@@ -8,7 +8,6 @@ import BarView from 'containers/BarView';
 import BarListView from 'containers/BarListView';
 
 function Root({ route, auth }) {
-  console.log(route)
   if (!auth.hasAuthenticated) {
     return <LoginView />;
   }

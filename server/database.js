@@ -32,6 +32,5 @@ export function addRecord(record) {
 }
 
 export function getData() {
-  console.log(database)
-  return Array.from(database);
+  return [...database];
 }
