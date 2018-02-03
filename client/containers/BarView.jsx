@@ -112,12 +112,12 @@ class BarView extends React.Component {
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <button
-              className="btn btn-danger"
+              className="btn btn-warning"
               onClick={() => this.tweakAbv(-1)}
               type="button"
             >-1%</button>
             <button
-              className="btn btn-danger"
+              className="btn btn-warning"
               onClick={() => this.tweakAbv(-.1)}
               type="button"
             >-.1%</button>
@@ -138,7 +138,13 @@ class BarView extends React.Component {
         </div>
         <hr />
 
-        <button type="button" onClick={this.addBeer} className="btn btn-success add-beer">Add beer!</button>
+        <button type="button" onClick={this.addBeer} className="btn btn-success add-beer">Add a beer!</button>
+
+        <button
+          type="button"
+          onClick={() => this.props.navigateTo('index')}
+          className="btn btn-warning add-beer"
+        >cancel</button>
 
       </div>
     );

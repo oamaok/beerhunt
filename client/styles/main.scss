@@ -1,9 +1,9 @@
 * {
   font-family: Montserrat;
-  color: #eee;
+  color: #333;
 }
 
-$primary: #0f4c91;
+$primary: #fff;
 
 body {
   background: $primary;
@@ -11,7 +11,8 @@ body {
 }
 
 hr {
-  border-color: lighten($primary, 20%);
+  border-color: #666;
+  border-width: 2px;
 }
 
 h1, h2 {
@@ -28,18 +29,24 @@ option {
 .login-view {
 }
 
-.bar-view {
+.btn {
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
+.bar-view {
   .add-beer {
     width: 100%;
     font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 0.5em;
   }
 }
 
 .stats {
   .stat {
     margin-bottom: 0.5em;
-    border-bottom: 1px solid lighten($primary, 20%);
+    border-bottom: 2px solid #666;
     padding-bottom: 0.5em;
   }
   .label, .value {
@@ -47,6 +54,6 @@ option {
   }
 
   .label {
-    margin-right: 1em;
+    margin-right: 0.5em;
   }
 }
