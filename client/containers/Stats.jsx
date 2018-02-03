@@ -16,8 +16,6 @@ function Stats({ beers: rawBeers, bars, types, name }) {
     return null;
   }
 
-  console.log(name)
-
 
   const totalBeers = beers.length;
   const highestAbv = beers.reduce(R.maxBy(R.prop('abv')), { name: '-', abv: 0 });
