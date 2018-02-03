@@ -23,7 +23,7 @@ class LoginView extends React.Component {
       <form className="login-view container" onSubmit={this.onSubmit}>
         <h1>Welcome to Espoo Beer Hunt!</h1>
 
-        <label htmlFor="name">Enter your name to join the fun!</label>
+        <label htmlFor="name">Enter your name to join the fun! Please enter your full name to avoid overlapping names!</label>
         <div className="input-group">
           <input
             type="text"

@@ -16,17 +16,17 @@ function Stats({ beers: rawBeers, bars, types }) {
   const lowestAbv = beers.reduce(R.minBy(R.prop('abv')), { name: '-', abv: Infinity });
 
   const totalBeer = beers.reduce((acc, { volume }) => acc + volume , 0)
-  const totalAlcohol = beers.reduce((acc, { volume, abv }) => acc + volume * abv, 0)
+  const totalAlcohol = beers.reduce((acc, { volume, abv }) => acc + volume * abv * 0.01, 0)
 
   const styleGroups = R.toPairs(R.groupBy(R.prop('beerType'), beers));
-  const favoriteStyle = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], types)
+  const favoriteStyle = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], types);
 
   const barGroups = R.toPairs(R.groupBy(R.prop('bar'), beers));
-  const favoriteBar = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], bars)
+  const favoriteBar = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], bars);
 
   return (
     <div className="stats">
-      <h2>Statistics</h2>
+      <h2>fun Statistics!</h2>
       <div className="stat">
         <div className="label">Total beers consumed:</div>
         <div className="value"><b>{totalBeers}</b></div>
