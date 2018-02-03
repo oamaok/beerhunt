@@ -3,17 +3,20 @@ import { connect } from 'react-redux';
 
 import * as R from 'ramda';
 
-function Stats({ beers: rawBeers, bars, types }) {
+function Stats({ beers: rawBeers, bars, types, name }) {
   const beers = rawBeers.map(beer => ({
     ...beer,
     volume: parseFloat(beer.volume),
     abv: parseFloat(beer.abv),
   }))
   .filter(beer => !isNaN(beer.volume) && !isNaN(beer.abv))
+  .filter(beer => beer.name != 'Jorma' || name == 'Jorma');
 
   if (beers.length === 0 || bars.lengt === 0 || types.length === 0) {
     return null;
   }
+
+  console.log(name)
 
 
   const totalBeers = beers.length;
@@ -81,4 +84,5 @@ export default connect(state => ({
   beers: state.beers,
   bars: state.fixtures.bars,
   types: state.fixtures.beerTypes,
+  name: state.auth.name,
 }))(Stats);
