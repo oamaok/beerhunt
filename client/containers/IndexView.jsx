@@ -4,7 +4,7 @@ import { actions } from 'redux-router5';
 import Stats from 'containers/Stats';
 import { updateFacebookStatus } from '../actions';
 
-function IndexView({ navigateTo, updateFacebookStatus, bars }) {
+function IndexView({ navigateTo, updateFacebookStatus, bars, facebook }) {
   const logout = async () => {
     const response = await new Promise(FB.logout);
     updateFacebookStatus(response);
@@ -24,14 +24,13 @@ function IndexView({ navigateTo, updateFacebookStatus, bars }) {
       <hr />
       <Stats />
 
-      <button onClick={logout}>Logout</button>
+      <span>Currently logged in as <b>{facebook.name}</b></span>
+      <button type="button" className="btn btn-primary" onClick={logout}>Logout</button>
     </div>
   );
 }
 
-export default connect(state => ({
-  bars: state.app.bars,
-}), {
+export default connect(state =>state.app, {
   navigateTo: actions.navigateTo,
   updateFacebookStatus,
 })(IndexView);
