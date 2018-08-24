@@ -46,11 +46,6 @@ function initializeStore(router) {
   store.dispatch(fetchBars());
   store.dispatch(fetchBeerTypes());
 
-  (function beerRefreshLoop() {
-    store.dispatch(fetchBeers());
-    setTimeout(beerRefreshLoop, 1000 * 60);
-  }());
-
   // Check if we have a name present in the localStorage and initialize the name with it
   const name = localStorage.getItem('ebh-name');
   if (name) {
@@ -77,6 +72,11 @@ function initializeApplication() {
 
   router.start();
   render(store);
+
+  (function beerRefreshLoop() {
+    store.dispatch(fetchBeers());
+    setTimeout(beerRefreshLoop, 1000 * 5);
+  }());
 
   // Initialize hot module reloading
   if (module.hot) {
