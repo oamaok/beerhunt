@@ -1,6 +1,7 @@
 import {
   SET_FACEBOOK_STATUS,
   SET_FACEBOOK_INFO,
+  RESET_FACEBOOK_INFO,
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
@@ -34,6 +35,15 @@ export default function ebhReducer(state = initialAppState, action) {
           ...state.facebook,
           name: action.name,
           id: action.id,
+        },
+      };
+    case RESET_FACEBOOK_INFO: 
+      return {
+        ...state,
+        facebook: {
+          ...state.facebook,
+          name: '',
+          id: '',
         },
       };
     case SET_BEERS:

@@ -2,6 +2,7 @@ import { apiCall } from './api';
 
 export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
 export const SET_FACEBOOK_INFO = Symbol('SET_FACEBOOK_INFO');
+export const RESET_FACEBOOK_INFO = Symbol('RESET_FACEBOOK_INFO');
 export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
@@ -21,11 +22,15 @@ function setFacebookInformation({ name, id }) {
   };
 }
 
+function resetFacebookInformation() {
+  return { type: RESET_FACEBOOK_INFO }
+}
+
 export function updateFacebookStatus(response) {
   return async (dispatch) => {
     if (response.status !== 'connected') {
       dispatch(setFacebookStatus(response.status));
-      dispatch(setFacebookInformation(null));
+      dispatch(resetFacebookInformation());
 
       return;
     }
