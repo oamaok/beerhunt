@@ -13,7 +13,7 @@ import routes from './routes';
 
 import {
   fetchBeers,
-  setName,
+  updateFacebookStatus,
   fetchBars,
   fetchBeerTypes,
 } from './actions';
@@ -31,7 +31,7 @@ function initializeRouter() {
   return router;
 }
 
-function initializeStore(router) {
+async function initializeStore(router) {
   const store = createStore(
     combineReducers({
       router: router5Reducer,
@@ -46,11 +46,8 @@ function initializeStore(router) {
   store.dispatch(fetchBars());
   store.dispatch(fetchBeerTypes());
 
-  // Check if we have a name present in the localStorage and initialize the name with it
-  const name = localStorage.getItem('ebh-name');
-  if (name) {
-    store.dispatch(setName(name));
-  }
+  const response = await new Promise(FB.getLoginStatus);
+  await store.dispatch(updateFacebookStatus(response));
 
   return store;
 }
@@ -66,9 +63,9 @@ function render(store) {
   );
 }
 
-function initializeApplication() {
+async function initializeApplication() {
   const router = initializeRouter();
-  const store = initializeStore(router);
+  const store = await initializeStore(router);
 
   router.start();
   render(store);
@@ -86,4 +83,23 @@ function initializeApplication() {
   }
 }
 
-initializeApplication();
+window.fbAsyncInit = () => {
+  FB.init({
+    appId: '1805325732897696',
+    cookie: true,
+    xfbml: true,
+    version: 'v3.1',
+  });
+
+  FB.AppEvents.logPageView();
+  initializeApplication();
+};
+
+/* eslint-disable */
+(function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "https://connect.facebook.net/en_US/sdk.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));

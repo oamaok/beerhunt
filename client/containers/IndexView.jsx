@@ -2,8 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
 import Stats from 'containers/Stats';
+import { updateFacebookStatus } from '../actions';
 
-function IndexView({ navigateTo, bars }) {
+function IndexView({ navigateTo, updateFacebookStatus, bars }) {
+  const logout = async () => {
+    const response = await new Promise(FB.logout);
+    updateFacebookStatus(response);
+  };
+
   return (
     <div className="index-view container">
       <h2>Welcome to Espoo Beer Hunt!</h2>
@@ -17,6 +23,8 @@ function IndexView({ navigateTo, bars }) {
       </div>
       <hr />
       <Stats />
+
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
@@ -25,4 +33,5 @@ export default connect(state => ({
   bars: state.app.bars,
 }), {
   navigateTo: actions.navigateTo,
+  updateFacebookStatus,
 })(IndexView);

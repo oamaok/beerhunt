@@ -13,7 +13,7 @@ export function apiCall(path, options = {}) {
 }
 
 export async function addBeer({
-  type, volume, abv, bar, name,
+  type, volume, abv, bar, name, facebookId,
 }) {
   await apiCall('beer', {
     method: 'POST',
@@ -22,6 +22,7 @@ export async function addBeer({
       volume,
       abv: isNaN(parseFloat(abv)) ? 0 : parseFloat(abv),
       name,
+      facebookId,
       bar: parseInt(bar),
     }),
   });

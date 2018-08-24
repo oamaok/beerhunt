@@ -7,7 +7,9 @@ import LoginView from 'containers/LoginView';
 import BarView from 'containers/BarView';
 
 function Root({ route, app }) {
-  if (!app.hasAuthenticated) {
+  console.log(app.facebook);
+
+  if (app.facebook.status !== 'connected') {
     return <LoginView />;
   }
 

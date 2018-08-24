@@ -1,44 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setName } from '../actions';
+import { updateFacebookStatus } from '../actions';
 
 class LoginView extends React.Component {
   state = {
-    name: '',
+    isLoggingIn: false,
   }
 
-  onChange = (evt) => {
-    this.setState({
-      name: evt.target.value,
-    });
-  }
-
-  onSubmit = (evt) => {
-    evt.preventDefault();
-    this.props.setName(this.state.name);
+  connectWithFacebook = async () => {
+    this.setState({ isLoggingIn: true });
+    const response = await new Promise(FB.login);
+    this.props.updateFacebookStatus(response);
+    this.setState({ isLoggingIn: false });
   }
 
   render() {
     return (
-      <form className="login-view container" onSubmit={this.onSubmit}>
+      <div className="login-view container">
         <h1>Welcome to Espoo Beer Hunt!</h1>
 
-        <label htmlFor="name">Enter your name to join the fun! Please enter your full name to avoid overlapping names!</label>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Matti Meikäläinen"
-            className="form-control"
-            id="name"
-            onChange={this.onChange}
-          />
-          <div className="input-group-append">
-            <button type="submit" className="btn btn-outline-secondary">Go!</button>
-          </div>
-        </div>
-      </form>
+        <p>Connect with Facebook to join the fun!</p>
+        <button onClick={this.connectWithFacebook}>Continue with Facebook</button>
+      </div>
     );
   }
 }
 
-export default connect(null, { setName })(LoginView);
+export default connect(null, { updateFacebookStatus })(LoginView);

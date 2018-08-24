@@ -7,6 +7,9 @@
       "jsx": true
     }
   },
+  "globals": {
+    "FB": true,
+  },
   "settings": {
     "import/resolver": {
       "node": {

@@ -35,6 +35,7 @@ router
       name,
       volume,
       abv,
+      facebookId,
     } = ctx.request.body;
 
     addRecord({
@@ -43,6 +44,7 @@ router
       beerType,
       volume,
       abv,
+      facebookId,
       time: (new Date()).getTime(),
     });
 
