@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setName } from 'actions/auth';
+import { setName } from '../actions';
 
 class LoginView extends React.Component {
   state = {

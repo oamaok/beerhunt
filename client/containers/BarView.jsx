@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
 import { apiCall } from '../api';
-import { fetchBeers } from 'actions/beers';
+import { fetchBeers } from '../actions';
 
 const sizes = [
   { value: 0.2, name: '20cl' },
@@ -78,7 +78,7 @@ class BarView extends React.Component {
 
   render() {
     const {
-      types,
+      beerTypes: types,
       bars,
       params,
     } = this.props;
@@ -151,8 +151,4 @@ class BarView extends React.Component {
   }
 }
 
-export default connect(state => ({
-  bars: state.fixtures.bars,
-  types: state.fixtures.beerTypes,
-  name: state.auth.name,
-}), { fetchBeers, navigateTo: actions.navigateTo })(BarView);
+export default connect(state => state.app, { fetchBeers, navigateTo: actions.navigateTo })(BarView);

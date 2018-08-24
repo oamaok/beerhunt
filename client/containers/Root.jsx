@@ -7,8 +7,8 @@ import LoginView from 'containers/LoginView';
 import BarView from 'containers/BarView';
 import BarListView from 'containers/BarListView';
 
-function Root({ route, auth }) {
-  if (!auth.hasAuthenticated) {
+function Root({ route, app }) {
+  if (!app.hasAuthenticated) {
     return <LoginView />;
   }
 
@@ -32,6 +32,6 @@ function Root({ route, auth }) {
 }
 
 export default connect(state => ({
-  auth: state.auth,
+  app: state.app,
   ...routeNodeSelector('')(state),
 }))(Root);

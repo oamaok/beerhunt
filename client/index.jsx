@@ -10,13 +10,8 @@ import ReduxThunk from 'redux-thunk';
 import routes from './routes';
 import Root from 'containers/Root';
 
-import authReducer from 'reducers/auth';
-import beersReducer from 'reducers/beers';
-import fixturesReducer from 'reducers/fixtures';
-
-import { fetchBeers } from 'actions/beers'; 
-import { fetchBars, fetchBeerTypes } from 'actions/fixtures';
-import { setName } from 'actions/auth';
+import { fetchBeers, setName, fetchBars, fetchBeerTypes } from './actions';
+import reducer from './reducer'
 
 
 const router = createRouter(routes, {
@@ -26,9 +21,7 @@ const router = createRouter(routes, {
 const store = createStore(
   combineReducers({
     router: router5Reducer,
-    auth: authReducer,
-    beers: beersReducer,
-    fixtures: fixturesReducer,
+    app: reducer,
   }),
   applyMiddleware(
     router5Middleware(router),

@@ -23,7 +23,7 @@ function IndexView({ navigateTo, bars }) {
 }
 
 export default connect(state => ({
-  bars: state.fixtures.bars
+  bars: state.app.bars
 }), {
   navigateTo: actions.navigateTo,
 })(IndexView);
