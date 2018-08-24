@@ -23,7 +23,7 @@ function setFacebookInformation({ name, id }) {
 }
 
 function resetFacebookInformation() {
-  return { type: RESET_FACEBOOK_INFO }
+  return { type: RESET_FACEBOOK_INFO };
 }
 
 export function updateFacebookStatus(response) {

@@ -37,7 +37,7 @@ export default function ebhReducer(state = initialAppState, action) {
           id: action.id,
         },
       };
-    case RESET_FACEBOOK_INFO: 
+    case RESET_FACEBOOK_INFO:
       return {
         ...state,
         facebook: {

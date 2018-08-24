@@ -20,7 +20,12 @@ class LoginView extends React.Component {
         <h1>Welcome to Espoo Beer Hunt!</h1>
 
         <p>Connect with Facebook to join the fun!</p>
-        <button type="button" className="btn btn-primary" disabled={this.state.isLoggingIn} onClick={this.connectWithFacebook}>Continue with Facebook</button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={this.state.isLoggingIn}
+          onClick={this.connectWithFacebook}
+        >Continue with Facebook</button>
       </div>
     );
   }
