@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
-import { apiCall } from '../api';
+import { addBeer } from '../api';
 import { fetchBeers } from '../actions';
 
 const sizes = [
@@ -25,7 +25,7 @@ class BarView extends React.Component {
     disabled: false,
   }
 
-  addBeer = (() => async () => {
+  addBeer = async () => {
     this.setState({
       disabled: true,
     });
@@ -36,47 +36,52 @@ class BarView extends React.Component {
       abv,
     } = this.state;
 
-    await apiCall('beer', {
-      method: 'POST',
-      body: JSON.stringify({
-        beerType: parseInt(beerType),
-        volume,
-        abv: isNaN(parseFloat(abv)) ? 0 : parseFloat(abv),
-        name: this.props.name,
-        bar: parseInt(this.props.params.barId),
-      }),
+    const {
+      name,
+      fetchBeers,
+      navigateTo,
+      params,
+    } = this.props;
+
+
+    await addBeer({
+      type: beerType, volume, abv, bar: params.barId, name,
     });
 
-    this.props.fetchBeers();
+    fetchBeers();
 
-    this.props.navigateTo('index');
-  })()
+    navigateTo('index');
+  }
 
   beerTypeChange = (evt) => {
     this.setState({
       beerType: evt.target.value,
-    })
+    });
   }
 
   volumeChange = (evt) => {
     this.setState({
       volume: evt.target.value,
-    })
+    });
   }
 
   abvChange = (evt) => {
     this.setState({
       abv: evt.target.value,
-    })
+    });
   }
 
   tweakAbv = (amount) => {
     this.setState(({ abv }) => ({
-      abv: parseFloat((abv + amount).toFixed(1))
-    }))
+      abv: parseFloat((abv + amount).toFixed(1)),
+    }));
   }
 
   render() {
+    const {
+      disabled, beerType, volume, abv,
+    } = this.state;
+
     const {
       beerTypes: types,
       bars,
@@ -91,19 +96,15 @@ class BarView extends React.Component {
 
         <label htmlFor="beer-type">What did you drink?</label>
         <div className="input-group">
-          <select className="form-control" id="beer-type" value={this.state.beerType} onChange={this.beerTypeChange}>
-            {types.map((type, index) => 
-              <option value={index} key={index}>{type}</option>
-            )}
+          <select className="form-control" id="beer-type" value={beerType} onChange={this.beerTypeChange} disabled={disabled}>
+            {types.map((type, index) => <option value={index} key={type}>{type}</option>)}
           </select>
         </div>
         <hr />
         <label htmlFor="beer-type">How much did you drink?</label>
         <div className="input-group">
-          <select className="form-control" id="beer-type" value={this.state.volume} onChange={this.volumeChange}>
-            {sizes.map(({ name, value }) => 
-              <option value={value} key={value}>{name}</option>
-            )}
+          <select className="form-control" id="beer-type" value={volume} onChange={this.volumeChange} disabled={disabled}>
+            {sizes.map(({ name, value }) => <option value={value} key={value}>{name}</option>)}
           </select>
         </div>
         <hr />
@@ -113,27 +114,46 @@ class BarView extends React.Component {
           <div className="input-group-prepend">
             <button
               className="btn btn-warning"
+              disabled={disabled}
               onClick={() => this.tweakAbv(-1)}
               type="button"
-            >-1%</button>
+            >
+-1%
+            </button>
             <button
               className="btn btn-warning"
-              onClick={() => this.tweakAbv(-.1)}
+              disabled={disabled}
+              onClick={() => this.tweakAbv(-0.1)}
               type="button"
-            >-.1%</button>
+            >
+-.1%
+            </button>
           </div>
           <input
             type="number"
+            disabled={disabled}
             className="form-control"
-            value={this.state.abv}
+            value={abv}
             onChange={this.abvChange}
           />
           <div className="input-group-append">
             <span className="input-group-text">%</span>
-            <button className="btn btn-success"
-              onClick={() => this.tweakAbv(.1)} type="button">+.1%</button>
-            <button className="btn btn-success"
-              onClick={() => this.tweakAbv(1)} type="button">+1%</button>
+            <button
+              className="btn btn-success"
+              disabled={disabled}
+              onClick={() => this.tweakAbv(0.1)}
+              type="button"
+            >
++.1%
+            </button>
+            <button
+              className="btn btn-success"
+              disabled={disabled}
+              onClick={() => this.tweakAbv(1)}
+              type="button"
+            >
++1%
+            </button>
           </div>
         </div>
         <hr />
@@ -144,7 +164,9 @@ class BarView extends React.Component {
           type="button"
           onClick={() => this.props.navigateTo('index')}
           className="btn btn-warning add-beer"
-        >cancel</button>
+        >
+cancel
+        </button>
 
       </div>
     );

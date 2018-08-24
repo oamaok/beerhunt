@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
 
-import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import chokidar from 'chokidar';
@@ -44,7 +43,7 @@ const pathsToWatch = [
 const watcher = chokidar.watch(pathsToWatch);
 
 watcher.on('ready', () => {
-  console.log('Watching...')
+  console.log('Watching...');
   watcher.on('all', () => {
     process.stdout.write('Change detected in the server directory. \nClearing module cache and restarting the server... ');
 

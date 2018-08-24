@@ -1,4 +1,4 @@
-import { apiCall } from './api'
+import { apiCall } from './api';
 
 export const SET_PERSON_NAME = Symbol('SET_PERSON_NAME');
 export const SET_BEERS = Symbol('SET_BEERS');
@@ -9,21 +9,21 @@ export function setName(name) {
   return {
     type: SET_PERSON_NAME,
     name,
-  }
+  };
 }
 
 function setBeers(beers) {
   return {
     type: SET_BEERS,
     beers,
-  }
+  };
 }
 
 export function fetchBeers() {
-  return async (dispatch) => { 
+  return async (dispatch) => {
     const beers = await apiCall('beers');
-    dispatch(setBeers(beers)); 
-  }
+    dispatch(setBeers(beers));
+  };
 }
 
 function setBars(bars) {
@@ -34,10 +34,10 @@ function setBars(bars) {
 }
 
 export function fetchBars() {
-  return async (dispatch) => { 
+  return async (dispatch) => {
     const bars = await apiCall('bars');
-    dispatch(setBars(bars)); 
-  }
+    dispatch(setBars(bars));
+  };
 }
 
 function setBeerTypes(types) {
@@ -48,8 +48,8 @@ function setBeerTypes(types) {
 }
 
 export function fetchBeerTypes() {
-  return async (dispatch) => { 
+  return async (dispatch) => {
     const types = await apiCall('types');
-    dispatch(setBeerTypes(types)); 
-  }
+    dispatch(setBeerTypes(types));
+  };
 }

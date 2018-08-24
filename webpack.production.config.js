@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
@@ -12,6 +11,8 @@ module.exports = {
       './client/styles/main.scss',
     ],
   },
+
+  mode: 'production',
 
   output: {
     publicPath: '/',
@@ -43,7 +44,7 @@ module.exports = {
   devtool: '',
 
   module: {
-    loaders: [
+    rules: [
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
       {
         test: /\.s[ac]ss$/,

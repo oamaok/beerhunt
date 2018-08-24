@@ -13,6 +13,8 @@ module.exports = {
     ],
   },
 
+  mode: 'development',
+
   output: {
     publicPath: '/',
     filename: '[name].[hash].js',
@@ -40,7 +42,7 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
 
   module: {
-    loaders: [
+    rules: [
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.s[ac]ss$/, loader: ['style-loader', 'css-loader', 'sass-loader'], exclude: /node_modules/ },
     ],

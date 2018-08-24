@@ -14,7 +14,7 @@ const app = new Koa();
 const server = http.createServer(app.callback());
 app.use(koaBodyparser());
 const router = new Router({
-  prefix: '/api'
+  prefix: '/api',
 });
 
 
@@ -47,7 +47,7 @@ router
     });
 
     ctx.body = { ok: true };
-  })
+  });
 
 app.use(router.routes());
 app.use(koaJson());

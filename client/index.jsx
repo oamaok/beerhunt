@@ -1,18 +1,20 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import { AppContainer } from 'react-hot-loader'
-import createRouter from 'router5'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { AppContainer } from 'react-hot-loader';
+import createRouter from 'router5';
 import browserPlugin from 'router5/plugins/browser';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 import ReduxThunk from 'redux-thunk';
 
-import routes from './routes';
 import Root from 'containers/Root';
+import routes from './routes';
 
-import { fetchBeers, setName, fetchBars, fetchBeerTypes } from './actions';
-import reducer from './reducer'
+import {
+  fetchBeers, setName, fetchBars, fetchBeerTypes,
+} from './actions';
+import reducer from './reducer';
 
 
 const router = createRouter(routes, {
@@ -20,7 +22,7 @@ const router = createRouter(routes, {
 });
 
 router.usePlugin(browserPlugin({
-  useHash: true
+  useHash: true,
 }));
 
 const store = createStore(
@@ -30,8 +32,8 @@ const store = createStore(
   }),
   applyMiddleware(
     router5Middleware(router),
-    ReduxThunk
-  )
+    ReduxThunk,
+  ),
 );
 
 store.dispatch(fetchBars());
@@ -39,12 +41,12 @@ store.dispatch(fetchBeerTypes());
 
 (function beerRefreshLoop() {
   store.dispatch(fetchBeers());
-  setTimeout(beerRefreshLoop, 1000 * 60)
-})()
+  setTimeout(beerRefreshLoop, 1000 * 60);
+}());
 
 const name = localStorage.getItem('ebh-name');
 if (name) {
-  store.dispatch(setName(name))
+  store.dispatch(setName(name));
 }
 
 router.start();
@@ -57,13 +59,13 @@ const render = () => {
       </Provider>
     </AppContainer>,
     document.querySelector('#root'),
-  )
-}
+  );
+};
 
-render()
+render();
 
 if (module.hot) {
   module.hot.accept('containers/Root', () => {
-    render()
-  })
+    render();
+  });
 }

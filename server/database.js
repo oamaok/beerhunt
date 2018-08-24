@@ -9,8 +9,7 @@ let savePromise = Promise.resolve();
 if (fs.existsSync(DB_FILE)) {
   try {
     database = JSON.parse(fs.readFileSync(DB_FILE).toString());
-  } catch(err) {
-  }
+  } catch (err) { /* */ }
 }
 
 function save() {
@@ -18,10 +17,10 @@ function save() {
   dirty = false;
 
   savePromise.then(() => {
-    savePromise = new Promise(resolve => {
+    savePromise = new Promise((resolve) => {
       fs.writeFile(DB_FILE, JSON.stringify(database), resolve);
-    })
-  })
+    });
+  });
 }
 
 setInterval(save, 1000 * 60);

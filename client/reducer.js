@@ -1,4 +1,6 @@
-import { SET_PERSON_NAME, SET_BEERS, SET_BARS, SET_BEER_TYPES } from './actions'
+import {
+  SET_PERSON_NAME, SET_BEERS, SET_BARS, SET_BEER_TYPES,
+} from './actions';
 
 const initialAppState = {
   hasAuthenticated: false,
@@ -6,7 +8,7 @@ const initialAppState = {
   beers: [],
   bars: [],
   beerTypes: [],
-}
+};
 
 export default function ebhReducer(state = initialAppState, action) {
   switch (action.type) {
@@ -16,7 +18,7 @@ export default function ebhReducer(state = initialAppState, action) {
         ...state,
         name: action.name,
         hasAuthenticated: true,
-      }
+      };
     case SET_BEERS:
       return {
         ...state,
@@ -26,13 +28,13 @@ export default function ebhReducer(state = initialAppState, action) {
       return {
         ...state,
         bars: action.bars,
-      }
+      };
     case SET_BEER_TYPES:
       return {
         ...state,
         beerTypes: action.types,
-      }
+      };
     default:
-      return state
+      return state;
   }
 }

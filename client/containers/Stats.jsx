@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 
 import * as R from 'ramda';
 
-function Stats({ beers: rawBeers, bars, beerTypes: types, name }) {
+function Stats({
+  beers: rawBeers, bars, beerTypes: types,
+}) {
   const beers = rawBeers.map(beer => ({
     ...beer,
     volume: parseFloat(beer.volume),
     abv: parseFloat(beer.abv),
   }))
-  .filter(beer => !isNaN(beer.volume) && !isNaN(beer.abv))
-  .filter(beer => beer.name != 'Jorma' || name == 'Jorma');
+    .filter(beer => !isNaN(beer.volume) && !isNaN(beer.abv));
 
   if (beers.length === 0 || bars.length === 0 || types.length === 0) {
     return null;
@@ -22,9 +23,8 @@ function Stats({ beers: rawBeers, bars, beerTypes: types, name }) {
   const lowestAbv = beers.reduce(R.minBy(R.prop('abv')), { name: '-', abv: Infinity });
 
 
-
-  const totalBeer = beers.reduce((acc, { volume }) => acc + volume , 0)
-  const totalAlcohol = beers.reduce((acc, { volume, abv }) => acc + volume * abv * 0.01, 0)
+  const totalBeer = beers.reduce((acc, { volume }) => acc + volume, 0);
+  const totalAlcohol = beers.reduce((acc, { volume, abv }) => acc + volume * abv * 0.01, 0);
 
   const styleGroups = R.toPairs(R.groupBy(R.prop('beerType'), beers));
   const favoriteStyle = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], types);
@@ -32,12 +32,12 @@ function Stats({ beers: rawBeers, bars, beerTypes: types, name }) {
   const barGroups = R.toPairs(R.groupBy(R.prop('bar'), beers));
 
   const barVolumes = barGroups.map(([a, b]) => [a, R.sum(R.map(R.prop('volume'), b))]);
-  const [ popularBarId, popularBarVolume ] = R.last(R.sortBy(R.last, barVolumes));
+  const [popularBarId, popularBarVolume] = R.last(R.sortBy(R.last, barVolumes));
 
 
   const nameGroups = R.toPairs(R.groupBy(R.prop('name'), beers));
   const nameVolumes = nameGroups.map(([a, b]) => [a, R.sum(R.map(R.prop('volume'), b))]);
-  const [ drinker, drinkerVolume ] = R.last(R.sortBy(R.last, nameVolumes));
+  const [drinker, drinkerVolume] = R.last(R.sortBy(R.last, nameVolumes));
 
   return (
     <div className="stats">
