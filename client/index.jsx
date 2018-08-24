@@ -4,6 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { AppContainer } from 'react-hot-loader'
 import createRouter from 'router5'
+import browserPlugin from 'router5/plugins/browser';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 import ReduxThunk from 'redux-thunk';
 
@@ -17,6 +18,10 @@ import reducer from './reducer'
 const router = createRouter(routes, {
   defaultRoute: 'index',
 });
+
+router.usePlugin(browserPlugin({
+  useHash: true
+}));
 
 const store = createStore(
   combineReducers({
