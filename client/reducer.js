@@ -5,6 +5,7 @@ import {
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
+  FACEBOOK_LOADING,
 } from './actions';
 
 const initialAppState = {
@@ -12,7 +13,7 @@ const initialAppState = {
   bars: [],
   beerTypes: [],
   facebook: {
-    status: '',
+    status: FACEBOOK_LOADING,
     name: '',
     id: '',
   },

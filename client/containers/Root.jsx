@@ -6,8 +6,10 @@ import IndexView from 'containers/IndexView';
 import LoginView from 'containers/LoginView';
 import BarView from 'containers/BarView';
 
+import { FACEBOOK_CONNECTED } from '../actions';
+
 function Root({ route, app }) {
-  if (app.facebook.status !== 'connected') {
+  if (app.facebook.status !== FACEBOOK_CONNECTED) {
     return <LoginView />;
   }
 

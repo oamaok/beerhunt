@@ -7,6 +7,9 @@ export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
 
+export const FACEBOOK_CONNECTED = 'connected'; // Defined by Facebook
+export const FACEBOOK_LOADING = 'loading'; // Not defined by Facebook
+
 function setFacebookStatus(status) {
   return {
     type: SET_FACEBOOK_STATUS,
@@ -28,17 +31,35 @@ function resetFacebookInformation() {
 
 export function updateFacebookStatus(response) {
   return async (dispatch) => {
-    if (response.status !== 'connected') {
-      dispatch(setFacebookStatus(response.status));
+    if (response.status === FACEBOOK_CONNECTED) {
+      dispatch(setFacebookStatus(FACEBOOK_LOADING));
+      dispatch(setFacebookInformation(await new Promise(resolve => FB.api('/me', resolve))));
+    } else {
       dispatch(resetFacebookInformation());
-
-      return;
     }
 
-    const apiResponse = await new Promise(resolve => FB.api('/me', resolve));
-
     dispatch(setFacebookStatus(response.status));
-    dispatch(setFacebookInformation(apiResponse));
+  };
+}
+
+export function refreshFacebookStatus() {
+  return async (dispatch) => {
+    dispatch(setFacebookStatus(FACEBOOK_LOADING));
+    dispatch(updateFacebookStatus(await new Promise(FB.getLoginStatus)));
+  };
+}
+
+export function connectFacebook() {
+  return async (dispatch) => {
+    dispatch(setFacebookStatus(FACEBOOK_LOADING));
+    dispatch(updateFacebookStatus(await new Promise(FB.login)));
+  };
+}
+
+export function disconnectFacebook() {
+  return async (dispatch) => {
+    dispatch(setFacebookStatus(FACEBOOK_LOADING));
+    dispatch(updateFacebookStatus(await new Promise(FB.logout)));
   };
 }
 

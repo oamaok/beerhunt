@@ -1,34 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateFacebookStatus } from '../actions';
+import { connectFacebook, FACEBOOK_LOADING } from '../actions';
 
-class LoginView extends React.Component {
-  state = {
-    isLoggingIn: false,
-  }
+function LoginView({ facebook, connectFacebook }) {
+  return (
+    <div className="login-view container">
+      <h1>Welcome to Espoo Beer Hunt!</h1>
 
-  connectWithFacebook = async () => {
-    this.setState({ isLoggingIn: true });
-    const response = await new Promise(FB.login);
-    this.props.updateFacebookStatus(response);
-    this.setState({ isLoggingIn: false });
-  }
-
-  render() {
-    return (
-      <div className="login-view container">
-        <h1>Welcome to Espoo Beer Hunt!</h1>
-
-        <p>Connect with Facebook to join the fun!</p>
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={this.state.isLoggingIn}
-          onClick={this.connectWithFacebook}
-        >Continue with Facebook</button>
-      </div>
-    );
-  }
+      <p>Connect with Facebook to join the fun!</p>
+      <button
+        type="button"
+        className="btn btn-primary"
+        disabled={facebook.status === FACEBOOK_LOADING}
+        onClick={connectFacebook}
+      >Continue with Facebook
+      </button>
+    </div>
+  );
 }
 
-export default connect(null, { updateFacebookStatus })(LoginView);
+export default connect(state => state.app, { connectFacebook })(LoginView);

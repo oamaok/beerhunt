@@ -13,7 +13,7 @@ import routes from './routes';
 
 import {
   fetchBeers,
-  updateFacebookStatus,
+  refreshFacebookStatus,
   fetchBars,
   fetchBeerTypes,
 } from './actions';
@@ -46,8 +46,7 @@ async function initializeStore(router) {
   store.dispatch(fetchBars());
   store.dispatch(fetchBeerTypes());
 
-  const response = await new Promise(FB.getLoginStatus);
-  await store.dispatch(updateFacebookStatus(response));
+  await store.dispatch(refreshFacebookStatus());
 
   return store;
 }
