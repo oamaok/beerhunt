@@ -15,10 +15,7 @@ import {
   fetchBeers,
   fetchBars,
   fetchBeerTypes,
-  refreshFacebookStatus,
   validateToken,
-  updateAuthStatus,
-  FACEBOOK_CONNECTED,
 } from './actions';
 import reducer from './reducer';
 
