@@ -17,6 +17,8 @@ import {
   fetchBeerTypes,
   refreshFacebookStatus,
   validateToken,
+  updateAuthStatus,
+  FACEBOOK_CONNECTED,
 } from './actions';
 import reducer from './reducer';
 
@@ -44,11 +46,25 @@ async function initializeStore(router) {
     ),
   );
 
-  store.dispatch(fetchBars());
-  store.dispatch(fetchBeerTypes());
+  const { dispatch } = store;
 
-  await store.dispatch(validateToken(localStorage.getItem('ebh_token')));
-  store.dispatch(refreshFacebookStatus());
+  dispatch(fetchBars());
+  dispatch(fetchBeerTypes());
+
+  // First, check that we're logged in using FB
+  await dispatch(refreshFacebookStatus());
+
+  const { facebook } = store.getState().app;
+
+  // If we're connected, verify the existing token
+  if (facebook.status === FACEBOOK_CONNECTED) {
+    await dispatch(validateToken(localStorage.getItem('ebh_token')));
+
+    // If the token verification failed, issue new one with the Facebook auth response
+    if (!store.getState().app.auth.token) {
+      await dispatch(updateAuthStatus(facebook));
+    }
+  }
 
   return store;
 }
@@ -71,6 +87,7 @@ async function initializeApplication() {
   router.start();
   render(store);
 
+  // Refresh beers every five seconds
   (function beerRefreshLoop() {
     store.dispatch(fetchBeers());
     setTimeout(beerRefreshLoop, 1000 * 5);

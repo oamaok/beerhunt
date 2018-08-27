@@ -6,14 +6,14 @@ import {
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
-  FACEBOOK_UNKNOWN,
+  SET_FACEBOOK_STATUS,
 } from './actions';
 
 const initialAppState = {
   beers: [],
   bars: [],
   beerTypes: [],
-  facebook: FACEBOOK_UNKNOWN,
+  facebook: {},
   auth: {
     isLoading: false,
     token: null,
@@ -23,8 +23,6 @@ const initialAppState = {
 };
 
 export default function ebhReducer(state = initialAppState, action) {
-  console.log(action)
-
   switch (action.type) {
     case BEGIN_AUTHENTICATION:
       return {
@@ -64,6 +62,12 @@ export default function ebhReducer(state = initialAppState, action) {
           token: null,
         },
       };
+    case SET_FACEBOOK_STATUS: {
+      return {
+        ...state,
+        facebook: action.response,
+      };
+    }
     case SET_BEERS:
       return {
         ...state,

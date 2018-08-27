@@ -5,6 +5,7 @@ export const END_AUTHENTICATION = Symbol('END_AUTHENTICATION');
 export const SET_CREDENTIALS = Symbol('SET_CREDENTIALS');
 export const CLEAR_CREDENTIALS = Symbol('CLEAR_CREDENTIALS');
 
+export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
 export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
@@ -15,7 +16,14 @@ export const FACEBOOK_UNKNOWN = 'unknown';
 
 const baseAction = type => ({ type });
 
-function setCredentials({ token, name = '', id  = ''}) {
+function setFacebookStatus(response) {
+  return {
+    type: SET_FACEBOOK_STATUS,
+    response,
+  };
+}
+
+function setCredentials({ token, name = '', id = '' }) {
   return {
     type: SET_CREDENTIALS,
     token,
@@ -24,8 +32,10 @@ function setCredentials({ token, name = '', id  = ''}) {
   };
 }
 
-function updateAuthStatus(response) {
+export function updateAuthStatus(response) {
   return async (dispatch) => {
+    dispatch(setFacebookStatus(response));
+
     if (response.status === FACEBOOK_CONNECTED) {
       const authResponse = await apiCall('auth', {
         method: 'POST',
@@ -68,8 +78,7 @@ export function validateToken(token) {
 
 export function refreshFacebookStatus() {
   return async (dispatch) => {
-    dispatch(baseAction(BEGIN_AUTHENTICATION));
-    dispatch(updateAuthStatus(await new Promise(FB.getLoginStatus)));
+    dispatch(setFacebookStatus(await new Promise(FB.getLoginStatus)));
   };
 }
 
