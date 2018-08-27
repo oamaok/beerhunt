@@ -3,8 +3,10 @@ import Koa from 'koa';
 import koaJson from 'koa-json';
 import Router from 'koa-router';
 import koaBodyparser from 'koa-bodyparser';
-import config from './config';
+import request from 'request-promise-native';
+import jwt from 'jsonwebtoken';
 
+import config from './config';
 import { getData, addRecord } from './database';
 
 import bars from './data/bars.json';
@@ -17,6 +19,16 @@ const router = new Router({
   prefix: '/api',
 });
 
+function getDataFromToken(token, key) {
+  try {
+    return jwt.verify(token, key);
+  } catch (err) {
+    return null;
+  }
+}
+
+const JWT_SECRET = Math.random() + new Date();
+const DAY_IN_SECONDS = 60 * 60 * 24;
 
 router
   .get('/bars', (ctx) => {
@@ -32,11 +44,19 @@ router
     const {
       bar,
       beerType,
-      name,
       volume,
       abv,
-      facebookId,
+      token,
     } = ctx.request.body;
+
+    const userData = getDataFromToken(token, JWT_SECRET);
+
+    if (!userData) {
+      ctx.body = { status: 'error' };
+      return;
+    }
+
+    const { id, name } = userData.data;
 
     addRecord({
       name,
@@ -44,13 +64,34 @@ router
       beerType,
       volume,
       abv,
-      facebookId,
+      id,
       time: (new Date()).getTime(),
     });
 
-    ctx.body = { ok: true };
-  });
+    ctx.body = { status: 'success' };
+  })
+  .post('/auth', async (ctx) => {
+    const rawResponse = await request.get(`https://graph.facebook.com/me?access_token=${ctx.request.body.accessToken}`);
+    const response = JSON.parse(rawResponse);
 
+    if (response.error) {
+      ctx.body = { status: 'error' };
+      return;
+    }
+
+    const token = jwt.sign({
+      exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
+      data: {
+        id: response.id,
+        name: response.name,
+      },
+    }, JWT_SECRET);
+
+    ctx.body = {
+      status: 'success',
+      token,
+    };
+  });
 app.use(router.routes());
 app.use(koaJson());
 

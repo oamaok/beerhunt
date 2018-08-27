@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { connectFacebook, FACEBOOK_LOADING } from '../actions';
+import { connectFacebook } from '../actions';
 
-function LoginView({ facebook, connectFacebook }) {
+function LoginView({ auth, connectFacebook }) {
   return (
     <div className="login-view container">
       <h1>Welcome to Espoo Beer Hunt!</h1>
@@ -11,7 +11,7 @@ function LoginView({ facebook, connectFacebook }) {
       <button
         type="button"
         className="btn btn-primary"
-        disabled={facebook.status === FACEBOOK_LOADING}
+        disabled={auth.isLoading}
         onClick={connectFacebook}
       >Continue with Facebook
       </button>

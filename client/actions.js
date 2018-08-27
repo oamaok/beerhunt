@@ -1,65 +1,70 @@
 import { apiCall } from './api';
 
-export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
-export const SET_FACEBOOK_INFO = Symbol('SET_FACEBOOK_INFO');
-export const RESET_FACEBOOK_INFO = Symbol('RESET_FACEBOOK_INFO');
+export const BEGIN_AUTHENTICATION = Symbol('BEGIN_AUTHENTICATION');
+export const END_AUTHENTICATION = Symbol('END_AUTHENTICATION');
+export const SET_CREDENTIALS = Symbol('SET_CREDENTIALS');
+export const CLEAR_CREDENTIALS = Symbol('CLEAR_CREDENTIALS');
+
 export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
 
-export const FACEBOOK_CONNECTED = 'connected'; // Defined by Facebook
-export const FACEBOOK_LOADING = 'loading'; // Not defined by Facebook
+export const FACEBOOK_CONNECTED = 'connected';
+export const FACEBOOK_NOT_AUTHORIZED = 'not_authorized';
+export const FACEBOOK_UNKNOWN = 'unknown';
 
-function setFacebookStatus(status) {
-  return {
-    type: SET_FACEBOOK_STATUS,
-    status,
-  };
-}
+const baseAction = type => ({ type });
 
-function setFacebookInformation({ name, id }) {
+function setCredentials(token) {
+  const { data } = JSON.parse(atob(token.split('.')[1]));
+  const { name, id } = data;
   return {
-    type: SET_FACEBOOK_INFO,
+    type: SET_CREDENTIALS,
+    token,
     name,
     id,
   };
 }
 
-function resetFacebookInformation() {
-  return { type: RESET_FACEBOOK_INFO };
-}
-
-export function updateFacebookStatus(response) {
+function updateAuthStatus(response) {
   return async (dispatch) => {
     if (response.status === FACEBOOK_CONNECTED) {
-      dispatch(setFacebookStatus(FACEBOOK_LOADING));
-      dispatch(setFacebookInformation(await new Promise(resolve => FB.api('/me', resolve))));
+      const authResponse = await apiCall('auth', {
+        method: 'POST',
+        body: JSON.stringify({
+          accessToken: response.authResponse.accessToken,
+        }),
+      });
+
+      // TODO: Error handling
+
+      dispatch(setCredentials(authResponse.token));
     } else {
-      dispatch(resetFacebookInformation());
+      dispatch(baseAction(CLEAR_CREDENTIALS));
     }
 
-    dispatch(setFacebookStatus(response.status));
+    dispatch(baseAction(END_AUTHENTICATION));
   };
 }
 
 export function refreshFacebookStatus() {
   return async (dispatch) => {
-    dispatch(setFacebookStatus(FACEBOOK_LOADING));
-    dispatch(updateFacebookStatus(await new Promise(FB.getLoginStatus)));
+    dispatch(baseAction(BEGIN_AUTHENTICATION));
+    dispatch(updateAuthStatus(await new Promise(FB.getLoginStatus)));
   };
 }
 
 export function connectFacebook() {
   return async (dispatch) => {
-    dispatch(setFacebookStatus(FACEBOOK_LOADING));
-    dispatch(updateFacebookStatus(await new Promise(FB.login)));
+    dispatch(baseAction(BEGIN_AUTHENTICATION));
+    dispatch(updateAuthStatus(await new Promise(FB.login)));
   };
 }
 
 export function disconnectFacebook() {
   return async (dispatch) => {
-    dispatch(setFacebookStatus(FACEBOOK_LOADING));
-    dispatch(updateFacebookStatus(await new Promise(FB.logout)));
+    dispatch(baseAction(BEGIN_AUTHENTICATION));
+    dispatch(updateAuthStatus(await new Promise(FB.logout)));
   };
 }
 

@@ -5,10 +5,13 @@ import Stats from 'containers/Stats';
 import { disconnectFacebook } from '../actions';
 
 function IndexView({
-  navigateTo, disconnectFacebook, bars, facebook,
+  navigateTo, disconnectFacebook, bars, auth,
 }) {
+  const firstName = auth.name.split(' ')[0];
+
   return (
     <div className="index-view container">
+      <h2>Hi {firstName}!</h2>
       <h2>Welcome to Espoo Beer Hunt!</h2>
       <p>Add beers to the bars you visit during the hunt!</p>
 
@@ -21,7 +24,6 @@ function IndexView({
       <hr />
       <Stats />
 
-      <span>Currently logged in as <b>{facebook.name}</b></span>
       <button type="button" className="btn btn-primary" onClick={disconnectFacebook}>Logout</button>
     </div>
   );

@@ -1,19 +1,20 @@
 import {
-  SET_FACEBOOK_STATUS,
-  SET_FACEBOOK_INFO,
-  RESET_FACEBOOK_INFO,
+  BEGIN_AUTHENTICATION,
+  END_AUTHENTICATION,
+  SET_CREDENTIALS,
+  CLEAR_CREDENTIALS,
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
-  FACEBOOK_LOADING,
 } from './actions';
 
 const initialAppState = {
   beers: [],
   bars: [],
   beerTypes: [],
-  facebook: {
-    status: FACEBOOK_LOADING,
+  auth: {
+    isLoading: false,
+    token: null,
     name: '',
     id: '',
   },
@@ -21,30 +22,40 @@ const initialAppState = {
 
 export default function ebhReducer(state = initialAppState, action) {
   switch (action.type) {
-    case SET_FACEBOOK_STATUS:
+    case BEGIN_AUTHENTICATION:
       return {
         ...state,
-        facebook: {
-          ...state.facebook,
-          status: action.status,
+        auth: {
+          ...state.auth,
+          isLoading: true,
         },
       };
-    case SET_FACEBOOK_INFO:
+    case END_AUTHENTICATION:
       return {
         ...state,
-        facebook: {
-          ...state.facebook,
-          name: action.name,
+        auth: {
+          ...state.auth,
+          isLoading: false,
+        },
+      };
+    case SET_CREDENTIALS:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
           id: action.id,
+          name: action.name,
+          token: action.token,
         },
       };
-    case RESET_FACEBOOK_INFO:
+    case CLEAR_CREDENTIALS:
       return {
         ...state,
-        facebook: {
-          ...state.facebook,
-          name: '',
+        auth: {
+          ...state.auth,
           id: '',
+          name: '',
+          token: null,
         },
       };
     case SET_BEERS:
