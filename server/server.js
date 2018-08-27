@@ -19,16 +19,23 @@ const router = new Router({
   prefix: '/api',
 });
 
-function getDataFromToken(token, key) {
+const JWT_SECRET = process.env.EBH_JWT_SECRET || 'ebh_secret';
+const DAY_IN_SECONDS = 60 * 60 * 24;
+
+function getDataFromToken(token) {
   try {
-    return jwt.verify(token, key);
+    return jwt.verify(token, JWT_SECRET);
   } catch (err) {
     return null;
   }
 }
 
-const JWT_SECRET = process.env.EBH_JWT_SECRET || 'ebh_secret';
-const DAY_IN_SECONDS = 60 * 60 * 24;
+function createFreshToken(id, name) {
+  return jwt.sign({
+    exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
+    data: { id, name },
+  }, JWT_SECRET);
+}
 
 router
   .get('/bars', (ctx) => {
@@ -49,7 +56,7 @@ router
       token,
     } = ctx.request.body;
 
-    const userData = getDataFromToken(token, JWT_SECRET);
+    const userData = getDataFromToken(token);
 
     if (!userData) {
       ctx.body = { status: 'error' };
@@ -79,19 +86,36 @@ router
       return;
     }
 
-    const token = jwt.sign({
-      exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
-      data: {
-        id: response.id,
-        name: response.name,
-      },
-    }, JWT_SECRET);
+    const { name, id } = response;
+
+    const token = createFreshToken(id, name);
 
     ctx.body = {
       status: 'success',
       token,
+      name,
+      id,
+    };
+  })
+  .post('/validate', (ctx) => {
+    const data = getDataFromToken(ctx.request.body.token);
+
+    if (!data) {
+      ctx.body = { status: 'error' };
+      return;
+    }
+
+    const { id, name } = data.data;
+    const token = createFreshToken(id, name);
+
+    ctx.body = {
+      status: 'success',
+      token,
+      name,
+      id,
     };
   });
+
 app.use(router.routes());
 app.use(koaJson());
 

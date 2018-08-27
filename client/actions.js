@@ -15,9 +15,7 @@ export const FACEBOOK_UNKNOWN = 'unknown';
 
 const baseAction = type => ({ type });
 
-function setCredentials(token) {
-  const { data } = JSON.parse(atob(token.split('.')[1]));
-  const { name, id } = data;
+function setCredentials({ token, name = '', id  = ''}) {
   return {
     type: SET_CREDENTIALS,
     token,
@@ -38,7 +36,28 @@ function updateAuthStatus(response) {
 
       // TODO: Error handling
 
-      dispatch(setCredentials(authResponse.token));
+      dispatch(setCredentials(authResponse));
+    } else {
+      dispatch(baseAction(CLEAR_CREDENTIALS));
+    }
+
+    dispatch(baseAction(END_AUTHENTICATION));
+  };
+}
+
+export function validateToken(token) {
+  return async (dispatch) => {
+    dispatch(baseAction(BEGIN_AUTHENTICATION));
+
+    const authResponse = await apiCall('validate', {
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+      }),
+    });
+
+    if (authResponse.status === 'success') {
+      dispatch(setCredentials(authResponse));
     } else {
       dispatch(baseAction(CLEAR_CREDENTIALS));
     }

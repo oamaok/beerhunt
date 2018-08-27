@@ -13,9 +13,10 @@ import routes from './routes';
 
 import {
   fetchBeers,
-  refreshFacebookStatus,
   fetchBars,
   fetchBeerTypes,
+  refreshFacebookStatus,
+  validateToken,
 } from './actions';
 import reducer from './reducer';
 
@@ -46,7 +47,8 @@ async function initializeStore(router) {
   store.dispatch(fetchBars());
   store.dispatch(fetchBeerTypes());
 
-  await store.dispatch(refreshFacebookStatus());
+  await store.dispatch(validateToken(localStorage.getItem('ebh_token')));
+  store.dispatch(refreshFacebookStatus());
 
   return store;
 }
