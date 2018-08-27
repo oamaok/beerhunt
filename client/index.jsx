@@ -51,20 +51,7 @@ async function initializeStore(router) {
   dispatch(fetchBars());
   dispatch(fetchBeerTypes());
 
-  // First, check that we're logged in using FB
-  await dispatch(refreshFacebookStatus());
-
-  const { facebook } = store.getState().app;
-
-  // If we're connected, verify the existing token
-  if (facebook.status === FACEBOOK_CONNECTED) {
-    await dispatch(validateToken(localStorage.getItem('ebh_token')));
-
-    // If the token verification failed, issue new one with the Facebook auth response
-    if (!store.getState().app.auth.token) {
-      await dispatch(updateAuthStatus(facebook));
-    }
-  }
+  await dispatch(validateToken(localStorage.getItem('ebh_token')));
 
   return store;
 }

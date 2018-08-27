@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { connectFacebook } from '../actions';
+import { loginWithFacebook } from '../actions';
 
-function LoginView({ auth, connectFacebook }) {
+function LoginView({ auth, loginWithFacebook }) {
   return (
     <div className="login-view container">
       <h1>Welcome to Espoo Beer Hunt!</h1>
@@ -12,11 +12,11 @@ function LoginView({ auth, connectFacebook }) {
         type="button"
         className="btn btn-primary"
         disabled={auth.isLoading}
-        onClick={connectFacebook}
+        onClick={loginWithFacebook}
       >Continue with Facebook
       </button>
     </div>
   );
 }
 
-export default connect(state => state.app, { connectFacebook })(LoginView);
+export default connect(state => state.app, { loginWithFacebook })(LoginView);

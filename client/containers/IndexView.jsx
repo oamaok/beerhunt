@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
 import Stats from 'containers/Stats';
-import { disconnectFacebook } from '../actions';
+import { clearCredentials } from '../actions';
 
 function IndexView({
-  navigateTo, disconnectFacebook, bars, auth,
+  navigateTo, clearCredentials, bars, auth,
 }) {
   const firstName = auth.name.split(' ')[0];
 
@@ -24,12 +24,12 @@ function IndexView({
       <hr />
       <Stats />
 
-      <button type="button" className="btn btn-primary" onClick={disconnectFacebook}>Logout</button>
+      <button type="button" className="btn btn-primary" onClick={clearCredentials}>Logout</button>
     </div>
   );
 }
 
 export default connect(state => state.app, {
   navigateTo: actions.navigateTo,
-  disconnectFacebook,
+  clearCredentials,
 })(IndexView);

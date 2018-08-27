@@ -32,27 +32,8 @@ function setCredentials({ token, name = '', id = '' }) {
   };
 }
 
-export function updateAuthStatus(response) {
-  return async (dispatch) => {
-    dispatch(setFacebookStatus(response));
-
-    if (response.status === FACEBOOK_CONNECTED) {
-      const authResponse = await apiCall('auth', {
-        method: 'POST',
-        body: JSON.stringify({
-          accessToken: response.authResponse.accessToken,
-        }),
-      });
-
-      // TODO: Error handling
-
-      dispatch(setCredentials(authResponse));
-    } else {
-      dispatch(baseAction(CLEAR_CREDENTIALS));
-    }
-
-    dispatch(baseAction(END_AUTHENTICATION));
-  };
+export function clearCredentials() {
+  return baseAction(CLEAR_CREDENTIALS);
 }
 
 export function validateToken(token) {
@@ -69,30 +50,36 @@ export function validateToken(token) {
     if (authResponse.status === 'success') {
       dispatch(setCredentials(authResponse));
     } else {
-      dispatch(baseAction(CLEAR_CREDENTIALS));
+      dispatch(clearCredentials());
     }
 
     dispatch(baseAction(END_AUTHENTICATION));
   };
 }
 
-export function refreshFacebookStatus() {
-  return async (dispatch) => {
-    dispatch(setFacebookStatus(await new Promise(FB.getLoginStatus)));
-  };
-}
-
-export function connectFacebook() {
+export function loginWithFacebook() {
   return async (dispatch) => {
     dispatch(baseAction(BEGIN_AUTHENTICATION));
-    dispatch(updateAuthStatus(await new Promise(FB.login)));
-  };
-}
 
-export function disconnectFacebook() {
-  return async (dispatch) => {
-    dispatch(baseAction(BEGIN_AUTHENTICATION));
-    dispatch(updateAuthStatus(await new Promise(FB.logout)));
+    const response = await new Promise(FB.login);
+    dispatch(setFacebookStatus(response));
+
+    if (response.status === FACEBOOK_CONNECTED) {
+      // TODO: Error handling
+      const authResponse = await apiCall('auth', {
+        method: 'POST',
+        body: JSON.stringify({
+          accessToken: response.authResponse.accessToken,
+        }),
+      });
+
+      dispatch(setCredentials(authResponse));
+      dispatch(setFacebookStatus(await new Promise(FB.logout)));
+    } else {
+      dispatch(clearCredentials());
+    }
+
+    dispatch(baseAction(END_AUTHENTICATION));
   };
 }
 
