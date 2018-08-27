@@ -27,7 +27,7 @@ function getDataFromToken(token, key) {
   }
 }
 
-const JWT_SECRET = Math.random() + new Date();
+const JWT_SECRET = process.env.EBH_JWT_SECRET || 'ebh_secret';
 const DAY_IN_SECONDS = 60 * 60 * 24;
 
 router
