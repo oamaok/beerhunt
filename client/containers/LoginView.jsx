@@ -1,44 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setName } from '../actions';
+import { loginWithFacebook } from '../actions';
 
-class LoginView extends React.Component {
-  state = {
-    name: '',
-  }
+function LoginView({ auth, loginWithFacebook }) {
+  return (
+    <div className="login-view container">
+      <h1>Welcome to Espoo Beer Hunt!</h1>
 
-  onChange = (evt) => {
-    this.setState({
-      name: evt.target.value,
-    });
-  }
-
-  onSubmit = (evt) => {
-    evt.preventDefault();
-    this.props.setName(this.state.name);
-  }
-
-  render() {
-    return (
-      <form className="login-view container" onSubmit={this.onSubmit}>
-        <h1>Welcome to Espoo Beer Hunt!</h1>
-
-        <label htmlFor="name">Enter your name to join the fun! Please enter your full name to avoid overlapping names!</label>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="Matti Meikäläinen"
-            className="form-control"
-            id="name"
-            onChange={this.onChange}
-          />
-          <div className="input-group-append">
-            <button type="submit" className="btn btn-outline-secondary">Go!</button>
-          </div>
-        </div>
-      </form>
-    );
-  }
+      <p>Connect with Facebook to join the fun!</p>
+      <button
+        type="button"
+        className="btn btn-primary"
+        disabled={auth.isLoading}
+        onClick={loginWithFacebook}
+      >Continue with Facebook
+      </button>
+    </div>
+  );
 }
 
-export default connect(null, { setName })(LoginView);
+export default connect(state => state.app, { loginWithFacebook })(LoginView);

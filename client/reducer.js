@@ -1,24 +1,73 @@
 import {
-  SET_PERSON_NAME, SET_BEERS, SET_BARS, SET_BEER_TYPES,
+  BEGIN_AUTHENTICATION,
+  END_AUTHENTICATION,
+  SET_CREDENTIALS,
+  CLEAR_CREDENTIALS,
+  SET_BEERS,
+  SET_BARS,
+  SET_BEER_TYPES,
+  SET_FACEBOOK_STATUS,
 } from './actions';
 
 const initialAppState = {
-  hasAuthenticated: false,
-  name: '',
   beers: [],
   bars: [],
   beerTypes: [],
+  facebook: {},
+  auth: {
+    isLoading: false,
+    token: null,
+    name: '',
+    id: '',
+  },
 };
 
 export default function ebhReducer(state = initialAppState, action) {
   switch (action.type) {
-    case SET_PERSON_NAME:
-      localStorage.setItem('ebh-name', action.name);
+    case BEGIN_AUTHENTICATION:
       return {
         ...state,
-        name: action.name,
-        hasAuthenticated: true,
+        auth: {
+          ...state.auth,
+          isLoading: true,
+        },
       };
+    case END_AUTHENTICATION:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          isLoading: false,
+        },
+      };
+    case SET_CREDENTIALS:
+      localStorage.setItem('ebh_token', action.token);
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          id: action.id,
+          name: action.name,
+          token: action.token,
+        },
+      };
+    case CLEAR_CREDENTIALS:
+      localStorage.removeItem('ebh_token');
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          id: '',
+          name: '',
+          token: null,
+        },
+      };
+    case SET_FACEBOOK_STATUS: {
+      return {
+        ...state,
+        facebook: action.response,
+      };
+    }
     case SET_BEERS:
       return {
         ...state,

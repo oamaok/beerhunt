@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
 import Stats from 'containers/Stats';
+import { clearCredentials } from '../actions';
 
-function IndexView({ navigateTo, bars }) {
+function IndexView({
+  navigateTo, clearCredentials, bars, auth,
+}) {
+  const firstName = auth.name.split(' ')[0];
+
   return (
     <div className="index-view container">
+      <h2>Hi {firstName}!</h2>
       <h2>Welcome to Espoo Beer Hunt!</h2>
       <p>Add beers to the bars you visit during the hunt!</p>
 
@@ -17,12 +23,13 @@ function IndexView({ navigateTo, bars }) {
       </div>
       <hr />
       <Stats />
+
+      <button type="button" className="btn btn-primary" onClick={clearCredentials}>Logout</button>
     </div>
   );
 }
 
-export default connect(state => ({
-  bars: state.app.bars,
-}), {
+export default connect(state => state.app, {
   navigateTo: actions.navigateTo,
+  clearCredentials,
 })(IndexView);

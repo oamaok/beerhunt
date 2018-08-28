@@ -13,9 +13,9 @@ import routes from './routes';
 
 import {
   fetchBeers,
-  setName,
   fetchBars,
   fetchBeerTypes,
+  validateToken,
 } from './actions';
 import reducer from './reducer';
 
@@ -31,7 +31,7 @@ function initializeRouter() {
   return router;
 }
 
-function initializeStore(router) {
+async function initializeStore(router) {
   const store = createStore(
     combineReducers({
       router: router5Reducer,
@@ -43,14 +43,12 @@ function initializeStore(router) {
     ),
   );
 
-  store.dispatch(fetchBars());
-  store.dispatch(fetchBeerTypes());
+  const { dispatch } = store;
 
-  // Check if we have a name present in the localStorage and initialize the name with it
-  const name = localStorage.getItem('ebh-name');
-  if (name) {
-    store.dispatch(setName(name));
-  }
+  dispatch(fetchBars());
+  dispatch(fetchBeerTypes());
+
+  await dispatch(validateToken(localStorage.getItem('ebh_token')));
 
   return store;
 }
@@ -66,13 +64,14 @@ function render(store) {
   );
 }
 
-function initializeApplication() {
+async function initializeApplication() {
   const router = initializeRouter();
-  const store = initializeStore(router);
+  const store = await initializeStore(router);
 
   router.start();
   render(store);
 
+  // Refresh beers every five seconds
   (function beerRefreshLoop() {
     store.dispatch(fetchBeers());
     setTimeout(beerRefreshLoop, 1000 * 5);
@@ -86,4 +85,23 @@ function initializeApplication() {
   }
 }
 
-initializeApplication();
+window.fbAsyncInit = () => {
+  FB.init({
+    appId: '1805325732897696',
+    cookie: true,
+    xfbml: true,
+    version: 'v3.1',
+  });
+
+  FB.AppEvents.logPageView();
+  initializeApplication();
+};
+
+/* eslint-disable */
+(function(d, s, id){
+   var js, fjs = d.getElementsByTagName(s)[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement(s); js.id = id;
+   js.src = "https://connect.facebook.net/en_US/sdk.js";
+   fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));

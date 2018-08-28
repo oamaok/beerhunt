@@ -7,7 +7,7 @@ import LoginView from 'containers/LoginView';
 import BarView from 'containers/BarView';
 
 function Root({ route, app }) {
-  if (!app.hasAuthenticated) {
+  if (!app.auth.token) {
     return <LoginView />;
   }
 

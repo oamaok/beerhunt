@@ -37,15 +37,19 @@ class BarView extends React.Component {
     } = this.state;
 
     const {
-      name,
       fetchBeers,
       navigateTo,
       params,
+      auth,
     } = this.props;
 
 
     await addBeer({
-      type: beerType, volume, abv, bar: params.barId, name,
+      token: auth.token,
+      bar: params.barId,
+      type: beerType,
+      volume,
+      abv,
     });
 
     fetchBeers();

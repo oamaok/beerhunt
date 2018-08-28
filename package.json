@@ -55,10 +55,13 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-json": "^2.0.2",
     "koa-router": "^7.4.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
   }
 }
