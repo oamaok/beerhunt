@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=development BABEL_ENV=development babel-node server/server.development",
     "lint": "eslint --fix --ext=js,jsx .",
     "build": "rm -rf build/ && NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.production.config.js",
-    "start:server": "NODE_ENV=production BABEL_ENV=production babel-node server/server"
+    "start:server": "NODE_ENV=production BABEL_ENV=production babel-node server/server",
+    "asd": "babel-node server/database.js"
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,7 @@
     "koa-router": "^7.4.0",
     "ramda": "^0.25.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "sqlite3": "^4.0.2"
   }
 }

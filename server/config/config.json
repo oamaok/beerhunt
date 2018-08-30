@@ -2,9 +2,6 @@
   "apiPort": 3001,
 
   "database": {
-    "host": "localhost",
-    "user": "",
-    "password": "",
-    "database": ""
+    "file": "data/database.sqlite"
   }
 }
