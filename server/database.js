@@ -57,7 +57,17 @@ export const addBeerTypes = (db, beerTypes) => Promise
 export const getBeerTypes = db => pAll(db, 'SELECT *, rowid FROM beer_types');
 
 export const addBars = (db, bars) => Promise
-  .all(bars.map(bar => pRun(db, 'INSERT INTO bars (name, startTime, endTime, lon, lat) VALUES ($name, $startTime, $endTime, $lon, $lat)', {
+  .all(bars.map(bar => pRun(db, `
+    INSERT INTO
+      bars (
+        name,
+        startTime,
+        endTime,
+        lon, lat
+      )
+    VALUES
+      ($name, $startTime, $endTime, $lon, $lat)
+  `, {
     $name: bar.name,
     $startTime: bar.startTime,
     $endTime: bar.endTime,
@@ -67,7 +77,26 @@ export const addBars = (db, bars) => Promise
 
 export const getBars = db => pAll(db, 'SELECT *, rowid FROM bars');
 
-export const addBeer = (db, beer) => pRun(db, 'INSERT INTO beers (barId, typeId, personId, personName, abv, volume, starRating, review) VALUES ($barId, $typeId, $personId, $personName, $abv, $volume, NULL, NULL)', {
+export const addBeer = (db, beer) => pRun(db, `
+  INSERT INTO
+    beers (
+      barId,
+      typeId,
+      personId,
+      personName,
+      abv,
+      volume
+    )
+  VALUES
+    (
+      $barId,
+      $typeId,
+      $personId,
+      $personName,
+      $abv,
+      $volume
+    )
+`, {
   $barId: beer.barId,
   $typeId: beer.typeId,
   $personId: beer.personId,
