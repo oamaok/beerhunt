@@ -7,11 +7,11 @@ import log from './debug';
 
 const sqlite = process.env.NODE_ENV === 'production' ? sqlite3 : sqlite3.verbose();
 
-const promisifyDbCall = fnName => (db, ...args) => (log(fnName, db, args), new Promise(
+const promisifyDbCall = fnName => (db, ...args) => new Promise(
   (resolve, reject) => db[fnName](...args, (err, res) => {
     if (err) reject(err); else resolve(res);
   }),
-));
+);
 
 const pRun = promisifyDbCall('run');
 const pAll = promisifyDbCall('all');
