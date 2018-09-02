@@ -1,3 +1,5 @@
+import { Record } from 'immutable';
+
 import {
   BEGIN_AUTHENTICATION,
   END_AUTHENTICATION,
@@ -9,80 +11,52 @@ import {
   SET_FACEBOOK_STATUS,
 } from './actions';
 
-const initialAppState = {
+const AuthState = Record({
+  isLoading: false,
+  token: '',
+  name: '',
+  id: '',
+}, 'AuthState');
+
+const AppState = Record({
   beers: [],
   bars: [],
   beerTypes: [],
   facebook: {},
-  auth: {
-    isLoading: false,
-    token: null,
-    name: '',
-    id: '',
-  },
-};
+  auth: new AuthState(),
+}, 'AppState');
+
+const initialAppState = new AppState();
 
 export default function ebhReducer(state = initialAppState, action) {
   switch (action.type) {
     case BEGIN_AUTHENTICATION:
-      return {
-        ...state,
-        auth: {
-          ...state.auth,
-          isLoading: true,
-        },
-      };
+      return state.setIn(['auth', 'isLoading'], true);
     case END_AUTHENTICATION:
-      return {
-        ...state,
-        auth: {
-          ...state.auth,
-          isLoading: false,
-        },
-      };
+      return state.setIn(['auth', 'isLoading'], false);
     case SET_CREDENTIALS:
       localStorage.setItem('ebh_token', action.token);
-      return {
-        ...state,
-        auth: {
-          ...state.auth,
-          id: action.id,
-          name: action.name,
-          token: action.token,
-        },
-      };
+      return state.update('auth', authState => authState.merge({
+        id: action.id,
+        name: action.name,
+        token: action.token,
+      }));
     case CLEAR_CREDENTIALS:
       localStorage.removeItem('ebh_token');
-      return {
-        ...state,
-        auth: {
-          ...state.auth,
-          id: '',
-          name: '',
-          token: null,
-        },
-      };
+      return state.update('auth', authState => authState.merge({
+        id: '',
+        name: '',
+        token: '',
+      }));
     case SET_FACEBOOK_STATUS: {
-      return {
-        ...state,
-        facebook: action.response,
-      };
+      return state.set('facebook', action.response);
     }
     case SET_BEERS:
-      return {
-        ...state,
-        beers: action.beers,
-      };
+      return state.set('beers', action.beers);
     case SET_BARS:
-      return {
-        ...state,
-        bars: action.bars,
-      };
+      return state.set('bars', action.bars);
     case SET_BEER_TYPES:
-      return {
-        ...state,
-        beerTypes: action.types,
-      };
+      return state.set('beerTypes', action.types);
     default:
       return state;
   }

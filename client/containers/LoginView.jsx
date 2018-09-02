@@ -19,4 +19,4 @@ function LoginView({ auth, loginWithFacebook }) {
   );
 }
 
-export default connect(state => state.app, { loginWithFacebook })(LoginView);
+export default connect(state => ({ auth: state.app.auth }), { loginWithFacebook })(LoginView);

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as R from 'ramda';
 
 function Stats({
-  beers: rawBeers, bars, beerTypes: types,
+  rawBeers, bars, types,
 }) {
   const beers = rawBeers.map(beer => ({
     ...beer,
@@ -78,4 +78,8 @@ function Stats({
   );
 }
 
-export default connect(state => state.app)(Stats);
+export default connect(state => ({
+  rawBeers: state.app.beers,
+  bars: state.app.bars,
+  types: state.app.beerTypes,
+}))(Stats);

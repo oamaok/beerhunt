@@ -5,8 +5,9 @@ import Stats from 'containers/Stats';
 import { clearCredentials } from '../actions';
 
 function IndexView({
-  navigateTo, clearCredentials, bars, auth,
+  navigateTo, clearCredentials, appState,
 }) {
+  const { bars, auth } = appState;
   const firstName = auth.name.split(' ')[0];
 
   return (
@@ -29,7 +30,7 @@ function IndexView({
   );
 }
 
-export default connect(state => state.app, {
+export default connect(state => ({ appState: state.app }), {
   navigateTo: actions.navigateTo,
   clearCredentials,
 })(IndexView);
