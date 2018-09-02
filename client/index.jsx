@@ -11,6 +11,8 @@ import ReduxThunk from 'redux-thunk';
 import Root from 'containers/Root';
 import routes from './routes';
 
+import './styles/config.scss';
+
 import {
   fetchBeers,
   fetchBars,
