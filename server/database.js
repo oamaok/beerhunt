@@ -7,11 +7,11 @@ import log from './debug';
 
 const sqlite = process.env.NODE_ENV === 'production' ? sqlite3 : sqlite3.verbose();
 
-const promisifyDbCall = fnName => (db, ...args) => new Promise(
+const promisifyDbCall = fnName => (db, ...args) => (log(fnName, db, args), new Promise(
   (resolve, reject) => db[fnName](...args, (err, res) => {
     if (err) reject(err); else resolve(res);
   }),
-);
+));
 
 const pRun = promisifyDbCall('run');
 const pAll = promisifyDbCall('all');
@@ -52,12 +52,12 @@ export async function initializeDatabase() {
 }
 
 export const addBeerTypes = (db, beerTypes) => Promise
-  .all(beerTypes.map(beerType => pRun(db, 'INSERT INTO beer_types (name) VALUES ($1)', beerType)));
+  .all(beerTypes.map(beerType => pRun(db, 'INSERT INTO beerTypes (name) VALUES ($1)', beerType)));
 
 export const getBeerTypes = db => pAll(db, 'SELECT *, rowid FROM beer_types');
 
 export const addBars = (db, bars) => Promise
-  .all(bars.map(bar => pRun(db, 'INSERT INTO bars (name, start_time, end_time, lon, lat) VALUES ($name, $startTime, $endTime, $lon, $lat)', {
+  .all(bars.map(bar => pRun(db, 'INSERT INTO bars (name, startTime, endTime, lon, lat) VALUES ($name, $startTime, $endTime, $lon, $lat)', {
     $name: bar.name,
     $startTime: bar.startTime,
     $endTime: bar.endTime,
@@ -66,3 +66,20 @@ export const addBars = (db, bars) => Promise
   })));
 
 export const getBars = db => pAll(db, 'SELECT *, rowid FROM bars');
+
+export const addBeer = (db, beer) => pRun(db, 'INSERT INTO beers (barId, typeId, personId, personName, abv, volume, starRating, review) VALUES ($barId, $typeId, $personId, $personName, $abv, $volume, NULL, NULL)', {
+  $barId: beer.barId,
+  $typeId: beer.typeId,
+  $personId: beer.personId,
+  $personName: beer.personName,
+  $volume: beer.volume,
+  $abv: beer.abv,
+});
+
+export const updateBeerReview = (db) => {};
+
+export const updateBeerStarRating = (db) => {};
+
+export const deleteBeer = (db) => {};
+
+export const getBeers = db => pAll(db, 'SELECT *, rowid FROM beers');

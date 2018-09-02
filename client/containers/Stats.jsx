@@ -17,16 +17,15 @@ function Stats({
     return null;
   }
 
-
   const totalBeers = beers.length;
-  const highestAbv = beers.reduce(R.maxBy(R.prop('abv')), { name: '-', abv: 0 });
-  const lowestAbv = beers.reduce(R.minBy(R.prop('abv')), { name: '-', abv: Infinity });
+  const highestAbv = beers.reduce(R.maxBy(R.prop('abv')), { personName: '-', abv: 0 });
+  const lowestAbv = beers.reduce(R.minBy(R.prop('abv')), { personName: '-', abv: Infinity });
 
 
   const totalBeer = beers.reduce((acc, { volume }) => acc + volume, 0);
   const totalAlcohol = beers.reduce((acc, { volume, abv }) => acc + volume * abv * 0.01, 0);
 
-  const styleGroups = R.toPairs(R.groupBy(R.prop('beerType'), beers));
+  const styleGroups = R.toPairs(R.groupBy(R.prop('typeId'), beers));
   const favoriteStyle = R.nth(R.map(R.head, R.sortBy(([, n]) => -n.length, styleGroups))[0], types);
 
   const barGroups = R.toPairs(R.groupBy(R.prop('bar'), beers));
@@ -35,7 +34,7 @@ function Stats({
   const [popularBarId, popularBarVolume] = R.last(R.sortBy(R.last, barVolumes));
 
 
-  const nameGroups = R.toPairs(R.groupBy(R.prop('name'), beers));
+  const nameGroups = R.toPairs(R.groupBy(R.prop('personName'), beers));
   const nameVolumes = nameGroups.map(([a, b]) => [a, R.sum(R.map(R.prop('volume'), b))]);
   const [drinker, drinkerVolume] = R.last(R.sortBy(R.last, nameVolumes));
 
@@ -52,11 +51,11 @@ function Stats({
       </div>
       <div className="stat">
         <div className="label">Highest ABV beer:</div>
-        <div className="value"><b>{highestAbv.abv.toFixed(1)}%</b> by <b>{highestAbv.name}</b></div>
+        <div className="value"><b>{highestAbv.abv.toFixed(1)}%</b> by <b>{highestAbv.personName}</b></div>
       </div>
       <div className="stat">
         <div className="label">Lowest ABV beer:</div>
-        <div className="value"><b>{lowestAbv.abv.toFixed(1)}%</b> by <b>{lowestAbv.name}</b></div>
+        <div className="value"><b>{lowestAbv.abv.toFixed(1)}%</b> by <b>{lowestAbv.personName}</b></div>
       </div>
       <div className="stat">
         <div className="label">Total amount of beer consumed:</div>

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable global-require */
+/* eslint-disable no-console */
 
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
