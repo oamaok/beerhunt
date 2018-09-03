@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import { loginWithFacebook } from '../actions';
-import styles from './LoginView.scss';
+import styles from './login-view.scss';
 
 const css = classNames.bind(styles);
 
-function LoginView({ auth, loginWithFacebook }) {
+function LoginView({ auth, facebookLoaded, loginWithFacebook }) {
   return (
     <div className={css('login-view')}>
 
@@ -17,7 +17,7 @@ function LoginView({ auth, loginWithFacebook }) {
       <button
         type="button"
         className="btn btn-primary"
-        disabled={auth.isLoading}
+        disabled={!facebookLoaded || auth.isLoading}
         onClick={loginWithFacebook}
       >Kirjaudu Facebookilla
       </button>
@@ -25,4 +25,7 @@ function LoginView({ auth, loginWithFacebook }) {
   );
 }
 
-export default connect(state => ({ auth: state.app.auth }), { loginWithFacebook })(LoginView);
+export default connect(state => ({
+  facebookLoaded: state.app.facebookLoaded,
+  auth: state.app.auth,
+}), { loginWithFacebook })(LoginView);

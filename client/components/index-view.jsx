@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
-import Stats from 'containers/Stats';
+import Stats from 'components/stats';
 import { clearCredentials } from '../actions';
 
 function IndexView({

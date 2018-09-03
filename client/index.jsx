@@ -8,17 +8,18 @@ import browserPlugin from 'router5/plugins/browser';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 import ReduxThunk from 'redux-thunk';
 
-import Root from 'containers/Root';
+import AppRoot from 'components/app-root';
 import routes from './routes';
-
-import './styles/config.scss';
+import { onceFacebookLoaded } from './facebook';
 
 import {
   fetchBeers,
   fetchBars,
   fetchBeerTypes,
   validateToken,
+  facebookLoaded,
 } from './actions';
+
 import reducer from './reducer';
 
 function initializeRouter() {
@@ -59,7 +60,7 @@ function render(store) {
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <Root />
+        <AppRoot />
       </Provider>
     </AppContainer>,
     document.querySelector('#root'),
@@ -73,6 +74,10 @@ async function initializeApplication() {
   router.start();
   render(store);
 
+  onceFacebookLoaded(() => {
+    store.dispatch(facebookLoaded());
+  });
+
   // Refresh beers every five seconds
   (function beerRefreshLoop() {
     store.dispatch(fetchBeers());
@@ -81,29 +86,10 @@ async function initializeApplication() {
 
   // Initialize hot module reloading
   if (module.hot) {
-    module.hot.accept('containers/Root', () => {
+    module.hot.accept('components/app-root', () => {
       render();
     });
   }
 }
 
-window.fbAsyncInit = () => {
-  FB.init({
-    appId: '1805325732897696',
-    cookie: true,
-    xfbml: true,
-    version: 'v3.1',
-  });
-
-  FB.AppEvents.logPageView();
-  initializeApplication();
-};
-
-/* eslint-disable */
-(function(d, s, id){
-   var js, fjs = d.getElementsByTagName(s)[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement(s); js.id = id;
-   js.src = "https://connect.facebook.net/en_US/sdk.js";
-   fjs.parentNode.insertBefore(js, fjs);
- }(document, 'script', 'facebook-jssdk'));
+initializeApplication();

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createRouteNodeSelector } from 'redux-router5';
 
-import IndexView from 'containers/IndexView';
-import LoginView from 'containers/LoginView';
-import BarView from 'containers/BarView';
+import IndexView from 'components/index-view';
+import LoginView from 'components/login-view';
+import BarView from 'components/bar-view';
 
 function Root({ route, app }) {
   if (!app.auth.token) {

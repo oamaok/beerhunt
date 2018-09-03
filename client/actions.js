@@ -5,40 +5,45 @@ export const END_AUTHENTICATION = Symbol('END_AUTHENTICATION');
 export const SET_CREDENTIALS = Symbol('SET_CREDENTIALS');
 export const CLEAR_CREDENTIALS = Symbol('CLEAR_CREDENTIALS');
 
-export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
 export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
 
+export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
+export const FACEBOOK_LOADED = Symbol('FACEBOOK_LOADED');
 export const FACEBOOK_CONNECTED = 'connected';
 export const FACEBOOK_NOT_AUTHORIZED = 'not_authorized';
 export const FACEBOOK_UNKNOWN = 'unknown';
 
-const baseAction = type => ({ type });
+const createAction = (type, data = {}) => ({ type, ...data });
 
 function setFacebookStatus(response) {
-  return {
-    type: SET_FACEBOOK_STATUS,
-    response,
-  };
+  return createAction(FACEBOOK_LOADED, { response });
+}
+
+export function facebookLoaded() {
+  return createAction(FACEBOOK_LOADED);
 }
 
 function setCredentials({ token, name = '', id = '' }) {
-  return {
-    type: SET_CREDENTIALS,
+  localStorage.setItem('ebh_token', token);
+
+  return createAction(SET_CREDENTIALS, {
     token,
     name,
     id,
-  };
+  });
 }
 
 export function clearCredentials() {
-  return baseAction(CLEAR_CREDENTIALS);
+  localStorage.removeItem('ebh_token');
+
+  return createAction(CLEAR_CREDENTIALS);
 }
 
 export function validateToken(token) {
   return async (dispatch) => {
-    dispatch(baseAction(BEGIN_AUTHENTICATION));
+    dispatch(createAction(BEGIN_AUTHENTICATION));
 
     const authResponse = await apiCall('validate', {
       method: 'POST',
@@ -53,13 +58,13 @@ export function validateToken(token) {
       dispatch(clearCredentials());
     }
 
-    dispatch(baseAction(END_AUTHENTICATION));
+    dispatch(createAction(END_AUTHENTICATION));
   };
 }
 
 export function loginWithFacebook() {
   return async (dispatch) => {
-    dispatch(baseAction(BEGIN_AUTHENTICATION));
+    dispatch(createAction(BEGIN_AUTHENTICATION));
 
     const response = await new Promise(FB.login);
     dispatch(setFacebookStatus(response));
@@ -79,15 +84,12 @@ export function loginWithFacebook() {
       dispatch(clearCredentials());
     }
 
-    dispatch(baseAction(END_AUTHENTICATION));
+    dispatch(createAction(END_AUTHENTICATION));
   };
 }
 
 function setBeers(beers) {
-  return {
-    type: SET_BEERS,
-    beers,
-  };
+  return createAction(SET_BEERS, { beers });
 }
 
 export function fetchBeers() {
@@ -98,10 +100,7 @@ export function fetchBeers() {
 }
 
 function setBars(bars) {
-  return {
-    type: SET_BARS,
-    bars,
-  };
+  return createAction(SET_BARS, { bars });
 }
 
 export function fetchBars() {
@@ -112,10 +111,7 @@ export function fetchBars() {
 }
 
 function setBeerTypes(types) {
-  return {
-    type: SET_BEER_TYPES,
-    types,
-  };
+  return createAction(SET_BEER_TYPES, { types });
 }
 
 export function fetchBeerTypes() {

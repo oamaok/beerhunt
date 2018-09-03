@@ -5,6 +5,7 @@ import {
   END_AUTHENTICATION,
   SET_CREDENTIALS,
   CLEAR_CREDENTIALS,
+  FACEBOOK_LOADED,
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
@@ -22,6 +23,7 @@ const AppState = Record({
   beers: [],
   bars: [],
   beerTypes: [],
+  facebookLoaded: false,
   facebook: {},
   auth: new AuthState(),
 }, 'AppState');
@@ -35,22 +37,21 @@ export default function ebhReducer(state = initialAppState, action) {
     case END_AUTHENTICATION:
       return state.setIn(['auth', 'isLoading'], false);
     case SET_CREDENTIALS:
-      localStorage.setItem('ebh_token', action.token);
       return state.update('auth', authState => authState.merge({
         id: action.id,
         name: action.name,
         token: action.token,
       }));
     case CLEAR_CREDENTIALS:
-      localStorage.removeItem('ebh_token');
       return state.update('auth', authState => authState.merge({
         id: '',
         name: '',
         token: '',
       }));
-    case SET_FACEBOOK_STATUS: {
+    case FACEBOOK_LOADED:
+      return state.set('facebookLoaded', true);
+    case SET_FACEBOOK_STATUS:
       return state.set('facebook', action.response);
-    }
     case SET_BEERS:
       return state.set('beers', action.beers);
     case SET_BARS:
