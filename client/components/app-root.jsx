@@ -1,28 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createRouteNodeSelector } from 'redux-router5';
 
-import IndexView from 'components/index-view';
+import AppFrame from 'components/app-frame';
 import LoginView from 'components/login-view';
-import BarView from 'components/bar-view';
+import Router from 'components/router';
 
-function Root({ route, app }) {
-  if (!app.auth.token) {
+function Root({ auth }) {
+  if (!auth.token) {
     return <LoginView />;
   }
 
-  switch (route.name) {
-    case 'index':
-      return <IndexView />;
-    case 'bar':
-      return <BarView params={route.params} />;
-
-    default:
-      // TODO: Implement NotFoundView?
-  }
+  return (
+    <AppFrame>
+      <Router />
+    </AppFrame>
+  );
 }
 
 export default connect(state => ({
-  app: state.app,
-  ...createRouteNodeSelector('')(state),
+  auth: state.app.auth,
 }))(Root);
