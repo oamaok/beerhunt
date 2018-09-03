@@ -12,6 +12,9 @@
     position: relative;
     transition: 0.3s left ease-out;
 
+    height: 100vh;
+    min-height: 100vh;
+
     &.dragging {
       transition: none;
     }
@@ -22,5 +25,7 @@
     min-width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
+
+    padding: 1em;
   }
 }

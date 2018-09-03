@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import SwipeView from 'components/swipe-view';
-import IndexView from 'components/index-view';
-import BarView from 'components/bar-view';
+import OwnBeersView from 'components/own-beers-view';
+import LiveStatsView from 'components/live-stats-view';
+import AddBeerView from 'components/add-beer-view';
 
 import { setCurrentView } from '../actions';
 import styles from './app-frame.scss';
@@ -13,12 +14,12 @@ import styles from './app-frame.scss';
 const css = classNames.bind(styles);
 
 function AppFrame({ currentView, setCurrentView }) {
-  const navOptions = ['etusivu', 'lisää olut'];
+  const navOptions = ['omat oluet', 'live stats', 'lisää olut'];
 
   return (
     <div className={css('app-frame')}>
       <div className={css('masthead')}>
-        <div className={css('title')} />
+        <div className={css('title')}>hbh</div>
         <div className={css('navigation')}>
           {navOptions.map((option, index) => (
             <button
@@ -33,8 +34,9 @@ function AppFrame({ currentView, setCurrentView }) {
       </div>
       <SwipeView
         views={[
-          IndexView,
-          BarView,
+          OwnBeersView,
+          LiveStatsView,
+          AddBeerView,
         ]}
       />
     </div>

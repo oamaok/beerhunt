@@ -1,4 +1,13 @@
 .app-frame {
+  height: 100vh;
+  max-height: 100vh;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
   .masthead {
     background-color: $color-primary;
     color: $color-secondary;
@@ -8,6 +17,7 @@
     .navigation {
       .nav-option {
         color: $color-background;
+        background-color: $color-primary;
 
         &.active {
           color: $color-secondary;
