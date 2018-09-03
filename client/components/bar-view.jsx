@@ -39,14 +39,13 @@ class BarView extends React.Component {
     const {
       fetchBeers,
       navigateTo,
-      params,
       auth,
     } = this.props;
 
 
     await addBeer({
       token: auth.token,
-      bar: params.barId,
+      bar: 0,
       type: beerType,
       volume,
       abv,
@@ -89,10 +88,9 @@ class BarView extends React.Component {
     const {
       types,
       bars,
-      params,
     } = this.props;
 
-    const currentBar = bars[params.barId];
+    const currentBar = bars[0];
 
     return (
       <div className="bar-view container">

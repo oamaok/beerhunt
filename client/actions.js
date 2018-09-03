@@ -9,6 +9,10 @@ export const SET_BEERS = Symbol('SET_BEERS');
 export const SET_BARS = Symbol('SET_BARS');
 export const SET_BEER_TYPES = Symbol('SET_BEER_TYPES');
 
+export const NEXT_VIEW = Symbol('NEXT_VIEW');
+export const PREVIOUS_VIEW = Symbol('PREVIOUS_VIEW');
+export const SET_CURRENT_VIEW = Symbol('SET_CURRENT_VIEW');
+
 export const SET_FACEBOOK_STATUS = Symbol('SET_FACEBOOK_STATUS');
 export const FACEBOOK_LOADED = Symbol('FACEBOOK_LOADED');
 export const FACEBOOK_CONNECTED = 'connected';
@@ -86,6 +90,18 @@ export function loginWithFacebook() {
 
     dispatch(createAction(END_AUTHENTICATION));
   };
+}
+
+export function setCurrentView(viewIndex) {
+  return createAction(SET_CURRENT_VIEW, { viewIndex });
+}
+
+export function nextView() {
+  return createAction(NEXT_VIEW);
+}
+
+export function previousView() {
+  return createAction(PREVIOUS_VIEW);
 }
 
 function setBeers(beers) {

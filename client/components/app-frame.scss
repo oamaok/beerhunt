@@ -5,6 +5,15 @@
     padding: 1em;
 
     .title {}
-    .navigation {}
+    .navigation {
+      .nav-option {
+        color: $color-background;
+
+        &.active {
+          color: $color-secondary;
+        }
+      }
+
+    }
   }
 }

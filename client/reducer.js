@@ -6,6 +6,9 @@ import {
   SET_CREDENTIALS,
   CLEAR_CREDENTIALS,
   FACEBOOK_LOADED,
+  SET_CURRENT_VIEW,
+  NEXT_VIEW,
+  PREVIOUS_VIEW,
   SET_BEERS,
   SET_BARS,
   SET_BEER_TYPES,
@@ -23,6 +26,7 @@ const AppState = Record({
   beers: [],
   bars: [],
   beerTypes: [],
+  currentView: 0,
   facebookLoaded: false,
   facebook: {},
   auth: new AuthState(),
@@ -52,6 +56,12 @@ export default function ebhReducer(state = initialAppState, action) {
       return state.set('facebookLoaded', true);
     case SET_FACEBOOK_STATUS:
       return state.set('facebook', action.response);
+    case SET_CURRENT_VIEW:
+      return state.set('currentView', action.viewIndex);
+    case NEXT_VIEW:
+      return state.update('currentView', currentView => currentView + 1);
+    case PREVIOUS_VIEW:
+      return state.update('currentView', currentView => currentView - 1);
     case SET_BEERS:
       return state.set('beers', action.beers);
     case SET_BARS:
