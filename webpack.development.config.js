@@ -9,7 +9,6 @@ module.exports = {
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
       './client/index.jsx',
-      './client/styles/main.scss',
     ],
   },
 
@@ -17,7 +16,7 @@ module.exports = {
 
   output: {
     publicPath: '/',
-    filename: '[name].[hash].js',
+    filename: '[name].[hash:base64:8].js',
   },
 
   resolve: {
@@ -43,8 +42,33 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.s[ac]ss$/, loader: ['style-loader', 'css-loader', 'sass-loader'], exclude: /node_modules/ },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[local]__[hash:base64:4]',
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              data: '@import "config";',
+              includePaths: [
+                './client/styles/',
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
 };

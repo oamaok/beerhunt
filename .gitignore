@@ -1,3 +1,4 @@
 node_modules
 build
+analyse.json
 server/data/database.sqlite

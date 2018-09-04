@@ -3,12 +3,15 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const path = require('path');
 
+const extractStyles = new ExtractTextPlugin({
+  filename: '[name]-[contenthash:base64:8].css',
+});
+
 module.exports = {
   entry: {
     app: [
       'babel-polyfill',
       './client/index.jsx',
-      './client/styles/main.scss',
     ],
   },
 
@@ -17,7 +20,7 @@ module.exports = {
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, 'build/client/'),
-    filename: '[hash].js',
+    filename: '[name]-[hash:8].js',
   },
 
   resolve: {
@@ -38,7 +41,7 @@ module.exports = {
 
     new HtmlWebpackInlineSourcePlugin(),
 
-    new ExtractTextPlugin('[hash].css'),
+    extractStyles,
   ],
 
   devtool: '',
@@ -47,8 +50,28 @@ module.exports = {
     rules: [
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
       {
-        test: /\.s[ac]ss$/,
-        loader: ExtractTextPlugin.extract('css-loader!sass-loader'),
+        test: /\.scss$/,
+        loader: extractStyles.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[hash:base64:4]',
+              },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                data: '@import "config";',
+                outputStyle: 'compressed',
+                includePaths: [
+                  './client/styles/',
+                ],
+              },
+            },
+          ],
+        }),
       },
     ],
   },
