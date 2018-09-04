@@ -38,7 +38,7 @@ module.exports = {
 
     new HtmlWebpackInlineSourcePlugin(),
 
-    new ExtractTextPlugin('[contenthash].css'),
+    new ExtractTextPlugin('[hash].css'),
   ],
 
   devtool: '',

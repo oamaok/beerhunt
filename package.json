@@ -62,6 +62,7 @@
     "koa-router": "^7.4.0",
     "ramda": "^0.25.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "sqlite3": "^4.0.2"
   }
 }
