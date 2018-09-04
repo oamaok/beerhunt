@@ -87,7 +87,7 @@ class BarView extends React.Component {
     } = this.state;
 
     const {
-      beerTypes: types,
+      types,
       bars,
       params,
     } = this.props;
@@ -177,4 +177,8 @@ cancel
   }
 }
 
-export default connect(state => state.app, { fetchBeers, navigateTo: actions.navigateTo })(BarView);
+export default connect(state => ({
+  types: state.app.beerTypes,
+  bars: state.app.bars,
+  auth: state.app.auth,
+}), { fetchBeers, navigateTo: actions.navigateTo })(BarView);
