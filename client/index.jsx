@@ -8,6 +8,8 @@ import browserPlugin from 'router5/plugins/browser';
 import { router5Middleware, router5Reducer } from 'redux-router5';
 import ReduxThunk from 'redux-thunk';
 
+import './styles/reset.scss';
+
 import AppRoot from 'components/app-root';
 import routes from './routes';
 import { onceFacebookLoaded } from './facebook';

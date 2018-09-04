@@ -16,7 +16,7 @@ module.exports = {
 
   output: {
     publicPath: '/',
-    filename: '[name].[hash].js',
+    filename: '[name].[hash:base64:8].js',
   },
 
   resolve: {
@@ -55,7 +55,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[hash:base32:4]',
+              localIdentName: '[local]__[hash:base64:4]',
             },
           },
           {
@@ -68,7 +68,6 @@ module.exports = {
             },
           },
         ],
-
       },
     ],
   },
