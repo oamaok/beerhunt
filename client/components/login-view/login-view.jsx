@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { loginWithFacebook } from '../actions';
+import { loginWithFacebook } from '../../actions';
 import styles from './login-view.scss';
 
 const css = classNames.bind(styles);

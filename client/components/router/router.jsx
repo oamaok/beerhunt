@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createRouteNodeSelector } from 'redux-router5';
 
-import IndexView from 'components/index-view';
-import BarView from 'components/bar-view';
+import { BarView, IndexView } from 'components';
 
 function Router({ route }) {
   switch (route.name) {

@@ -9,18 +9,17 @@
   flex-wrap: nowrap;
 
   .masthead {
-    background-color: $color-primary;
-    color: $color-secondary;
+    background-color: $color-black;
     padding: 1em;
 
     .title {}
     .navigation {
       .nav-option {
-        color: $color-background;
-        background-color: $color-primary;
+        color: $color-white;
+        background-color: $color-black;
 
         &.active {
-          color: $color-secondary;
+          color: $color-orange;
         }
       }
 
