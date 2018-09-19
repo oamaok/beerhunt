@@ -2,12 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import SwipeView from 'components/swipe-view';
-import OwnBeersView from 'components/own-beers-view';
-import LiveStatsView from 'components/live-stats-view';
-import AddBeerView from 'components/add-beer-view';
+import { ViewContainer, OwnBeersView, LiveStatsView, AddBeerView } from 'components'
 
-import { setCurrentView } from '../actions';
+import { setCurrentView } from '../../actions';
 import styles from './app-frame.scss';
 
 
@@ -32,7 +29,7 @@ function AppFrame({ currentView, setCurrentView }) {
           ))}
         </div>
       </div>
-      <SwipeView
+      <ViewContainer
         views={[
           OwnBeersView,
           LiveStatsView,

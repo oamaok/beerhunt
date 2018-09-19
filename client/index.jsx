@@ -10,7 +10,7 @@ import ReduxThunk from 'redux-thunk';
 
 import './styles/reset.scss';
 
-import AppRoot from 'components/app-root';
+import { AppRoot } from 'components';
 import routes from './routes';
 import { onceFacebookLoaded } from './facebook';
 
@@ -88,7 +88,7 @@ async function initializeApplication() {
 
   // Initialize hot module reloading
   if (module.hot) {
-    module.hot.accept('components/app-root', () => {
+    module.hot.accept('components/app-root/app-root', () => {
       render();
     });
   }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
-import { addBeer } from '../api';
-import { fetchBeers } from '../actions';
+import { addBeer } from '../../api';
+import { fetchBeers } from '../../actions';
 
 const sizes = [
   { value: 0.2, name: '20cl' },

@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'redux-router5';
-import Stats from 'components/stats';
-import { clearCredentials } from '../actions';
+import { clearCredentials } from '../../actions';
 
 function IndexView({
   navigateTo, clearCredentials, appState,
@@ -23,7 +22,6 @@ function IndexView({
         </select>
       </div>
       <hr />
-      <Stats />
 
       <button type="button" className="btn btn-primary" onClick={clearCredentials}>Logout</button>
     </div>

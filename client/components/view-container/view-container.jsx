@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { nextView, previousView } from '../actions';
-import styles from './swipe-view.scss';
+import { nextView, previousView } from '../../actions';
+import styles from './view-container.scss';
 
 const css = classNames.bind(styles);
 
@@ -15,7 +15,7 @@ const getTouchCoordinates = evt => ({
 const DELTA_THRESHOLD = 20;
 const VELOCITY_THRESHOLD = 15;
 
-class SwipeView extends React.Component {
+class ViewContainer extends React.Component {
   state = {
     dragging: false,
     offset: 0,
@@ -118,4 +118,4 @@ export default connect((state, ownProps) => ({
   currentView: state.app.currentView,
   isLastView: state.app.currentView === ownProps.views.length - 1,
   isFirstView: state.app.currentView === 0,
-}), { nextView, previousView })(SwipeView);
+}), { nextView, previousView })(ViewContainer);

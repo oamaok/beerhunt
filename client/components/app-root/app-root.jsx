@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AppFrame from 'components/app-frame';
-import LoginView from 'components/login-view';
-import Router from 'components/router';
+import { AppFrame, LoginView, Router } from 'components';
 
 function Root({ auth }) {
   if (!auth.token) {

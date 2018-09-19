@@ -1,0 +1,15 @@
+.login-view {
+  width: 100vw;
+  height: 100vh;
+
+  color: $color-white;
+  background-color: $color-black;
+
+  h2 {
+    color: $color-white;
+  }
+
+  .highlight {
+    color: $color-orange;
+  }
+}
