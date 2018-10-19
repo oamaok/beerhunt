@@ -1,15 +1,47 @@
 .login-view {
   width: 100vw;
   height: 100vh;
-
   color: $color-white;
-  background-color: $color-black;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  background-image: url('/assets/images/login-background.png');
+  background-size: cover;
+  padding: 2em;
+
+  .logo {
+    align-self: center;
+    width: 100%;
+  }
 
   h2 {
     color: $color-white;
+    align-self: center;
+    font-family: Montserrat;
+    font-weight: 300;
+    letter-spacing: 0.1em;
   }
 
   .highlight {
     color: $color-orange;
+    align-self: center;
+  }
+
+  .cta {
+    text-align: center;
+    button {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1.2em;
+      font-weight: 700;
+      background-color: $color-facebook-blue;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+    }
+
+    div {
+      margin-top: 1em;
+    }
   }
 }

@@ -30,6 +30,7 @@ class ViewContainer extends React.Component {
   onTouchStart = (evt) => {
     this.setState({ dragging: true });
     this.startPosition = getTouchCoordinates(evt);
+    this.lastPosition = getTouchCoordinates(evt);
     this.startTime = new Date().getTime();
   }
 

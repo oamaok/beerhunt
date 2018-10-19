@@ -21,7 +21,7 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx', '.scss'],
-    modules: ['node_modules', path.resolve(__dirname, 'client/')],
+    modules: ['node_modules', __dirname, path.resolve(__dirname, 'client/')],
   },
 
   plugins: [
@@ -42,6 +42,11 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.png?$/,
+        loader: 'file-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',

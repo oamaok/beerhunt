@@ -6,6 +6,8 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import chokidar from 'chokidar';
 import middleware from 'webpack-hot-middleware';
+import express from 'express';
+import path from 'path';
 import config from '../webpack.development.config';
 
 const API_PORT = 3000;
@@ -26,6 +28,7 @@ const devServer = new WebpackDevServer(compiler, {
 
 devServer.use(middleware(compiler));
 devServer.listen(8080);
+devServer.use('/assets', express.static(path.resolve(__dirname, '../assets')));
 
 let app;
 let server;

@@ -9,6 +9,7 @@ import { router5Middleware, router5Reducer } from 'redux-router5';
 import ReduxThunk from 'redux-thunk';
 
 import './styles/reset.scss';
+import './styles/fonts.scss';
 
 import { AppRoot } from 'components';
 import routes from './routes';
