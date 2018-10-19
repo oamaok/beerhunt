@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { ViewContainer, OwnBeersView, LiveStatsView, AddBeerView } from 'components'
+import {
+  ViewContainer, OwnBeersView, LiveStatsView, AddBeerView,
+} from 'components';
 
 import { setCurrentView } from '../../actions';
 import styles from './app-frame.scss';
