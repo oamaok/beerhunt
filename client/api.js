@@ -26,3 +26,15 @@ export async function addBeer({
     }),
   });
 }
+
+export async function deleteBeer({
+  beerId, token,
+}) {
+  await apiCall('delete', {
+    method: 'POST',
+    body: JSON.stringify({
+      beerId: parseInt(beerId),
+      token,
+    }),
+  });
+}

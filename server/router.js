@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import request from 'request-promise-native';
 import jwt from 'jsonwebtoken';
 
-import { getBeers, addBeer } from './database';
+import { getBeers, addBeer, getBeerById, deleteBeer } from './database';
 
 import bars from './data/bars.json';
 import types from './data/types.json';
@@ -106,6 +106,44 @@ export default function createRouter(db) {
         name,
         id,
       };
+    })
+    .post('/delete', async (ctx) => {
+      const {
+        beerId,
+        token,
+      } = ctx.request.body;
+
+      const userData = getDataFromToken(token);
+
+      if (!userData) {
+        ctx.body = { status: 'error' };
+        console.log("no userdata");
+        return;
+      }
+
+      const { id } = userData.data;
+      const [beer] = await getBeerById(db, beerId);
+      console.log(beer);
+
+      if (!beer) {
+        ctx.body = { status: 'error' };
+        console.log("no beer array");
+        return;
+      }
+
+      const { personId } = beer;
+
+      if (personId != id) {
+        ctx.body = { status: 'error' };
+        console.log("personId isnt id");
+        return;
+      }
+
+      await deleteBeer(db, {
+        rowid: beerId,
+      });
+
+      ctx.body = { status: 'success' };
     });
 
   return router;
