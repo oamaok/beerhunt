@@ -33,7 +33,7 @@ export async function deleteBeer({
   await apiCall('delete', {
     method: 'POST',
     body: JSON.stringify({
-      beerId: parseInt(beerId),
+      beerId,
       token,
     }),
   });
