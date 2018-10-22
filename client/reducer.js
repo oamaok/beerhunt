@@ -26,7 +26,7 @@ const AppState = Record({
   beers: [],
   bars: [],
   beerTypes: [],
-  currentView: 0,
+  currentView: 1,
   facebookLoaded: false,
   facebook: {},
   auth: new AuthState(),

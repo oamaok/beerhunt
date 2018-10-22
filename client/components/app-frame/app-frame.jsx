@@ -19,7 +19,7 @@ function AppFrame({ currentView, setCurrentView }) {
     <div className={css('app-frame')}>
       <div className={css('masthead')}>
         <div className={css('logo')}>
-          <img src="/assets/images/hbh-title.png"  />
+          <img src="/assets/images/hbh-title.png" />
         </div>
         <div className={css('navigation')}>
           {navOptions.map((option, index) => (

@@ -2,6 +2,7 @@
   width: 100vw;
   max-width: 100vw;
   height: 100%;
+  background-color: $color-beige;
 
   .view-wrapper {
     display: flex;
@@ -26,6 +27,6 @@
     max-width: 100vw;
     overflow-x: hidden;
 
-    padding: 1em;
+    padding: 2em;
   }
 }

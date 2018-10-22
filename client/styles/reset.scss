@@ -13,5 +13,16 @@ html, body {
 
 h1, h2, h3, h4, h5 {
   color: $color-orange;
-  text-transform: uppercase;
+  font-family: Podkova;
+}
+
+h1 {
+  color: $color-black;
+  font-weight: 700;
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-size: 1.75em;
 }
