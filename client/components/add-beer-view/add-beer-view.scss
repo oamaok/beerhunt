@@ -1,0 +1,22 @@
+.view {
+  .input-group {
+    margin-bottom: 2em;
+    label {
+      font-family: Podkova;
+      color: $color-black;
+      width: 100%;
+      display: block;
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+    }
+
+    select {
+      border: none;
+      color: $color-white;
+      background-color: $color-black;
+      font-family: Montserrat;
+      padding: 0.5em;
+      width: 100%;
+    }
+  }
+}

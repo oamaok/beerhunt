@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './live-stats-view.scss';
 
+import BeerListing from '../beer-listing/beer-listing';
+
 const css = classNames.bind(styles);
 
 function StatusBlock({
@@ -18,16 +20,6 @@ function StatusBlock({
   );
 }
 
-function BeerListing({
-  genre, volume, abv, location, rating, descripiton
-}) {
-  return (
-    <div className={css('beer-listing')}>
-      <div className={css('essentials')}>{[genre, volume, abv].join(' / ')}</div>
-      <div className={css('location')}>{location}</div>
-    </div>
-  )
-}
 
 export default function LiveStatsView() {
   return (
@@ -40,9 +32,7 @@ export default function LiveStatsView() {
       </div>
 
       <h3>Viisi viimeisintä</h3>
-      <div className={css('latest-beers-list')}>
-
-      </div>
+      <div className={css('latest-beers-list')} />
     </div>
   );
 }

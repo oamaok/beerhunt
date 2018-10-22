@@ -35,6 +35,7 @@ const AppState = Record({
 const initialAppState = new AppState();
 
 export default function ebhReducer(state = initialAppState, action) {
+  console.log(state.toJSON());
   switch (action.type) {
     case BEGIN_AUTHENTICATION:
       return state.setIn(['auth', 'isLoading'], true);
