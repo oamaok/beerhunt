@@ -11,15 +11,39 @@
   .masthead {
     background-color: $color-black;
     padding: 1em;
+    min-height: 4em;
 
-    .title {}
+    display: flex;
+    flex-flow: row;
+
+    .logo {
+      height: 2em;
+      width: 50%;
+      img {
+        height: 2em;
+      }
+    }
+
     .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
       .nav-option {
         color: $color-white;
         background-color: $color-black;
+        display: flex;
+        width: 2em;
+        height: 2em;
+        border: none;
+        padding: 0.25em;
+
+        img {
+          width: 1.5em;
+        }
 
         &.active {
-          color: $color-orange;
+          background-color: $color-orange;
         }
       }
 

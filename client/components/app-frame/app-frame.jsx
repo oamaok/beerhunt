@@ -13,12 +13,14 @@ import styles from './app-frame.scss';
 const css = classNames.bind(styles);
 
 function AppFrame({ currentView, setCurrentView }) {
-  const navOptions = ['omat oluet', 'live stats', 'lisää olut'];
+  const navOptions = ['list', 'home', 'add'];
 
   return (
     <div className={css('app-frame')}>
       <div className={css('masthead')}>
-        <div className={css('title')}>hbh</div>
+        <div className={css('logo')}>
+          <img src="/assets/images/hbh-title.png"  />
+        </div>
         <div className={css('navigation')}>
           {navOptions.map((option, index) => (
             <button
@@ -26,7 +28,7 @@ function AppFrame({ currentView, setCurrentView }) {
               onClick={() => setCurrentView(index)}
               className={css('nav-option', { active: index === currentView })}
             >
-              {option}
+              <img src={`/assets/images/icons/${option}.png`} />
             </button>
           ))}
         </div>
