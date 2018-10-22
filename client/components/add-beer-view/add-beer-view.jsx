@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { BeerListing } from 'components';
 import styles from './add-beer-view.scss';
 import { getBars, getBeerTypes, getToken } from '../../selectors';
-import { setCurrentView } from '../../actions'
+import { setCurrentView } from '../../actions';
 import { addBeer } from '../../api';
 
 const css = classNames.bind(styles);
@@ -29,19 +29,22 @@ class AddBeerView extends React.Component {
     volume: 0.33,
     abv: 4.5,
 
-    isSubmitting: false
+    isSubmitting: false,
   }
 
   onSubmit = () => {
-    const { beerType, bar, volume, abv } = this.state;
-    const { token } = this.props
-    this.setState({ isSubmitting: true })
+    const {
+      beerType, bar, volume, abv,
+    } = this.state;
+    const { token } = this.props;
+    this.setState({ isSubmitting: true });
 
     addBeer({
-  type: beerType, volume, abv, bar, token,}).then(() => {
-    this.setState({ isSubmitting: false })
-    this.props.setCurrentView(1)
-  })
+      type: beerType, volume, abv, bar, token,
+    }).then(() => {
+      this.setState({ isSubmitting: false });
+      this.props.setCurrentView(1);
+    });
   }
 
   bind = key => ({
@@ -52,7 +55,9 @@ class AddBeerView extends React.Component {
   render() {
     const { bind } = this;
     const { bars, beerTypes } = this.props;
-    const { bar, beerType, volume, abv, isSubmitting } = this.state;
+    const {
+      bar, beerType, volume, abv, isSubmitting,
+    } = this.state;
 
 
     return (
@@ -103,11 +108,11 @@ class AddBeerView extends React.Component {
 const mapStateToProps = state => ({
   bars: getBars(state),
   beerTypes: getBeerTypes(state),
-  token: getToken(state)
+  token: getToken(state),
 });
 
 const mapDispatchToProps = {
   setCurrentView,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBeerView);
