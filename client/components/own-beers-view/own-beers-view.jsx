@@ -44,7 +44,7 @@ class OwnBeersView extends React.Component {
               .map(({
                 barId, typeId, volume, abv, rowid, review,
               }) => (
-                <li>{bars[barId]}: {types[typeId]}, {volume}l, {abv}%
+                <li>{bars[barId]} / {types[typeId]} / {volume}l / {abv}%
                   <button type="button" className={css('submit')} onClick={() => this.onDelete(rowid)} disabled={isSubmitting}>
                     Remove
                   </button>

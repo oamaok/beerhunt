@@ -10,10 +10,7 @@ export default function BeerListing({
   return (
     <div className={css('beer-listing')}>
       <div className={css('essentials')}>
-        <span>{bar}</span> / 
-        <span>{beerType}</span> / 
-        <span>{volume}l</span> / 
-        <span>{abv}%</span>
+        <span>{bar} / {beerType} / {volume}l / {abv}% </span>
         <br />
         <span>{description}</span>
       </div>
