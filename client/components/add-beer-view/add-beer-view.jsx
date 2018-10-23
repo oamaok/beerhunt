@@ -22,19 +22,18 @@ const volumes = [
   { value: 0.60, name: '60cl' },
 ];
 
+const DEFAULT_BAR = 'Choose location';
+const DEFAULT_BEER_TYPE = 'Choose type';
+const DEFAULT_VOLUME = 'Choose size';
+
 class AddBeerView extends React.Component {
   state = {
-    bar: 'Choose location',
-    beerType: 'Choose type',
-    volume: 'Choose size',
+    bar: DEFAULT_BAR,
+    beerType: DEFAULT_BEER_TYPE,
+    volume: DEFAULT_VOLUME,
     abv: 4.5,
     description: '',
 
-    defaultBar: 'Choose location',
-    defaultBeerType: 'Choose type',
-    defaultVolume: 'Choose size',
-
-    isValid: false,
     isSubmitting: false,
   }
 
@@ -46,16 +45,19 @@ class AddBeerView extends React.Component {
     this.setState({ isSubmitting: true });
 
     addBeer({
-      type: beerType, volume, abv, bar, token, description
+      type: beerType, volume, abv, bar, token, description,
     }).then(() => {
-      this.setState({ isSubmitting: false });
+      this.setState(
+        {
+          isSubmitting: false,
+          bar: DEFAULT_BAR,
+          beerType: DEFAULT_BEER_TYPE,
+          volume: DEFAULT_VOLUME,
+          abv: 4.5,
+          description: '',
+        },
+      );
       this.props.setCurrentView(1);
-
-      this.state.bar = this.state.defaultBar;
-      this.state.beerType = this.state.defaultBeerType;
-      this.state.volume = this.state.defaultVolume;
-      this.state.abv = 4.5;
-      this.state.description = '';
     });
   }
 
@@ -65,16 +67,15 @@ class AddBeerView extends React.Component {
   })
 
   render() {
-    this.state.isValid = (
-      this.state.bar != this.state.defaultBar &&
-      this.state.beerType != this.state.defaultBeerType && 
-      this.state.volume != this.state.defaultVolume)
+    const isValid = (
+      this.state.bar != DEFAULT_BAR
+      && this.state.beerType != DEFAULT_BEER_TYPE
+      && this.state.volume != DEFAULT_VOLUME);
 
     const { bind } = this;
     const { bars, beerTypes } = this.props;
     const {
-      bar, beerType, volume, abv, description, 
-      defaultBar, defaultBeerType, defaultVolume, isValid, isSubmitting,
+      bar, beerType, volume, abv, description, isSubmitting,
     } = this.state;
 
 
@@ -85,7 +86,7 @@ class AddBeerView extends React.Component {
           <div className={css('icon')} />
           <label>Location?</label>
           <select {...bind('bar')} disabled={isSubmitting}>
-            <option value={defaultBar} selected disabled hidden>{defaultBar}</option>
+            <option value={DEFAULT_BAR} selected disabled hidden>{DEFAULT_BAR}</option>
             {bars.map((bar, index) => <option value={index} key={index}>{bar}</option>)}
           </select>
         </div>
@@ -93,7 +94,7 @@ class AddBeerView extends React.Component {
           <div className={css('icon')} />
           <label>Type?</label>
           <select {...bind('beerType')} disabled={isSubmitting}>
-            <option value={defaultBeerType} selected disabled hidden>{defaultBeerType}</option>
+            <option value={DEFAULT_BEER_TYPE} selected disabled hidden>{DEFAULT_BEER_TYPE}</option>
             {beerTypes.map((beerType, index) => <option value={index} key={index}>{beerType}</option>)}
           </select>
         </div>
@@ -101,7 +102,7 @@ class AddBeerView extends React.Component {
           <div className={css('icon')} />
           <label>Size?</label>
           <select {...bind('volume')} disabled={isSubmitting}>
-            <option value={defaultVolume} selected disabled hidden>{defaultVolume}</option>
+            <option value={DEFAULT_VOLUME} selected disabled hidden>{DEFAULT_VOLUME}</option>
             {volumes.map(({ value, name }) => <option value={value}>{name}</option>)}
           </select>
         </div>
@@ -117,14 +118,16 @@ class AddBeerView extends React.Component {
         </div>
         <hr />
         <h3>Summary</h3>
-        {isValid ? 
-          <BeerListing
-          bar={bars[bar]}
-          beerType={beerTypes[beerType]}
-          volume={volume}
-          abv={abv}
-          description={description}
-        /> : null
+        {isValid
+          ? (
+            <BeerListing
+              bar={bars[bar]}
+              beerType={beerTypes[beerType]}
+              volume={volume}
+              abv={abv}
+              description={description}
+            />
+          ) : null
         }
         <button type="button" className={css('submit')} onClick={this.onSubmit} disabled={isSubmitting || !isValid}>
           Add to your list!

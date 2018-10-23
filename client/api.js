@@ -13,7 +13,7 @@ export function apiCall(path, options = {}) {
 }
 
 export async function addBeer({
-  type, volume, abv, bar, token, description
+  type, volume, abv, bar, token, description,
 }) {
   await apiCall('beer', {
     method: 'POST',

@@ -43,16 +43,18 @@ class OwnBeersView extends React.Component {
           <ol>
             {beers.filter(beer => beer.personId.toString() === id)
               .map(({
-                barId, typeId, volume, abv, rowid, review
+                barId, typeId, volume, abv, rowid, review,
               }) => (
                 <li>{bars[barId]}: {types[typeId]}, {volume}l, {abv}%
                   <button type="button" className={css('submit')} onClick={() => this.onDelete(rowid)} disabled={isSubmitting}>
                     Remove
                   </button>
-                  {review != '' ?
-                    <ul>
-                    <li>{review}</li>
-                  </ul> : null
+                  {review != ''
+                    ? (
+                      <ul>
+                        <li>{review}</li>
+                      </ul>
+                    ) : null
                   }
                 </li>
               ))}
