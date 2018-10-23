@@ -49,7 +49,10 @@ export default function createRouter(db) {
         volume,
         abv,
         token,
+        description,
       } = ctx.request.body;
+
+      console.log(description);
 
       const userData = getDataFromToken(token);
 
@@ -67,6 +70,7 @@ export default function createRouter(db) {
         personName: name,
         volume,
         abv,
+        review: description,
       });
 
       ctx.body = { status: 'success' };
@@ -114,8 +118,7 @@ export default function createRouter(db) {
         beerId,
         token,
       } = ctx.request.body;
-      console.log('beer id:');
-      console.log(beerId);
+
       const userData = getDataFromToken(token);
 
       if (!userData) {
@@ -126,7 +129,6 @@ export default function createRouter(db) {
 
       const { id } = userData.data;
       const [beer] = await getBeerById(db, beerId);
-      console.log(beer);
 
       if (!beer) {
         ctx.body = { status: 'error' };
@@ -136,7 +138,7 @@ export default function createRouter(db) {
 
       const { personId } = beer;
 
-      if (personId !== id) {
+      if (personId.toString() !== id) {
         ctx.body = { status: 'error' };
         console.log('personId isnt id');
         return;

@@ -85,7 +85,8 @@ export const addBeer = (db, beer) => pRun(db, `
       personId,
       personName,
       abv,
-      volume
+      volume,
+      review
     )
   VALUES
     (
@@ -94,7 +95,8 @@ export const addBeer = (db, beer) => pRun(db, `
       $personId,
       $personName,
       $abv,
-      $volume
+      $volume,
+      $review
     )
 `, {
   $barId: beer.barId,
@@ -103,6 +105,7 @@ export const addBeer = (db, beer) => pRun(db, `
   $personName: beer.personName,
   $volume: beer.volume,
   $abv: beer.abv,
+  $review: beer.review,
 });
 
 export const updateBeerReview = (db) => {};
