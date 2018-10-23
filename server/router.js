@@ -52,8 +52,6 @@ export default function createRouter(db) {
         description,
       } = ctx.request.body;
 
-      console.log(description);
-
       const userData = getDataFromToken(token);
 
       if (!userData) {
@@ -123,7 +121,6 @@ export default function createRouter(db) {
 
       if (!userData) {
         ctx.body = { status: 'error' };
-        console.log('no userdata');
         return;
       }
 
@@ -132,7 +129,6 @@ export default function createRouter(db) {
 
       if (!beer) {
         ctx.body = { status: 'error' };
-        console.log('no beer array');
         return;
       }
 
@@ -140,7 +136,6 @@ export default function createRouter(db) {
 
       if (personId.toString() !== id) {
         ctx.body = { status: 'error' };
-        console.log('personId isnt id');
         return;
       }
 
