@@ -5,7 +5,7 @@ import styles from '../add-beer-view/add-beer-view'; // TODO using addbeer, make
 import {
   getBars, getBeers, getBeerTypes, getUserId, getToken,
 } from '../../selectors';
-import { setCurrentView, fetchBeers } from '../../actions';
+import { fetchBeers } from '../../actions';
 import { deleteBeer } from '../../api';
 
 const css = classNames.bind(styles);
@@ -27,7 +27,6 @@ class OwnBeersView extends React.Component {
     await this.props.fetchBeers();
 
     this.setState({ isSubmitting: false });
-    this.props.setCurrentView(0);
   }
 
   render() {
@@ -74,7 +73,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setCurrentView,
   fetchBeers,
 };
 
