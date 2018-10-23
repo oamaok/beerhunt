@@ -81,7 +81,7 @@ class AddBeerView extends React.Component {
 
     return (
       <div className={css('view')}>
-        <h3>Add a new beer</h3>
+        <h3>Add a new drink</h3>
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Location?</label>

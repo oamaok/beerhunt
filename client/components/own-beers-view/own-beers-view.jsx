@@ -37,7 +37,7 @@ class OwnBeersView extends React.Component {
 
     return (
       <div className={css('view')}>
-        <h3>My beers</h3>
+        <h3>My drinks</h3>
         <div>
           <ol>
             {beers.filter(beer => beer.personId.toString() === id)
