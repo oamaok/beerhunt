@@ -25,8 +25,8 @@ const volumes = [
 const DEFAULT_BAR = 'Valitse sijainti';
 const DEFAULT_BEER_TYPE = 'Valitse tyyppi';
 const DEFAULT_VOLUME = 'Valitse koko';
-const DEFAULT_ABV = 'Anna vahvuus';
-const DEFAULT_PRICE = 'Anna hinta';
+const DEFAULT_ABV = '';
+const DEFAULT_PRICE = '';
 
 class AddBeerView extends React.Component {
   state = {
@@ -49,19 +49,6 @@ class AddBeerView extends React.Component {
 
     await addBeer({
       type: beerType, volume, abv, price, bar, token, description,
-    }).then(() => {
-      this.setState(
-        {
-          isSubmitting: false,
-          bar: DEFAULT_BAR,
-          beerType: DEFAULT_BEER_TYPE,
-          volume: DEFAULT_VOLUME,
-          abv: DEFAULT_ABV,
-          price: DEFAULT_PRICE,
-          description: '',
-        },
-      );
-      this.props.setCurrentView(1);
     });
 
     await this.props.fetchBeers();
@@ -72,7 +59,8 @@ class AddBeerView extends React.Component {
         bar: DEFAULT_BAR,
         beerType: DEFAULT_BEER_TYPE,
         volume: DEFAULT_VOLUME,
-        abv: 4.5,
+        abv: DEFAULT_ABV,
+        price: DEFAULT_PRICE,
         description: '',
       },
     );
@@ -94,7 +82,9 @@ class AddBeerView extends React.Component {
     const isValid = (
       bar !== DEFAULT_BAR
       && beerType !== DEFAULT_BEER_TYPE
-      && volume !== DEFAULT_VOLUME);
+      && volume !== DEFAULT_VOLUME
+      && this.state.abv.length > 0
+      && this.state.price.length > 0);
 
 
     return (
@@ -127,12 +117,12 @@ class AddBeerView extends React.Component {
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Vahvuus?</label>
-          <input {...bind('abv')} disabled={isSubmitting} />
+          <input type="number" placeholder="Anna vahvuus" {...bind('abv')} disabled={isSubmitting} />
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Hinta?</label>
-          <input {...bind('price')} disabled={isSubmitting} />
+          <input type="number" placeholder="Anna hinta" {...bind('price')} disabled={isSubmitting} />
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
@@ -149,6 +139,7 @@ class AddBeerView extends React.Component {
               beerType={beerTypes[beerType]}
               volume={volume}
               abv={abv}
+              price={price}
               description={description}
             />
             <button

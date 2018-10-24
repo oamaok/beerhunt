@@ -33,6 +33,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         beerType={beerTypes[beer.typeId]}
         volume={beer.volume}
         abv={beer.abv}
+        price={beer.price}
         personName={beer.personName}
         personId={beer.personId}
       />
