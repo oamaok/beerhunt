@@ -58,10 +58,6 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     };
   }, { name: '-', price: 0, type: '-' });
 
-  // console.log(groupedPerson);
-  console.log(typeWithMostBeers);
-  // console.log(personWithPriciestBeer);
-
   const fullPriceLabel = totalBeerPrice > 1000 ? 'Kokonaishinta (v***n juopot)' : 'Kokonaishinta';
 
   return (
