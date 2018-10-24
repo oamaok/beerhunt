@@ -50,7 +50,7 @@ class OwnBeersView extends React.Component {
 
     return (
       <div className={css('view')}>
-        <h3>My drinks</h3>
+        <h3>Omat juomat</h3>
         <div>
           {R.intersperse(<hr />, ownBeers)}
         </div>
