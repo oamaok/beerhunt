@@ -5,16 +5,21 @@ import styles from './beer-listing.scss';
 const css = classNames.bind(styles);
 
 export default function BeerListing({
-  bar, beerType, volume, abv, location, rating, description,
+  beerType, volume, abv, location, personName, personId, rating, description,
 }) {
   return (
     <div className={css('beer-listing')}>
-      <div className={css('essentials')}>
-        <span>{bar} / {beerType} / {volume}l / {abv}% </span>
-        <br />
-        <span>{description}</span>
+      {personName ? (
+        <div className={css('person')}>
+          <img src={`http://graph.facebook.com/${personId}/picture?type=square`} alt="" />
+          {personName}
+        </div>
+      ) : null}
+      <div className={css('essentials')}>{beerType} / {volume}l / {abv}%</div>
+      <div className={css('location')}>
+        <img src="/assets/images/location-marker.png" alt="" />
+        {location}
       </div>
-      <div className={css('location')}>{location}</div>
     </div>
   );
 }

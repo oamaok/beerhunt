@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { BeerListing } from 'components';
 import styles from './add-beer-view.scss';
 import { getBars, getBeerTypes, getToken } from '../../selectors';
-import { setCurrentView } from '../../actions';
+import { setCurrentView, fetchBeers } from '../../actions';
 import { addBeer } from '../../api';
 
 const css = classNames.bind(styles);
@@ -37,28 +37,30 @@ class AddBeerView extends React.Component {
     isSubmitting: false,
   }
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
       beerType, bar, volume, abv, description,
     } = this.state;
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
-    addBeer({
+    await addBeer({
       type: beerType, volume, abv, bar, token, description,
-    }).then(() => {
-      this.setState(
-        {
-          isSubmitting: false,
-          bar: DEFAULT_BAR,
-          beerType: DEFAULT_BEER_TYPE,
-          volume: DEFAULT_VOLUME,
-          abv: 4.5,
-          description: '',
-        },
-      );
-      this.props.setCurrentView(1);
     });
+
+    await this.props.fetchBeers();
+
+    this.setState(
+      {
+        isSubmitting: false,
+        bar: DEFAULT_BAR,
+        beerType: DEFAULT_BEER_TYPE,
+        volume: DEFAULT_VOLUME,
+        abv: 4.5,
+        description: '',
+      },
+    );
+    this.props.setCurrentView(1);
   }
 
   bind = key => ({
@@ -67,16 +69,16 @@ class AddBeerView extends React.Component {
   })
 
   render() {
-    const isValid = (
-      this.state.bar != DEFAULT_BAR
-      && this.state.beerType != DEFAULT_BEER_TYPE
-      && this.state.volume != DEFAULT_VOLUME);
-
     const { bind } = this;
     const { bars, beerTypes } = this.props;
     const {
       bar, beerType, volume, abv, description, isSubmitting,
     } = this.state;
+
+    const isValid = (
+      bar !== DEFAULT_BAR
+      && beerType !== DEFAULT_BEER_TYPE
+      && volume !== DEFAULT_VOLUME);
 
 
     return (
@@ -116,22 +118,28 @@ class AddBeerView extends React.Component {
           <label>Add a description:</label>
           <textarea {...bind('description')} disabled={isSubmitting} />
         </div>
-        <hr />
-        <h3>Summary</h3>
-        {isValid
-          ? (
+        {!isValid ? <div>Täytähän kaikki kentät!</div> : null}
+        {isValid ? (
+          <React.Fragment>
+            <hr />
+            <h3>Summary</h3>
             <BeerListing
-              bar={bars[bar]}
+              location={bars[bar]}
               beerType={beerTypes[beerType]}
               volume={volume}
               abv={abv}
               description={description}
             />
-          ) : null
-        }
-        <button type="button" className={css('submit')} onClick={this.onSubmit} disabled={isSubmitting || !isValid}>
-          Add to your list!
-        </button>
+            <button
+              type="button"
+              className={css('submit')}
+              onClick={this.onSubmit}
+              disabled={isSubmitting || !isValid}
+            >
+              Add to your list!
+            </button>
+          </React.Fragment>
+        ) : null}
       </div>
     );
   }
@@ -145,6 +153,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setCurrentView,
+  fetchBeers,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddBeerView);
