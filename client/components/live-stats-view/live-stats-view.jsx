@@ -39,13 +39,31 @@ function LiveStatsView({ beers, bars, beerTypes }) {
       />
     ));
 
+  const totalBeers = beers.length;
+  const totalBeerVolume = beers.reduce((acc, { volume }) => acc + volume, 0);
+  const grouped = R.toPairs(R.groupBy(R.prop('personName'), beers));
+
+  const personWithMostBeers = grouped.reduce(R.maxBy(([, beers]) => beers.length),
+    ['-', []]);
+  const personWithPriciestBeer = beers.reduce((currentMax, beer) => {
+    if (currentMax.price > beer.price) {
+      return currentMax;
+    }
+    return { name: beer.personName, price: beer.price };
+  }, { name: '-', price: 0 });
+
   return (
     <div>
       <h1>Live-tulokset</h1>
       <div className={css('status-blocks')}>
-        <StatusBlock width="1" height="1" label="Juotuja oluita" value={200} />
-        <StatusBlock width="1" height="1" label="Juotuja oluita" value={200} />
-        <StatusBlock width="2" height="1" label="Juotuja oluita" value={200} />
+        <StatusBlock width="1" height="1" label="Oluita juotu yhteensä (kpl)" value={totalBeers} />
+        <StatusBlock width="1" height="1" label="Kokonaismäärä" value={`${totalBeerVolume}l`} />
+        {personWithMostBeers
+          ? <StatusBlock width="1" height="1" label="Eniten juotuja oluita" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
+      }
+        {personWithPriciestBeer
+          ? <StatusBlock width="1" height="1" label="Kallein olut henkilöllä" value={`${personWithPriciestBeer.name} - ${personWithPriciestBeer.price}€`} /> : null
+      }
       </div>
 
       <h3>Viisi viimeisintä</h3>
