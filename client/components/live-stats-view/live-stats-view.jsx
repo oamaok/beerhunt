@@ -59,10 +59,10 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         <StatusBlock width="1" height="1" label="Oluita juotu yhteensä (kpl)" value={totalBeers} />
         <StatusBlock width="1" height="1" label="Kokonaismäärä" value={`${totalBeerVolume}l`} />
         {personWithMostBeers
-          ? <StatusBlock width="1" height="1" label="Eniten juotuja oluita" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
+          ? <StatusBlock width="2" height="1" label="Eniten juotuja oluita" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
       }
         {personWithPriciestBeer
-          ? <StatusBlock width="1" height="1" label="Kallein olut henkilöllä" value={`${personWithPriciestBeer.name} - ${personWithPriciestBeer.price}€`} /> : null
+          ? <StatusBlock width="2" height="1" label="Kallein olut henkilöllä" value={`${personWithPriciestBeer.name} - ${personWithPriciestBeer.price}€`} /> : null
       }
       </div>
 
