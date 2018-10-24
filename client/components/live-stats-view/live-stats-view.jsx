@@ -1,5 +1,8 @@
 import React from 'react';
+import * as R from 'ramda';
+import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
+import { getBars, getBeers, getBeerTypes } from '../../selectors';
 import styles from './live-stats-view.scss';
 
 import BeerListing from '../beer-listing/beer-listing';
@@ -20,8 +23,21 @@ function StatusBlock({
   );
 }
 
+function LiveStatsView({ beers, bars, beerTypes }) {
+  const latestFiveBeers = R.sortBy(R.prop('loggedAt'), beers)
+    .reverse()
+    .slice(0, 5)
+    .map(beer => (
+      <BeerListing
+        location={bars[beer.barId]}
+        beerType={beerTypes[beer.typeId]}
+        volume={beer.volume}
+        abv={beer.abv}
+        personName={beer.personName}
+        personId={beer.personId}
+      />
+    ));
 
-export default function LiveStatsView() {
   return (
     <div>
       <h1>Live-tulokset</h1>
@@ -33,6 +49,15 @@ export default function LiveStatsView() {
 
       <h3>Viisi viimeisintä</h3>
       <div className={css('latest-beers-list')} />
+      {R.intersperse(<hr />, latestFiveBeers)}
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  bars: getBars(state),
+  beers: getBeers(state),
+  beerTypes: getBeerTypes(state),
+});
+
+export default connect(mapStateToProps)(LiveStatsView);

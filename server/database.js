@@ -108,9 +108,9 @@ export const addBeer = (db, beer) => pRun(db, `
   $review: beer.review,
 });
 
-export const updateBeerReview = (db) => {};
+export const updateBeerReview = () => {};
 
-export const updateBeerStarRating = (db) => {};
+export const updateBeerStarRating = () => {};
 
 export const deleteBeer = (db, beerId) => pRun(db, 'DELETE FROM beers WHERE rowid=$1', beerId);
 

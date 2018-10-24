@@ -1,4 +1,5 @@
 import React from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from '../add-beer-view/add-beer-view'; // TODO using addbeer, make own
@@ -7,6 +8,7 @@ import {
 } from '../../selectors';
 import { fetchBeers } from '../../actions';
 import { deleteBeer } from '../../api';
+import BeerListing from '../beer-listing/beer-listing';
 
 const css = classNames.bind(styles);
 
@@ -35,29 +37,22 @@ class OwnBeersView extends React.Component {
     } = this.props;
     const { isSubmitting } = this.state;
 
+    const ownBeers = beers.filter(beer => beer.personId.toString() === id).map(beer => (
+      <BeerListing
+        location={bars[beer.barId]}
+        beerType={types[beer.typeId]}
+        volume={beer.volume}
+        abv={beer.abv}
+        description={beer.description}
+        onDelete={() => this.onDelete(beer.rowid)}
+      />
+    ));
+
     return (
       <div className={css('view')}>
         <h3>My drinks</h3>
         <div>
-          <ol>
-            {beers.filter(beer => beer.personId.toString() === id)
-              .map(({
-                barId, typeId, volume, abv, rowid, review,
-              }) => (
-                <li>{bars[barId]} / {types[typeId]} / {volume}l / {abv}%
-                  <button type="button" className={css('submit')} onClick={() => this.onDelete(rowid)} disabled={isSubmitting}>
-                    Remove
-                  </button>
-                  {review != ''
-                    ? (
-                      <ul>
-                        <li>{review}</li>
-                      </ul>
-                    ) : null
-                  }
-                </li>
-              ))}
-          </ol>
+          {R.intersperse(<hr />, ownBeers)}
         </div>
       </div>
     );

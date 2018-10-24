@@ -14,6 +14,7 @@ html, body {
 h1, h2, h3, h4, h5 {
   color: $color-orange;
   font-family: Podkova;
+  margin-bottom: 0.5em;
 }
 
 h1 {
@@ -25,4 +26,20 @@ h1 {
 
 h3 {
   font-size: 1.75em;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid $color-black;
+  margin-bottom: 1em;
+}
+
+button {
+  color: $color-beige;
+  background-color: $color-orange;
+  border: none;
+  font-family: Podkova;
+  font-size: 1.5em;
+  width: 100%;
+  padding: 0.5em;
 }
