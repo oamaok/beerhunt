@@ -22,27 +22,41 @@ const volumes = [
   { value: 0.60, name: '60cl' },
 ];
 
+const DEFAULT_BAR = 'Choose location';
+const DEFAULT_BEER_TYPE = 'Choose type';
+const DEFAULT_VOLUME = 'Choose size';
+
 class AddBeerView extends React.Component {
   state = {
-    bar: 0,
-    beerType: 0,
-    volume: 0.33,
+    bar: DEFAULT_BAR,
+    beerType: DEFAULT_BEER_TYPE,
+    volume: DEFAULT_VOLUME,
     abv: 4.5,
+    description: '',
 
     isSubmitting: false,
   }
 
   onSubmit = () => {
     const {
-      beerType, bar, volume, abv,
+      beerType, bar, volume, abv, description,
     } = this.state;
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
     addBeer({
-      type: beerType, volume, abv, bar, token,
+      type: beerType, volume, abv, bar, token, description,
     }).then(() => {
-      this.setState({ isSubmitting: false });
+      this.setState(
+        {
+          isSubmitting: false,
+          bar: DEFAULT_BAR,
+          beerType: DEFAULT_BEER_TYPE,
+          volume: DEFAULT_VOLUME,
+          abv: 4.5,
+          description: '',
+        },
+      );
       this.props.setCurrentView(1);
     });
   }
@@ -53,52 +67,70 @@ class AddBeerView extends React.Component {
   })
 
   render() {
+    const isValid = (
+      this.state.bar != DEFAULT_BAR
+      && this.state.beerType != DEFAULT_BEER_TYPE
+      && this.state.volume != DEFAULT_VOLUME);
+
     const { bind } = this;
     const { bars, beerTypes } = this.props;
     const {
-      bar, beerType, volume, abv, isSubmitting,
+      bar, beerType, volume, abv, description, isSubmitting,
     } = this.state;
 
 
     return (
       <div className={css('view')}>
-        <h3>Lisää olut</h3>
+        <h3>Add a new drink</h3>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Missä baarissa?</label>
+          <label>Location?</label>
           <select {...bind('bar')} disabled={isSubmitting}>
+            <option value={DEFAULT_BAR} selected disabled hidden>{DEFAULT_BAR}</option>
             {bars.map((bar, index) => <option value={index} key={index}>{bar}</option>)}
           </select>
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Minkä tyyppistä?</label>
+          <label>Type?</label>
           <select {...bind('beerType')} disabled={isSubmitting}>
+            <option value={DEFAULT_BEER_TYPE} selected disabled hidden>{DEFAULT_BEER_TYPE}</option>
             {beerTypes.map((beerType, index) => <option value={index} key={index}>{beerType}</option>)}
           </select>
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Kuinka ison?</label>
+          <label>Size?</label>
           <select {...bind('volume')} disabled={isSubmitting}>
+            <option value={DEFAULT_VOLUME} selected disabled hidden>{DEFAULT_VOLUME}</option>
             {volumes.map(({ value, name }) => <option value={value}>{name}</option>)}
           </select>
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Kuinka vahvaa?</label>
+          <label>Strength?</label>
           <input {...bind('abv')} disabled={isSubmitting} />
         </div>
+        <div className={css('input-group')}>
+          <div className={css('icon')} />
+          <label>Add a description:</label>
+          <textarea {...bind('description')} disabled={isSubmitting} />
+        </div>
         <hr />
-        <h3>Oluesi oli siis</h3>
-        <BeerListing
-          bar={bars[bar]}
-          beerType={beerTypes[beerType]}
-          volume={volume}
-          abv={abv}
-        />
-        <button type="button" className={css('submit')} onClick={this.onSubmit} disabled={isSubmitting}>
-          Lisää listallesi
+        <h3>Summary</h3>
+        {isValid
+          ? (
+            <BeerListing
+              bar={bars[bar]}
+              beerType={beerTypes[beerType]}
+              volume={volume}
+              abv={abv}
+              description={description}
+            />
+          ) : null
+        }
+        <button type="button" className={css('submit')} onClick={this.onSubmit} disabled={isSubmitting || !isValid}>
+          Add to your list!
         </button>
       </div>
     );

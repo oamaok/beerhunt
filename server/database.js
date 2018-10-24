@@ -85,7 +85,8 @@ export const addBeer = (db, beer) => pRun(db, `
       personId,
       personName,
       abv,
-      volume
+      volume,
+      review
     )
   VALUES
     (
@@ -94,7 +95,8 @@ export const addBeer = (db, beer) => pRun(db, `
       $personId,
       $personName,
       $abv,
-      $volume
+      $volume,
+      $review
     )
 `, {
   $barId: beer.barId,
@@ -103,12 +105,15 @@ export const addBeer = (db, beer) => pRun(db, `
   $personName: beer.personName,
   $volume: beer.volume,
   $abv: beer.abv,
+  $review: beer.review,
 });
 
 export const updateBeerReview = (db) => {};
 
 export const updateBeerStarRating = (db) => {};
 
-export const deleteBeer = (db) => {};
+export const deleteBeer = (db, beerId) => pRun(db, 'DELETE FROM beers WHERE rowid=$1', beerId);
 
 export const getBeers = db => pAll(db, 'SELECT *, rowid FROM beers');
+
+export const getBeerById = (db, beerId) => pAll(db, 'SELECT * FROM beers WHERE rowid=$1', beerId);

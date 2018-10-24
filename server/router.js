@@ -2,7 +2,9 @@ import Router from 'koa-router';
 import request from 'request-promise-native';
 import jwt from 'jsonwebtoken';
 
-import { getBeers, addBeer } from './database';
+import {
+  getBeers, addBeer, getBeerById, deleteBeer,
+} from './database';
 
 import bars from './data/bars.json';
 import types from './data/types.json';
@@ -47,6 +49,7 @@ export default function createRouter(db) {
         volume,
         abv,
         token,
+        description,
       } = ctx.request.body;
 
       const userData = getDataFromToken(token);
@@ -65,6 +68,7 @@ export default function createRouter(db) {
         personName: name,
         volume,
         abv,
+        review: description,
       });
 
       ctx.body = { status: 'success' };
@@ -106,6 +110,38 @@ export default function createRouter(db) {
         name,
         id,
       };
+    })
+    .post('/delete', async (ctx) => {
+      const {
+        beerId,
+        token,
+      } = ctx.request.body;
+
+      const userData = getDataFromToken(token);
+
+      if (!userData) {
+        ctx.body = { status: 'error' };
+        return;
+      }
+
+      const { id } = userData.data;
+      const [beer] = await getBeerById(db, beerId);
+
+      if (!beer) {
+        ctx.body = { status: 'error' };
+        return;
+      }
+
+      const { personId } = beer;
+
+      if (personId.toString() !== id) {
+        ctx.body = { status: 'error' };
+        return;
+      }
+
+      await deleteBeer(db, beerId);
+
+      ctx.body = { status: 'success' };
     });
 
   return router;
