@@ -83,8 +83,8 @@ class AddBeerView extends React.Component {
       bar !== DEFAULT_BAR
       && beerType !== DEFAULT_BEER_TYPE
       && volume !== DEFAULT_VOLUME
-      && this.state.abv.length > 0
-      && this.state.price.length > 0);
+      && abv > 0
+      && price > 0);
 
 
     return (
