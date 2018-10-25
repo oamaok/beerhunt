@@ -11,16 +11,13 @@ import ReviewEditor from '../review-editor/review-editor';
 const css = classNames.bind(styles);
 
 const volumes = [
+  { value: 0.1, name: '10cl' },
   { value: 0.2, name: '20cl' },
-  { value: 0.25, name: '25cl' },
   { value: 0.3, name: '30cl' },
   { value: 0.33, name: '33cl' },
-  { value: 0.35, name: '35cl' },
   { value: 0.4, name: '40cl' },
-  { value: 0.45, name: '45cl' },
   { value: 0.5, name: '50cl' },
-  { value: 0.55, name: '55cl' },
-  { value: 0.60, name: '60cl' },
+  { value: 0.568, name: '56.8cl (Pint)' },
 ];
 
 const DEFAULT_BAR = 'Valitse sijainti';
