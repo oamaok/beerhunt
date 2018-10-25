@@ -62,7 +62,7 @@ export default function createRouter(db) {
 
       const { id, name } = userData.data;
 
-      await addBeer(db, {
+      const beer = await addBeer(db, {
         barId: bar,
         typeId: beerType,
         personId: id,
@@ -73,10 +73,12 @@ export default function createRouter(db) {
         review: description,
       });
 
-      ctx.body = { status: 'success' };
+      ctx.body = { status: 'success', beer };
     })
     .post('/auth', async (ctx) => {
-      const rawResponse = await request.get(`https://graph.facebook.com/me?access_token=${ctx.request.body.accessToken}`);
+      const rawResponse = await request.get(
+        `https://graph.facebook.com/me?access_token=${ctx.request.body.accessToken}`
+      );
       const response = JSON.parse(rawResponse);
 
       if (response.error) {

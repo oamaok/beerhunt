@@ -52,21 +52,22 @@ export async function initializeDatabase() {
 }
 
 export const addBeerTypes = (db, beerTypes) => Promise
-  .all(beerTypes.map(beerType => pRun(db, 'INSERT INTO beerTypes (name) VALUES ($1)', beerType)));
+  .all(beerTypes.map(beerType => pRun(db, 'INSERT INTO beerTypes (id, name) VALUES (NULL, $1)', beerType)));
 
-export const getBeerTypes = db => pAll(db, 'SELECT *, rowid FROM beer_types');
+export const getBeerTypes = db => pAll(db, 'SELECT * FROM beer_types');
 
 export const addBars = (db, bars) => Promise
   .all(bars.map(bar => pRun(db, `
     INSERT INTO
       bars (
+        id,
         name,
         startTime,
         endTime,
         lon, lat
       )
     VALUES
-      ($name, $startTime, $endTime, $lon, $lat)
+      (NULL, $name, $startTime, $endTime, $lon, $lat)
   `, {
     $name: bar.name,
     $startTime: bar.startTime,
@@ -75,11 +76,13 @@ export const addBars = (db, bars) => Promise
     $lat: bar.lat,
   })));
 
-export const getBars = db => pAll(db, 'SELECT *, rowid FROM bars');
+export const getBars = db => pAll(db, 'SELECT * FROM bars');
 
-export const addBeer = (db, beer) => pRun(db, `
+export const addBeer = async (db, beer) => {
+  await pRun(db, `
   INSERT INTO
     beers (
+        id,
       barId,
       typeId,
       personId,
@@ -91,6 +94,7 @@ export const addBeer = (db, beer) => pRun(db, `
     )
   VALUES
     (
+        NULL,
       $barId,
       $typeId,
       $personId,
@@ -100,7 +104,7 @@ export const addBeer = (db, beer) => pRun(db, `
       $volume,
       $review
     )
-`, {
+  `, {
   $barId: beer.barId,
   $typeId: beer.typeId,
   $personId: beer.personId,
@@ -109,14 +113,19 @@ export const addBeer = (db, beer) => pRun(db, `
   $abv: beer.abv,
   $price: beer.price,
   $review: beer.review,
-});
+  })
+
+  const [ beerRow ] = await pAll(db, 'SELECT * FROM beers WHERE id = last_insert_rowid()');
+
+  return beerRow;
+};
 
 export const updateBeerReview = () => {};
 
 export const updateBeerStarRating = () => {};
 
-export const deleteBeer = (db, beerId) => pRun(db, 'DELETE FROM beers WHERE rowid=$1', beerId);
+export const deleteBeer = (db, beerId) => pRun(db, 'DELETE FROM beers WHERE id=$1', beerId);
 
-export const getBeers = db => pAll(db, 'SELECT *, rowid FROM beers');
+export const getBeers = db => pAll(db, 'SELECT * FROM beers');
 
-export const getBeerById = (db, beerId) => pAll(db, 'SELECT * FROM beers WHERE rowid=$1', beerId);
+export const getBeerById = (db, beerId) => pAll(db, 'SELECT * FROM beers WHERE id=$1', beerId);

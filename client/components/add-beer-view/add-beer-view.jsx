@@ -37,6 +37,8 @@ class AddBeerView extends React.Component {
     price: DEFAULT_PRICE,
     description: '',
 
+    addedBeer: null,
+
     isSubmitting: false,
   }
 
@@ -47,11 +49,9 @@ class AddBeerView extends React.Component {
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
-    await addBeer({
+    const addedBeer = await addBeer({
       type: beerType, volume, abv, price, bar, token, description,
     });
-
-    await this.props.fetchBeers();
 
     this.setState(
       {
@@ -62,9 +62,9 @@ class AddBeerView extends React.Component {
         abv: DEFAULT_ABV,
         price: DEFAULT_PRICE,
         description: '',
+        addedBeer,
       },
     );
-    this.props.setCurrentView(1);
   }
 
   bind = key => ({

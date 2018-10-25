@@ -44,7 +44,9 @@ const pathsToWatch = [
   __dirname,
 ];
 
-const watcher = chokidar.watch(pathsToWatch);
+const watcher = chokidar.watch(pathsToWatch, {
+  ignored: [path.resolve(__dirname, 'data')],
+});
 
 watcher.on('ready', () => {
   console.log('Watching...');

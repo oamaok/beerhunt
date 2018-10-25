@@ -1,8 +1,10 @@
 CREATE TABLE beerTypes (
+  id INTEGER PRIMARY KEY,
   name TEXT
 );
 
 CREATE TABLE bars (
+  id INTEGER PRIMARY KEY,
   name TEXT,
   startTime DATETIME,
   endTime DATETIME,
@@ -11,6 +13,7 @@ CREATE TABLE bars (
 );
 
 CREATE TABLE beers (
+  id INTEGER PRIMARY KEY,
   barId ROWID,
   typeId ROWID,
   personId BIGINT,
