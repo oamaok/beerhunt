@@ -48,11 +48,6 @@ export default function createRouter(db) {
       } = ctx.request.body;
 
       // TODO: Validate against token
-
-      console.log(
-        beerId, starRating, review,
-      );
-
       await updateBeerReview(db, beerId, starRating, review);
 
       ctx.body = { status: 'success' };

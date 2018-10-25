@@ -1,5 +1,4 @@
 import React from 'react';
-import { range } from 'ramda';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import { BeerListing } from 'components';
@@ -7,6 +6,7 @@ import styles from './add-beer-view.scss';
 import { getBars, getBeerTypes, getToken } from '../../selectors';
 import { setCurrentView, fetchBeers } from '../../actions';
 import { addBeer, updateBeerReview } from '../../api';
+import ReviewEditor from '../review-editor/review-editor';
 
 const css = classNames.bind(styles);
 
@@ -29,54 +29,6 @@ const DEFAULT_VOLUME = 'Valitse koko';
 const DEFAULT_ABV = '';
 const DEFAULT_PRICE = '';
 
-class ReviewEditor extends React.Component {
-  state = {
-    starRating: 0,
-    review: '',
-  }
-
-  onSubmit = (evt) => {
-    evt.preventDefault();
-
-    this.props.onSubmit(this.state);
-  }
-
-  selectRating = star => this.setState({ starRating: star })
-
-  handleReviewChange = evt => this.setState({ review: evt.target.value })
-
-  render() {
-    const { starRating, review } = this.state;
-
-    const submitDisabled = starRating === 0 || review.length === 0;
-
-    return (
-      <form onSubmit={this.onSubmit} className={css('review-editor')}>
-        <h1>Olut lisätty!</h1>
-        <div>Halutessasi voit myös antaa oluelle arvostelun ja yhdestä viiteen tähteä.</div>
-        <div className={css('star-rating')}>
-          {range(1, 6).map(star => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => this.selectRating(star)}
-              className={css('star')}
-            >
-              <img
-                alt=""
-                src={starRating >= star ? '/assets/images/star.png' : '/assets/images/star-outline.png'}
-              />
-            </button>
-          ))}
-        </div>
-        <textarea onChange={this.handleReviewChange} placeholder="Olut oli mielestäni..." />
-        <button type="submit" disabled={submitDisabled}>Lisää arvostelu</button>
-        <button className={css('secondary')} type="button" onClick={this.props.backToStats}>Etusivu</button>
-      </form>
-    );
-  }
-}
-
 class AddBeerView extends React.Component {
   state = {
     bar: DEFAULT_BAR,
@@ -98,7 +50,7 @@ class AddBeerView extends React.Component {
 
   onSubmit = async () => {
     const {
-      beerType, bar, volume, abv, price, description,
+      beerType, bar, volume, abv, price,
     } = this.state;
     const { token } = this.props;
     this.setState({ isSubmitting: true });

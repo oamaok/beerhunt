@@ -1,0 +1,34 @@
+.review-editor {
+  h1 {
+    text-align: center;
+  }
+
+  .star-rating {
+    width: 100%;
+    .star {
+      background-color: transparent;
+      width: 20%;
+      img {
+        width: 100%;
+      }
+    }
+
+  }
+
+  textarea {
+    width: 100%;
+    height: 6em;
+    padding: 0.5em;
+    margin-bottom: 1em;
+  }
+
+  button {
+    margin-bottom: 1em;
+
+    &.secondary {
+      border: 2px solid $color-orange;
+      background-color: $color-beige;
+      color: $color-orange;
+    }
+  }
+}
