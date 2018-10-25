@@ -40,8 +40,8 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     ));
 
   const totalBeers = beers.length;
-  const totalBeerVolume = beers.reduce((acc, { volume }) => acc + volume, 0);
-  const totalBeerPrice = beers.reduce((acc, { price }) => acc + price, 0);
+  const totalBeerVolume = beers.reduce((acc, { volume }) => acc + volume, 0).toFixed(2);
+  const totalBeerPrice = beers.reduce((acc, { price }) => acc + price, 0).toFixed(2);
   const groupedPerson = R.toPairs(R.groupBy(R.prop('personName'), beers));
   const groupedType = R.toPairs(R.groupBy(R.prop('typeId'), beers));
 
