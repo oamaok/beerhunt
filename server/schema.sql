@@ -19,6 +19,7 @@ CREATE TABLE beers (
 
   volume FLOAT,
   abv FLOAT,
+  price FLOAT,
 
   starRating INT,
   review TEXT

@@ -33,18 +33,59 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         beerType={beerTypes[beer.typeId]}
         volume={beer.volume}
         abv={beer.abv}
+        price={beer.price}
         personName={beer.personName}
         personId={beer.personId}
       />
     ));
 
+  const totalBeers = beers.length;
+  const totalBeerVolume = beers.reduce((acc, { volume }) => acc + volume, 0);
+  const totalBeerPrice = beers.reduce((acc, { price }) => acc + price, 0);
+  const groupedPerson = R.toPairs(R.groupBy(R.prop('personName'), beers));
+  const groupedType = R.toPairs(R.groupBy(R.prop('typeId'), beers));
+
+  const personWithMostBeers = groupedPerson.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
+  const typeWithMostBeers = groupedType.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
+  const personWithPriciestBeer = beers.reduce((currentMax, beer) => {
+    if (currentMax.price > beer.price) {
+      return currentMax;
+    }
+    return {
+      name: beer.personName,
+      price: beer.price,
+      type: beerTypes[beer.typeId],
+    };
+  }, { name: '-', price: 0, type: '-' });
+
+  const fullPriceLabel = totalBeerPrice > 1000 ? 'Kokonaishinta (v***n juopot)' : 'Kokonaishinta';
+
   return (
     <div>
       <h1>Live-tulokset</h1>
       <div className={css('status-blocks')}>
-        <StatusBlock width="1" height="1" label="Juotuja oluita" value={200} />
-        <StatusBlock width="1" height="1" label="Juotuja oluita" value={200} />
-        <StatusBlock width="2" height="1" label="Juotuja oluita" value={200} />
+        {typeWithMostBeers[0] != '-'
+          ? <StatusBlock width="1" height="1" label="Suosituin juomatyyppi" value={`${beerTypes[typeWithMostBeers[0]]}`} /> : null
+        }
+        <StatusBlock width="1" height="1" label="Juotuja juomia yhteensä (kpl)" value={totalBeers} />
+        <StatusBlock width="1" height="1" label="Kokonaismäärä" value={`${totalBeerVolume}l`} />
+        <StatusBlock width="1" height="1" label={fullPriceLabel} value={`${totalBeerPrice}€`} />
+        {personWithMostBeers[0] != '-'
+          ? <StatusBlock width="2" height="1" label="Eniten juotuja juomia" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
+        }
+        {personWithPriciestBeer.name != '-'
+          ? (
+            <StatusBlock
+              width="2"
+              height="1"
+              label="Kallein juoma"
+              value={`
+            ${personWithPriciestBeer.name} - 
+            ${personWithPriciestBeer.type} / 
+            ${personWithPriciestBeer.price}€`}
+            />
+          ) : null
+        }
       </div>
 
       <h3>Viisi viimeisintä</h3>

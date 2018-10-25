@@ -5,7 +5,7 @@ import styles from './beer-listing.scss';
 const css = classNames.bind(styles);
 
 export default function BeerListing({
-  beerType, volume, abv, location, personName, personId, rating, description,
+  beerType, volume, abv, price, location, personName, personId, rating, description,
 }) {
   return (
     <div className={css('beer-listing')}>
@@ -15,7 +15,8 @@ export default function BeerListing({
           {personName}
         </div>
       ) : null}
-      <div className={css('essentials')}>{beerType} / {volume}l / {abv}%</div>
+      <div className={css('essentials')}>{beerType} / {volume}l / {abv}% / {price}€
+      </div>
       <div className={css('location')}>
         <img src="/assets/images/location-marker.png" alt="" />
         {location}

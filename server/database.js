@@ -85,6 +85,7 @@ export const addBeer = (db, beer) => pRun(db, `
       personId,
       personName,
       abv,
+      price,
       volume,
       review
     )
@@ -95,6 +96,7 @@ export const addBeer = (db, beer) => pRun(db, `
       $personId,
       $personName,
       $abv,
+      $price,
       $volume,
       $review
     )
@@ -105,6 +107,7 @@ export const addBeer = (db, beer) => pRun(db, `
   $personName: beer.personName,
   $volume: beer.volume,
   $abv: beer.abv,
+  $price: beer.price,
   $review: beer.review,
 });
 

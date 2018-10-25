@@ -22,16 +22,19 @@ const volumes = [
   { value: 0.60, name: '60cl' },
 ];
 
-const DEFAULT_BAR = 'Choose location';
-const DEFAULT_BEER_TYPE = 'Choose type';
-const DEFAULT_VOLUME = 'Choose size';
+const DEFAULT_BAR = 'Valitse sijainti';
+const DEFAULT_BEER_TYPE = 'Valitse tyyppi';
+const DEFAULT_VOLUME = 'Valitse koko';
+const DEFAULT_ABV = '';
+const DEFAULT_PRICE = '';
 
 class AddBeerView extends React.Component {
   state = {
     bar: DEFAULT_BAR,
     beerType: DEFAULT_BEER_TYPE,
     volume: DEFAULT_VOLUME,
-    abv: 4.5,
+    abv: DEFAULT_ABV,
+    price: DEFAULT_PRICE,
     description: '',
 
     isSubmitting: false,
@@ -39,13 +42,13 @@ class AddBeerView extends React.Component {
 
   onSubmit = async () => {
     const {
-      beerType, bar, volume, abv, description,
+      beerType, bar, volume, abv, price, description,
     } = this.state;
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
     await addBeer({
-      type: beerType, volume, abv, bar, token, description,
+      type: beerType, volume, abv, price, bar, token, description,
     });
 
     await this.props.fetchBeers();
@@ -56,7 +59,8 @@ class AddBeerView extends React.Component {
         bar: DEFAULT_BAR,
         beerType: DEFAULT_BEER_TYPE,
         volume: DEFAULT_VOLUME,
-        abv: 4.5,
+        abv: DEFAULT_ABV,
+        price: DEFAULT_PRICE,
         description: '',
       },
     );
@@ -72,21 +76,23 @@ class AddBeerView extends React.Component {
     const { bind } = this;
     const { bars, beerTypes } = this.props;
     const {
-      bar, beerType, volume, abv, description, isSubmitting,
+      bar, beerType, volume, abv, price, description, isSubmitting,
     } = this.state;
 
     const isValid = (
       bar !== DEFAULT_BAR
       && beerType !== DEFAULT_BEER_TYPE
-      && volume !== DEFAULT_VOLUME);
+      && volume !== DEFAULT_VOLUME
+      && abv > 0
+      && price > 0);
 
 
     return (
       <div className={css('view')}>
-        <h3>Add a new drink</h3>
+        <h3>Lisää juoma</h3>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Location?</label>
+          <label>Sijainti?</label>
           <select {...bind('bar')} disabled={isSubmitting}>
             <option value={DEFAULT_BAR} selected disabled hidden>{DEFAULT_BAR}</option>
             {bars.map((bar, index) => <option value={index} key={index}>{bar}</option>)}
@@ -94,7 +100,7 @@ class AddBeerView extends React.Component {
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Type?</label>
+          <label>Tyyppi?</label>
           <select {...bind('beerType')} disabled={isSubmitting}>
             <option value={DEFAULT_BEER_TYPE} selected disabled hidden>{DEFAULT_BEER_TYPE}</option>
             {beerTypes.map((beerType, index) => <option value={index} key={index}>{beerType}</option>)}
@@ -102,7 +108,7 @@ class AddBeerView extends React.Component {
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Size?</label>
+          <label>Koko?</label>
           <select {...bind('volume')} disabled={isSubmitting}>
             <option value={DEFAULT_VOLUME} selected disabled hidden>{DEFAULT_VOLUME}</option>
             {volumes.map(({ value, name }) => <option value={value}>{name}</option>)}
@@ -110,24 +116,30 @@ class AddBeerView extends React.Component {
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Strength?</label>
-          <input {...bind('abv')} disabled={isSubmitting} />
+          <label>Vahvuus?</label>
+          <input type="number" placeholder="Anna vahvuus" {...bind('abv')} disabled={isSubmitting} />
         </div>
         <div className={css('input-group')}>
           <div className={css('icon')} />
-          <label>Add a description:</label>
+          <label>Hinta?</label>
+          <input type="number" placeholder="Anna hinta" {...bind('price')} disabled={isSubmitting} />
+        </div>
+        <div className={css('input-group')}>
+          <div className={css('icon')} />
+          <label>Kerro juomastasi jotain:</label>
           <textarea {...bind('description')} disabled={isSubmitting} />
         </div>
         {!isValid ? <div>Täytähän kaikki kentät!</div> : null}
         {isValid ? (
           <React.Fragment>
             <hr />
-            <h3>Summary</h3>
+            <h3>Yhteenveto</h3>
             <BeerListing
               location={bars[bar]}
               beerType={beerTypes[beerType]}
               volume={volume}
               abv={abv}
+              price={price}
               description={description}
             />
             <button
@@ -136,7 +148,7 @@ class AddBeerView extends React.Component {
               onClick={this.onSubmit}
               disabled={isSubmitting || !isValid}
             >
-              Add to your list!
+              Lisää listallesi!
             </button>
           </React.Fragment>
         ) : null}

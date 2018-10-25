@@ -48,6 +48,7 @@ export default function createRouter(db) {
         beerType,
         volume,
         abv,
+        price,
         token,
         description,
       } = ctx.request.body;
@@ -68,6 +69,7 @@ export default function createRouter(db) {
         personName: name,
         volume,
         abv,
+        price,
         review: description,
       });
 

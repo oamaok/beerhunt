@@ -43,6 +43,7 @@ class OwnBeersView extends React.Component {
         beerType={types[beer.typeId]}
         volume={beer.volume}
         abv={beer.abv}
+        price={beer.price}
         description={beer.description}
         onDelete={() => this.onDelete(beer.rowid)}
       />
@@ -50,7 +51,7 @@ class OwnBeersView extends React.Component {
 
     return (
       <div className={css('view')}>
-        <h3>My drinks</h3>
+        <h3>Omat juomat</h3>
         <div>
           {R.intersperse(<hr />, ownBeers)}
         </div>
