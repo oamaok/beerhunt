@@ -14,6 +14,7 @@ const volumes = [
   { value: 0.2, name: '20cl' },
   { value: 0.3, name: '30cl' },
   { value: 0.33, name: '33cl' },
+  { value: 0.375, name: '37.5cl' },
   { value: 0.4, name: '40cl' },
   { value: 0.5, name: '50cl' },
   { value: 0.568, name: '56.8cl (Pint)' },
