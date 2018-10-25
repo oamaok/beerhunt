@@ -26,6 +26,8 @@ const DEFAULT_BEER_TYPE = 'Valitse tyyppi';
 const DEFAULT_VOLUME = 'Valitse koko';
 const DEFAULT_ABV = '';
 const DEFAULT_PRICE = '';
+const MAX_ABV = 67.5;
+const MAX_PRICE = 100;
 
 class AddBeerView extends React.Component {
   state = {
@@ -105,8 +107,11 @@ class AddBeerView extends React.Component {
       bar !== DEFAULT_BAR
       && beerType !== DEFAULT_BEER_TYPE
       && volume !== DEFAULT_VOLUME
-      && abv > 0
-      && price > 0);
+      && abv > 0 && abv <= MAX_ABV
+      && price > 0) && price <= MAX_PRICE;
+    
+    const abvHint = abv >= 12 ? true : false;
+    const priceHint = price >= 30 ? true : false;
 
     if (addedBeer) {
       return <ReviewEditor onSubmit={this.addReview} backToStats={() => setCurrentView(1)} />;
@@ -142,13 +147,15 @@ class AddBeerView extends React.Component {
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Vahvuus?</label>
-          <input type="number" placeholder="Anna vahvuus" {...bind('abv')} disabled={isSubmitting} />
+          <input type="number" placeholder="Anna vahvuus" step="0.1" min="0" max={MAX_ABV} {...bind('abv')} disabled={isSubmitting} />
         </div>
+        {abvHint ? <div>No nyt on vahvaa kamaa! ({abv}%)</div> : null}
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Hinta?</label>
-          <input type="number" placeholder="Anna hinta" {...bind('price')} disabled={isSubmitting} />
+          <input type="number" placeholder="Anna hinta" step="0.1" min="0" max={MAX_PRICE} {...bind('price')} disabled={isSubmitting} />
         </div>
+        {priceHint ? <div>Kuulostaa kalliilta, varmasti oikea hinta? ({price}€)</div> : null}
         {!isValid ? <div>Täytähän kaikki kentät!</div> : null}
         {isValid ? (
           <React.Fragment>
@@ -160,6 +167,7 @@ class AddBeerView extends React.Component {
               volume={volume}
               abv={abv}
               price={price}
+              showRating={false}
               description={description}
             />
             <button

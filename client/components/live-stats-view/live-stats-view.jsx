@@ -9,6 +9,15 @@ import BeerListing from '../beer-listing/beer-listing';
 
 const css = classNames.bind(styles);
 
+const stars = ['yksi tähti!', 'kaksi tähteä!', 'kolme tähteä!', 'neljä tähteä!', 'viisi tähteä!'];
+const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman', 'potentiaalisen', 'omasta mielestäni parhaan', 
+'kohtalaisen', 'hyvän', 'erikoisen', 'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'kehityskelpoisen', 'huonon', 'ylistävän', 'tahdikkaan',
+'melkein täydellisen', 'sivistyneen', 'liian korkean', 'hurmaavan', 'lähinnä säälittävän', 'helvetinmoisen', 'kirkkaan', 'silmiä hivelevän', 'sydäntä lämmittävän'];
+const verbs = ['sanoi', 'kertoili', 'sanaili', 'runoili', 'kommentoi', 'kirjoitti', 'sepusti', 'tarinoi', 'raapusteli', 'näppäili'];
+const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti', 'iloisesti', 'surullisesti', 'mahtipontisesti', 'reippaasti', 'kylmäverisesti', 
+'hauskasti', 'mukavasti', 'lämpimästi', 'kauniisti', 'väsyneesti', 'yksityiskohtaisesti', 'tavallisesti', 'mieleenpainuvasti', 'kohteliaasti', 'onnettomasti',
+'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti'];
+
 function StatusBlock({
   width,
   height,
@@ -34,6 +43,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         volume={beer.volume}
         abv={beer.abv}
         price={beer.price}
+        rating={beer.starRating}
         personName={beer.personName}
         personId={beer.personId}
       />
@@ -58,6 +68,13 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     };
   }, { name: '-', price: 0, type: '-' });
 
+  const beersWithReview = beers.filter((beer) => beer.review );
+  const randomReview = beersWithReview[Math.floor(Math.random() * beersWithReview.length)];
+  const reviewStarStr = randomReview ? stars[randomReview.starRating - 1] : null;
+  const reviewAdjectiveStr = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const reviewVerbStr = verbs[Math.floor(Math.random() * verbs.length)];
+  const reviewAdverbStr = adverbs[Math.floor(Math.random() * adverbs.length)];
+
   const fullPriceLabel = totalBeerPrice > 1000 ? 'Kokonaishinta (v***n juopot)' : 'Kokonaishinta';
 
   return (
@@ -70,6 +87,14 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         <StatusBlock width="1" height="1" label="Juotuja juomia yhteensä (kpl)" value={totalBeers} />
         <StatusBlock width="1" height="1" label="Kokonaismäärä" value={`${totalBeerVolume}l`} />
         <StatusBlock width="1" height="1" label={fullPriceLabel} value={`${totalBeerPrice}€`} />
+        {randomReview 
+          ? ( 
+            <StatusBlock width="2" height="1" 
+              label={`Näin ${reviewAdverbStr} ${reviewVerbStr} ${randomReview.personName} ${beerTypes[randomReview.typeId]} -tyylisestä juomastaan paikassa: ${bars[randomReview.barId]}`} 
+              value={`
+              "${randomReview.review} - Annan juomalle ${reviewAdjectiveStr} arvosanan: ${reviewStarStr}"`} />
+            ) : null
+        }
         {personWithMostBeers[0] != '-'
           ? <StatusBlock width="2" height="1" label="Eniten juotuja juomia" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
         }

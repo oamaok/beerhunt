@@ -29,4 +29,15 @@
       width: 2em;
     }
   }
+
+  .star-rating {
+    width: 30%;
+    .star {
+      background-color: transparent;
+      width: 20%;
+      img {
+        width: 100%;
+      }
+    }
+  }
 }

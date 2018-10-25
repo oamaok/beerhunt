@@ -44,7 +44,8 @@ class OwnBeersView extends React.Component {
         volume={beer.volume}
         abv={beer.abv}
         price={beer.price}
-        description={beer.description}
+        rating={beer.starRating}
+        description={beer.review}
         onDelete={() => this.onDelete(beer.rowid)}
       />
     ));
