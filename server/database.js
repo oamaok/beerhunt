@@ -80,49 +80,47 @@ export const getBars = db => pAll(db, 'SELECT * FROM bars');
 
 export const addBeer = async (db, beer) => {
   await pRun(db, `
-  INSERT INTO
-    beers (
+    INSERT INTO
+      beers (
         id,
-      barId,
-      typeId,
-      personId,
-      personName,
-      abv,
-      price,
-      volume,
-      review
-    )
-  VALUES
-    (
+        barId,
+        typeId,
+        personId,
+        personName,
+        abv,
+        price,
+        volume,
+        review
+      )
+    VALUES
+      (
         NULL,
-      $barId,
-      $typeId,
-      $personId,
-      $personName,
-      $abv,
-      $price,
-      $volume,
-      $review
-    )
+        $barId,
+        $typeId,
+        $personId,
+        $personName,
+        $abv,
+        $price,
+        $volume,
+        $review
+      )
   `, {
-  $barId: beer.barId,
-  $typeId: beer.typeId,
-  $personId: beer.personId,
-  $personName: beer.personName,
-  $volume: beer.volume,
-  $abv: beer.abv,
-  $price: beer.price,
-  $review: beer.review,
-  })
+    $barId: beer.barId,
+    $typeId: beer.typeId,
+    $personId: beer.personId,
+    $personName: beer.personName,
+    $volume: beer.volume,
+    $abv: beer.abv,
+    $price: beer.price,
+    $review: beer.review,
+  });
 
-  const [ beerRow ] = await pAll(db, 'SELECT * FROM beers WHERE id = last_insert_rowid()');
+  const [beerRow] = await pAll(db, 'SELECT * FROM beers WHERE id = last_insert_rowid()');
 
   return beerRow;
 };
 
-export const updateBeerReview = () => {};
-
-export const updateBeerStarRating = () => {};
+export const updateBeerReview = (db, beerId, starRating, review) => pRun(db, 'UPDATE beers SET starRating = $1, review = $2 WHERE id = $3', starRating, review, beerId);
 
 export const deleteBeer = (db, beerId) => pRun(db, 'DELETE FROM beers WHERE id=$1', beerId);
 

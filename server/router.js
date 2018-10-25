@@ -3,7 +3,7 @@ import request from 'request-promise-native';
 import jwt from 'jsonwebtoken';
 
 import {
-  getBeers, addBeer, getBeerById, deleteBeer,
+  getBeers, addBeer, getBeerById, deleteBeer, updateBeerReview,
 } from './database';
 
 import bars from './data/bars.json';
@@ -42,6 +42,21 @@ export default function createRouter(db) {
     .get('/beers', async (ctx) => {
       ctx.body = await getBeers(db);
     })
+    .post('/review', async (ctx) => {
+      const {
+        beerId, starRating, review,
+      } = ctx.request.body;
+
+      // TODO: Validate against token
+
+      console.log(
+        beerId, starRating, review,
+      );
+
+      await updateBeerReview(db, beerId, starRating, review);
+
+      ctx.body = { status: 'success' };
+    })
     .post('/beer', async (ctx) => {
       const {
         bar,
@@ -50,7 +65,6 @@ export default function createRouter(db) {
         abv,
         price,
         token,
-        description,
       } = ctx.request.body;
 
       const userData = getDataFromToken(token);
@@ -70,14 +84,13 @@ export default function createRouter(db) {
         volume,
         abv,
         price,
-        review: description,
       });
 
       ctx.body = { status: 'success', beer };
     })
     .post('/auth', async (ctx) => {
       const rawResponse = await request.get(
-        `https://graph.facebook.com/me?access_token=${ctx.request.body.accessToken}`
+        `https://graph.facebook.com/me?access_token=${ctx.request.body.accessToken}`,
       );
       const response = JSON.parse(rawResponse);
 

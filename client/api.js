@@ -15,7 +15,7 @@ export function apiCall(path, options = {}) {
 export async function addBeer({
   type, volume, abv, price, bar, token, description,
 }) {
-  await apiCall('beer', {
+  return apiCall('beer', {
     method: 'POST',
     body: JSON.stringify({
       beerType: parseInt(type),
@@ -25,6 +25,17 @@ export async function addBeer({
       token,
       bar: parseInt(bar),
       description,
+    }),
+  });
+}
+
+export function updateBeerReview({
+  beerId, starRating, review,
+}) {
+  return apiCall('review', {
+    method: 'POST',
+    body: JSON.stringify({
+      beerId, starRating, review,
     }),
   });
 }
