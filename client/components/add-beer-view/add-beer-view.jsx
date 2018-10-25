@@ -5,7 +5,8 @@ import { BeerListing } from 'components';
 import styles from './add-beer-view.scss';
 import { getBars, getBeerTypes, getToken } from '../../selectors';
 import { setCurrentView, fetchBeers } from '../../actions';
-import { addBeer } from '../../api';
+import { addBeer, updateBeerReview } from '../../api';
+import ReviewEditor from '../review-editor/review-editor';
 
 const css = classNames.bind(styles);
 
@@ -35,35 +36,51 @@ class AddBeerView extends React.Component {
     volume: DEFAULT_VOLUME,
     abv: DEFAULT_ABV,
     price: DEFAULT_PRICE,
-    description: '',
-
+    addedBeer: null,
     isSubmitting: false,
+  }
+
+
+  componentDidUpdate(prevProps) {
+    // Reset the added beer when exiting the view
+    if (prevProps.active && !this.props.active) {
+      setTimeout(() => this.setState({ addedBeer: null }), 200);
+    }
   }
 
   onSubmit = async () => {
     const {
-      beerType, bar, volume, abv, price, description,
+      beerType, bar, volume, abv, price,
     } = this.state;
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
-    await addBeer({
-      type: beerType, volume, abv, price, bar, token, description,
+    const response = await addBeer({
+      type: beerType, volume, abv, price, bar, token,
     });
 
-    await this.props.fetchBeers();
+    this.props.fetchBeers();
 
-    this.setState(
-      {
-        isSubmitting: false,
-        bar: DEFAULT_BAR,
-        beerType: DEFAULT_BEER_TYPE,
-        volume: DEFAULT_VOLUME,
-        abv: DEFAULT_ABV,
-        price: DEFAULT_PRICE,
-        description: '',
-      },
-    );
+    this.setState({
+      isSubmitting: false,
+      bar: DEFAULT_BAR,
+      beerType: DEFAULT_BEER_TYPE,
+      volume: DEFAULT_VOLUME,
+      abv: DEFAULT_ABV,
+      price: DEFAULT_PRICE,
+      description: '',
+      addedBeer: response.beer,
+    });
+  }
+
+  addReview = async ({ starRating, review }) => {
+    await updateBeerReview({
+      beerId: this.state.addedBeer.id,
+      review,
+      starRating,
+    });
+
+    this.props.fetchBeers();
     this.props.setCurrentView(1);
   }
 
@@ -74,9 +91,16 @@ class AddBeerView extends React.Component {
 
   render() {
     const { bind } = this;
-    const { bars, beerTypes } = this.props;
+    const { bars, beerTypes, setCurrentView } = this.props;
     const {
-      bar, beerType, volume, abv, price, description, isSubmitting,
+      bar,
+      beerType,
+      volume,
+      abv,
+      price,
+      description,
+      isSubmitting,
+      addedBeer,
     } = this.state;
 
     const isValid = (
@@ -86,6 +110,9 @@ class AddBeerView extends React.Component {
       && abv > 0
       && price > 0);
 
+    if (addedBeer) {
+      return <ReviewEditor onSubmit={this.addReview} backToStats={() => setCurrentView(1)} />;
+    }
 
     return (
       <div className={css('view')}>
@@ -123,11 +150,6 @@ class AddBeerView extends React.Component {
           <div className={css('icon')} />
           <label>Hinta?</label>
           <input type="number" placeholder="Anna hinta" {...bind('price')} disabled={isSubmitting} />
-        </div>
-        <div className={css('input-group')}>
-          <div className={css('icon')} />
-          <label>Kerro juomastasi jotain:</label>
-          <textarea {...bind('description')} disabled={isSubmitting} />
         </div>
         {!isValid ? <div>Täytähän kaikki kentät!</div> : null}
         {isValid ? (
