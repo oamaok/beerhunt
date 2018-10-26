@@ -16,7 +16,7 @@ CREATE TABLE beers (
   id INTEGER PRIMARY KEY,
   barId ROWID,
   typeId ROWID,
-  personId BIGINT,
+  personId TEXT,
   personName TEXT,
   loggedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
 

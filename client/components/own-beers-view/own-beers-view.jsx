@@ -37,7 +37,7 @@ class OwnBeersView extends React.Component {
     } = this.props;
     const { isSubmitting } = this.state;
 
-    const ownBeers = beers.filter(beer => beer.personId.toString() === id).map(beer => (
+    const ownBeers = beers.filter(beer => beer.personId === id).map(beer => (
       <div className={css('listing')}>
         <BeerListing
           location={bars[beer.barId]}
