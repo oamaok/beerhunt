@@ -6,7 +6,8 @@ import styles from './beer-listing.scss';
 const css = classNames.bind(styles);
 
 export default function BeerListing({
-  beerType, volume, abv, price, location, personName, personId, rating, showRating = false, description,
+  beerType, volume, abv, price, location, personName, personId, 
+  rating, showRating = false, description, showDescription = false,
 }) {
   return (
     <div className={css('beer-listing')}>
@@ -35,6 +36,12 @@ export default function BeerListing({
         <img src="/assets/images/location-marker.png" alt="" />
         {location}
       </div>
+      { showDescription && description !== ''
+        ?
+          <div className={css('description')}>
+            {`"${description}"`}
+          </div> : null
+      }
     </div>
   );
 }
