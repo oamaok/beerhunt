@@ -81,7 +81,7 @@ export default class StatsCarousel extends React.Component {
         <StatusBlock
           width="1"
           height="1"
-          label="Kokonaisvolyymi"
+          label="Olutta yhteensä"
           value={`${totalBeerVolume}l`}
         />
         <StatusBlock
@@ -121,7 +121,7 @@ export default class StatsCarousel extends React.Component {
           width="2"
           height="1"
           fontSize="1.5"
-          label="parhaiten myynyt ravintola"
+          label="Parhaiten myynyt ravintola"
           value={`${bars[mostExpensiveBar[0]]} (${mostExpensiveBar[1]}€)`}
         />
         <StatusBlock
