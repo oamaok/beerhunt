@@ -67,7 +67,7 @@ export default class StatsCarousel extends React.Component {
       };
     }, { name: '-', price: 0, type: '-' });
 
-    const fullPriceLabel = totalBeerPrice > 1000 ? 'Kokonaishinta (vitun juopot)' : 'Kokonaishinta';
+    const fullPriceLabel = totalBeerPrice > 1000 ? 'Juomiin käytetty yhteensä (vitun juopot)' : 'Juomiin käytetty yhteensä';
 
 
     const views = [
