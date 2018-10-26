@@ -106,8 +106,6 @@ export default class StatsCarousel extends React.Component {
           label="Juomia juotu yhteensä"
           value={`${totalBeerVolume}l`}
         />
-      </StatusBlockContainer>,
-      <StatusBlockContainer>
         <StatusBlock
           width="1"
           height="1"
@@ -120,6 +118,8 @@ export default class StatsCarousel extends React.Component {
           label="Amber alea juotu"
           value={`${amberAleVolume}l`}
         />
+      </StatusBlockContainer>,
+      <StatusBlockContainer>
         <StatusBlock
           width="2"
           height="1"
@@ -127,8 +127,6 @@ export default class StatsCarousel extends React.Component {
           label="Eniten juotuja juomia"
           value={`${personWithMostBeers[0]} (${personWithMostBeers[1].length})`}
         />
-      </StatusBlockContainer>,
-      <StatusBlockContainer>
         <StatusBlock
           width="2"
           height="1"
