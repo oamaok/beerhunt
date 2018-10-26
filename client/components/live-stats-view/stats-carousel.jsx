@@ -59,6 +59,12 @@ export default class StatsCarousel extends React.Component {
     const mostExpensiveBar = groupedBar
       .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
       .reduce(R.maxBy(([, totalPrice]) => totalPrice), ['-', []]);
+    const spentMost = groupedPerson
+      .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
+      .reduce(R.maxBy(([, totalPrice]) => totalPrice), ['-', []]);
+    const spentLeast = groupedPerson
+      .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
+      .reduce(R.minBy(([, totalPrice]) => totalPrice), ['-', []]);
 
     const personWithPriciestBeer = beers.reduce((currentMax, beer) => {
       if (currentMax.price > beer.price) {
@@ -121,11 +127,18 @@ export default class StatsCarousel extends React.Component {
       </StatusBlockContainer>,
       <StatusBlockContainer>
         <StatusBlock
-          width="2"
+          width="1"
           height="1"
           fontSize="1.5"
-          label="Eniten juotuja juomia"
-          value={`${personWithMostBeers[0]} (${personWithMostBeers[1].length})`}
+          label="Hillopäällikkö"
+          value={`${spentMost[0]} (${spentMost[1]}€)`}
+        />
+        <StatusBlock
+          width="1"
+          height="1"
+          fontSize="1.5"
+          label="Kitupiikki"
+          value={`${spentLeast[0]} (${spentLeast[1]}€)`}
         />
         <StatusBlock
           width="2"
