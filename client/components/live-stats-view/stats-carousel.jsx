@@ -95,7 +95,7 @@ export default class StatsCarousel extends React.Component {
           height="1"
           fontSize="1.5"
           label="Suosituin ravintola"
-          value={`${bars[mostExpensiveBar[0]] || '-'} (${mostExpensiveBar[1]}€)`}
+          value={`${bars[mostExpensiveBar[0]] || '-'} (${Number.parseFloat(mostExpensiveBar[1]).toFixed(2)}€)`}
         />
         <StatusBlock
           width="1"
@@ -114,7 +114,7 @@ export default class StatsCarousel extends React.Component {
           height="1"
           fontSize="1.5"
           label="Hillopäällikkö"
-          value={`${spentMost[0]} (${spentMost[1]}€)`}
+          value={`${spentMost[0]} (${Number.parseFloat(spentMost[1]).toFixed(2)}€)`}
         />
         <StatusBlock
           width="1"
@@ -136,7 +136,7 @@ export default class StatsCarousel extends React.Component {
           fontSize="1.5"
           label="Kallein juoma"
           value={` 
-            ${personWithPriciestBeer.price}€ /
+            ${personWithPriciestBeer.price.toFixed(2)}€ /
             ${personWithPriciestBeer.name} /
             ${personWithPriciestBeer.type}`}
         />
