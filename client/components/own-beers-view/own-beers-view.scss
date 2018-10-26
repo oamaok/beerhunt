@@ -1,0 +1,16 @@
+.listing {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+
+  button {
+    width: 1.5em;
+    height: 1.5em;
+    margin-left: 1em;
+    padding: 0.25em;
+    img {
+      width: 1em;
+      height: 1em;
+    }
+  }
+}

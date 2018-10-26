@@ -18,12 +18,12 @@ class OwnBeersView extends React.Component {
     isSubmitting: false,
   }
 
-  onDelete = async (rowid) => {
+  onDelete = async (beerId) => {
     const { token } = this.props;
     this.setState({ isSubmitting: true });
 
     await deleteBeer({
-      beerId: rowid, token,
+      beerId, token,
     });
 
     await this.props.fetchBeers();
@@ -38,18 +38,22 @@ class OwnBeersView extends React.Component {
     const { isSubmitting } = this.state;
 
     const ownBeers = beers.filter(beer => beer.personId.toString() === id).map(beer => (
-      <BeerListing
-        location={bars[beer.barId]}
-        beerType={types[beer.typeId]}
-        volume={beer.volume}
-        abv={beer.abv}
-        price={beer.price}
-        rating={beer.starRating}
-        showRating
-        description={beer.review}
-        showDescription
-        onDelete={() => this.onDelete(beer.rowid)}
-      />
+      <div className={css('listing')}>
+        <BeerListing
+          location={bars[beer.barId]}
+          beerType={types[beer.typeId]}
+          volume={beer.volume}
+          abv={beer.abv}
+          price={beer.price}
+          rating={beer.starRating}
+          showRating
+          description={beer.review}
+          showDescription
+        />
+        <button type="button" onClick={() => this.onDelete(beer.id)}>
+          <img src="/assets/images/delete.png" />
+        </button>
+      </div>
     ));
 
     return (
