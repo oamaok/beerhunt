@@ -109,7 +109,7 @@ class AddBeerView extends React.Component {
       && volume !== DEFAULT_VOLUME
       && abv > 0 && abv <= MAX_ABV
       && price > 0) && price <= MAX_PRICE;
-    
+
     const abvHint = abv >= 12;
     const priceHint = price >= 30;
 

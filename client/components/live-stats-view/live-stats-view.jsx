@@ -10,15 +10,15 @@ import BeerListing from '../beer-listing/beer-listing';
 const css = classNames.bind(styles);
 
 const stars = ['yhden tähden!', 'kaksi tähteä!', 'kolme tähteä!', 'neljä tähteä!', 'viisi tähteä!'];
-const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman','kohtalaisen', 'erikoisen', 
-'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'ylistävän', 'tahdikkaan', 'sivistyneen', 'hurmaavan', 'helvetinmoisen', 'kirkkaan',
-'tympeän', 'vittumaisen', 'surkean', 'ylitsevuotavan', 'jyrkän', 'tyrmäävän', 'vammaisen', 'onnettoman', 'saatanan', 'vitun', 'helvetin'];
+const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman', 'kohtalaisen', 'erikoisen',
+  'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'ylistävän', 'tahdikkaan', 'sivistyneen', 'hurmaavan', 'helvetinmoisen', 'kirkkaan',
+  'tympeän', 'vittumaisen', 'surkean', 'ylitsevuotavan', 'jyrkän', 'tyrmäävän', 'vammaisen', 'onnettoman', 'saatanan', 'vitun', 'helvetin'];
 const verbs = ['sanoi', 'kertoili', 'sanaili', 'runoili', 'kommentoi', 'kirjoitti', 'sepusteli', 'tarinoi', 'raapusteli', 'näppäili', 'aprikoi', 'mietti', 'pohti',
-'tuumaili', 'ajatteli', 'puntaroi', 'fundeerasi', 'pohdiskeli', 'mietiskeli', 'kirjoitteli'];
-const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti', 'iloisesti', 'surullisesti', 'mahtipontisesti', 'reippaasti', 'kylmäverisesti', 
-'hauskasti', 'mukavasti', 'lämpimästi', 'kauniisti', 'väsyneesti', 'yksityiskohtaisesti', 'tavallisesti', 'mieleenpainuvasti', 'kohteliaasti', 'onnettomasti',
-'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti', 'vittumaisesti', 
-'paskasti', 'urposti', 'vammaisesti', 'aivovammaisesti', 'tympeästi', 'tyrmäävästi', 'onnistuneesti', 'jyrkästi', 'kusipäisesti', 'ivallisesti'];
+  'tuumaili', 'ajatteli', 'puntaroi', 'fundeerasi', 'pohdiskeli', 'mietiskeli', 'kirjoitteli'];
+const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti', 'iloisesti', 'surullisesti', 'mahtipontisesti', 'reippaasti', 'kylmäverisesti',
+  'hauskasti', 'mukavasti', 'lämpimästi', 'kauniisti', 'väsyneesti', 'yksityiskohtaisesti', 'tavallisesti', 'mieleenpainuvasti', 'kohteliaasti', 'onnettomasti',
+  'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti', 'vittumaisesti',
+  'paskasti', 'urposti', 'vammaisesti', 'aivovammaisesti', 'tympeästi', 'tyrmäävästi', 'onnistuneesti', 'jyrkästi', 'kusipäisesti', 'ivallisesti'];
 
 function StatusBlock({
   width,
@@ -71,7 +71,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     };
   }, { name: '-', price: 0, type: '-' });
 
-  const beersWithReview = beers.filter((beer) => beer.review );
+  const beersWithReview = beers.filter(beer => beer.review);
   const randomReview = beersWithReview[Math.floor(Math.random() * beersWithReview.length)];
   const reviewStarStr = randomReview ? stars[randomReview.starRating - 1] : null;
   const reviewAdjectiveStr = adjectives[Math.floor(Math.random() * adjectives.length)];
@@ -84,25 +84,28 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     <div>
       <h1>Live-tulokset</h1>
       <div className={css('status-blocks')}>
-        {typeWithMostBeers[0] != '-'
+        {typeWithMostBeers[0] !== '-'
           ? <StatusBlock width="1" height="1" label="Suosituin juomatyyppi" value={`${beerTypes[typeWithMostBeers[0]]}`} /> : null
         }
         <StatusBlock width="1" height="1" label="Juotuja juomia yhteensä (kpl)" value={totalBeers} />
         <StatusBlock width="1" height="1" label="Kokonaismäärä" value={`${totalBeerVolume}l`} />
         <StatusBlock width="1" height="1" label={fullPriceLabel} value={`${totalBeerPrice}€`} />
-        {randomReview 
-          ? ( 
-            <StatusBlock width="2" height="1" 
+        {randomReview
+          ? (
+            <StatusBlock
+              width="2"
+              height="1"
               label={`Näin ${reviewAdjectiveStr} ${reviewAdverbStr} ${reviewVerbStr} ${randomReview.personName} ${beerTypes[randomReview.typeId]}
-              -tyylisestä juomastaan paikassa: ${bars[randomReview.barId]}`} 
+              -tyylisestä juomastaan paikassa: ${bars[randomReview.barId]}`}
               value={`
-              "${randomReview.review} - Annan juomalle arvosanaksi ${reviewStarStr}"`} />
-            ) : null
+              "${randomReview.review} - Annan juomalle arvosanaksi ${reviewStarStr}"`}
+            />
+          ) : null
         }
-        {personWithMostBeers[0] != '-'
+        {personWithMostBeers[0] !== '-'
           ? <StatusBlock width="2" height="1" label="Eniten juotuja juomia" value={`${personWithMostBeers[0]} - ${personWithMostBeers[1].length}`} /> : null
         }
-        {personWithPriciestBeer.name != '-'
+        {personWithPriciestBeer.name !== '-'
           ? (
             <StatusBlock
               width="2"
