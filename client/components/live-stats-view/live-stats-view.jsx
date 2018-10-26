@@ -12,11 +12,14 @@ const css = classNames.bind(styles);
 const stars = ['yksi tähti!', 'kaksi tähteä!', 'kolme tähteä!', 'neljä tähteä!', 'viisi tähteä!'];
 const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman', 'potentiaalisen', 'omasta mielestäni parhaan', 
 'kohtalaisen', 'hyvän', 'erikoisen', 'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'kehityskelpoisen', 'huonon', 'ylistävän', 'tahdikkaan',
-'melkein täydellisen', 'sivistyneen', 'liian korkean', 'hurmaavan', 'lähinnä säälittävän', 'helvetinmoisen', 'kirkkaan', 'silmiä hivelevän', 'sydäntä lämmittävän'];
-const verbs = ['sanoi', 'kertoili', 'sanaili', 'runoili', 'kommentoi', 'kirjoitti', 'sepusti', 'tarinoi', 'raapusteli', 'näppäili'];
+'melkein täydellisen', 'sivistyneen', 'liian korkean', 'hurmaavan', 'lähinnä säälittävän', 'helvetinmoisen', 'kirkkaan', 'silmiä hivelevän', 'sydäntä lämmittävän',
+'tympeän', 'vittumaisen', 'paskan', 'surkean', 'ylitsevuotavan', 'jyrkän', 'tyrmäävän', 'vammaisen', 'onnettoman'];
+const verbs = ['sanoi', 'kertoili', 'sanaili', 'runoili', 'kommentoi', 'kirjoitti', 'sepusteli', 'tarinoi', 'raapusteli', 'näppäili', 'aprikoi', 'mietti', 'pohti',
+'tuumaili', 'ajatteli', 'puntaroi', 'fundeerasi', 'pohdiskeli', 'mietiskeli', 'kirjoitteli'];
 const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti', 'iloisesti', 'surullisesti', 'mahtipontisesti', 'reippaasti', 'kylmäverisesti', 
 'hauskasti', 'mukavasti', 'lämpimästi', 'kauniisti', 'väsyneesti', 'yksityiskohtaisesti', 'tavallisesti', 'mieleenpainuvasti', 'kohteliaasti', 'onnettomasti',
-'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti'];
+'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti', 'vittumaisesti', 
+'paskasti', 'urposti', 'vammaisesti', 'aivovammaisesti', 'tympeästi', 'tyrmäävästi', 'onnistuneesti', 'jyrkästi', 'kusipäisesti', 'ivallisesti'];
 
 function StatusBlock({
   width,
