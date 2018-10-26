@@ -62,9 +62,6 @@ export default class StatsCarousel extends React.Component {
     const spentMost = groupedPerson
       .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
       .reduce(R.maxBy(([, totalPrice]) => totalPrice), ['-', []]);
-    const spentLeast = groupedPerson
-      .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
-      .reduce(R.minBy(([, totalPrice]) => totalPrice), ['-', []]);
 
     const personWithPriciestBeer = beers.reduce((currentMax, beer) => {
       if (currentMax.price > beer.price) {
@@ -115,8 +112,9 @@ export default class StatsCarousel extends React.Component {
         <StatusBlock
           width="1"
           height="1"
-          label={fullPriceLabel}
-          value={`${totalBeerPrice}€`}
+          fontSize="1.5"
+          label="Hillopäällikkö"
+          value={`${spentMost[0]} (${spentMost[1]}€)`}
         />
         <StatusBlock
           width="1"
@@ -127,18 +125,10 @@ export default class StatsCarousel extends React.Component {
       </StatusBlockContainer>,
       <StatusBlockContainer>
         <StatusBlock
-          width="1"
+          width="2"
           height="1"
-          fontSize="1.5"
-          label="Hillopäällikkö"
-          value={`${spentMost[0]} (${spentMost[1]}€)`}
-        />
-        <StatusBlock
-          width="1"
-          height="1"
-          fontSize="1.5"
-          label="Kitupiikki"
-          value={`${spentLeast[0]} (${spentLeast[1]}€)`}
+          label={fullPriceLabel}
+          value={`${totalBeerPrice}€`}
         />
         <StatusBlock
           width="2"
