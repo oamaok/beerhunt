@@ -2,6 +2,7 @@ import React from 'react';
 import * as R from 'ramda';
 import classNames from 'classnames/bind';
 import styles from './stats-carousel.scss';
+import { volumes } from '../add-beer-view/add-beer-view';
 
 const css = classNames.bind(styles);
 
@@ -45,6 +46,7 @@ export default class StatsCarousel extends React.Component {
     const groupedPerson = R.toPairs(R.groupBy(R.prop('personName'), beers));
     const groupedBar = R.toPairs(R.groupBy(R.prop('barId'), beers));
     const groupedType = R.toPairs(R.groupBy(R.prop('typeId'), beers));
+    const groupedVolume = R.toPairs(R.groupBy(R.prop('volume'), beers));
 
     const amberAleIndex = beerTypes.indexOf('Amber ale');
 
@@ -52,6 +54,8 @@ export default class StatsCarousel extends React.Component {
 
     const personWithMostBeers = groupedPerson.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
     const typeWithMostBeers = groupedType.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
+    const volumeWithMostBeers = groupedVolume.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
+    const volumeLabel = volumeWithMostBeers[0] != '-' ? volumes.find(volume => volume.value.toString() === volumeWithMostBeers[0]) : '';
     const mostExpensiveBar = groupedBar
       .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
       .reduce(R.maxBy(([, totalPrice]) => totalPrice), ['-', []]);
@@ -69,29 +73,40 @@ export default class StatsCarousel extends React.Component {
 
     const fullPriceLabel = totalBeerPrice > 1000 ? 'Juomiin käytetty yhteensä (vitun juopot)' : 'Juomiin käytetty yhteensä';
 
-
     const views = [
       <StatusBlockContainer>
         <StatusBlock
+          width="2"
+          height="1"
+          label="Suosituin juomatyyppi"
+          value={`${beerTypes[typeWithMostBeers[0]] || '-'}`}
+        />
+        <StatusBlock
           width="1"
           height="1"
-          label="Kumottua lasia"
+          label="Suosituin annoskoko"
+          value={volumeLabel.name || '-'}
+        />
+        <StatusBlock
+          width="1"
+          height="1"
+          fontSize="1.5"
+          label="Suosituin ravintola"
+          value={`${bars[mostExpensiveBar[0]] || '-'} (${mostExpensiveBar[1]}€)`}
+        />
+        <StatusBlock
+          width="1"
+          height="1"
+          label="Juomien kokonaismäärä"
           value={totalBeers}
         />
         <StatusBlock
           width="1"
           height="1"
-          label="Olutta yhteensä"
+          label="Juomia juotu yhteensä"
           value={`${totalBeerVolume}l`}
         />
-        <StatusBlock
-          width="2"
-          height="1"
-          label="Suosituin juomatyyppi"
-          value={`${beerTypes[typeWithMostBeers[0]]}`}
-        />
       </StatusBlockContainer>,
-
       <StatusBlockContainer>
         <StatusBlock
           width="1"
@@ -100,7 +115,6 @@ export default class StatsCarousel extends React.Component {
           value={`${totalBeerPrice}€`}
         />
         <StatusBlock
-
           width="1"
           height="1"
           label="Amber alea juotu"
@@ -114,16 +128,7 @@ export default class StatsCarousel extends React.Component {
           value={`${personWithMostBeers[0]} (${personWithMostBeers[1].length})`}
         />
       </StatusBlockContainer>,
-
-
       <StatusBlockContainer>
-        <StatusBlock
-          width="2"
-          height="1"
-          fontSize="1.5"
-          label="Parhaiten myynyt ravintola"
-          value={`${bars[mostExpensiveBar[0]]} (${mostExpensiveBar[1]}€)`}
-        />
         <StatusBlock
           width="2"
           height="1"
@@ -134,7 +139,6 @@ export default class StatsCarousel extends React.Component {
             ${personWithPriciestBeer.name} /
             ${personWithPriciestBeer.type}`}
         />
-
       </StatusBlockContainer>,
     ];
 

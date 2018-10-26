@@ -10,7 +10,7 @@ import ReviewEditor from '../review-editor/review-editor';
 
 const css = classNames.bind(styles);
 
-const volumes = [
+export const volumes = [
   { value: 0.1, name: '10cl' },
   { value: 0.2, name: '20cl' },
   { value: 0.3, name: '30cl' },
