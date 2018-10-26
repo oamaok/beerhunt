@@ -9,11 +9,10 @@ import BeerListing from '../beer-listing/beer-listing';
 
 const css = classNames.bind(styles);
 
-const stars = ['yksi tähti!', 'kaksi tähteä!', 'kolme tähteä!', 'neljä tähteä!', 'viisi tähteä!'];
-const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman', 'potentiaalisen', 'omasta mielestäni parhaan', 
-'kohtalaisen', 'hyvän', 'erikoisen', 'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'kehityskelpoisen', 'huonon', 'ylistävän', 'tahdikkaan',
-'melkein täydellisen', 'sivistyneen', 'liian korkean', 'hurmaavan', 'lähinnä säälittävän', 'helvetinmoisen', 'kirkkaan', 'silmiä hivelevän', 'sydäntä lämmittävän',
-'tympeän', 'vittumaisen', 'paskan', 'surkean', 'ylitsevuotavan', 'jyrkän', 'tyrmäävän', 'vammaisen', 'onnettoman'];
+const stars = ['yhden tähden!', 'kaksi tähteä!', 'kolme tähteä!', 'neljä tähteä!', 'viisi tähteä!'];
+const adjectives = ['täydellisen', 'vaatimattoman', 'säälittävän', 'upean', 'uskomattoman','kohtalaisen', 'erikoisen', 
+'kohteliaan', 'järkyttävän', 'selkeän', 'kehitysvammaisen', 'ylistävän', 'tahdikkaan', 'sivistyneen', 'hurmaavan', 'helvetinmoisen', 'kirkkaan',
+'tympeän', 'vittumaisen', 'surkean', 'ylitsevuotavan', 'jyrkän', 'tyrmäävän', 'vammaisen', 'onnettoman', 'saatanan', 'vitun', 'helvetin'];
 const verbs = ['sanoi', 'kertoili', 'sanaili', 'runoili', 'kommentoi', 'kirjoitti', 'sepusteli', 'tarinoi', 'raapusteli', 'näppäili', 'aprikoi', 'mietti', 'pohti',
 'tuumaili', 'ajatteli', 'puntaroi', 'fundeerasi', 'pohdiskeli', 'mietiskeli', 'kirjoitteli'];
 const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti', 'iloisesti', 'surullisesti', 'mahtipontisesti', 'reippaasti', 'kylmäverisesti', 
@@ -47,6 +46,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         abv={beer.abv}
         price={beer.price}
         rating={beer.starRating}
+        showRating
         personName={beer.personName}
         personId={beer.personId}
       />
@@ -93,9 +93,10 @@ function LiveStatsView({ beers, bars, beerTypes }) {
         {randomReview 
           ? ( 
             <StatusBlock width="2" height="1" 
-              label={`Näin ${reviewAdverbStr} ${reviewVerbStr} ${randomReview.personName} ${beerTypes[randomReview.typeId]} -tyylisestä juomastaan paikassa: ${bars[randomReview.barId]}`} 
+              label={`Näin ${reviewAdjectiveStr} ${reviewAdverbStr} ${reviewVerbStr} ${randomReview.personName} ${beerTypes[randomReview.typeId]}
+              -tyylisestä juomastaan paikassa: ${bars[randomReview.barId]}`} 
               value={`
-              "${randomReview.review} - Annan juomalle ${reviewAdjectiveStr} arvosanan: ${reviewStarStr}"`} />
+              "${randomReview.review} - Annan juomalle arvosanaksi ${reviewStarStr}"`} />
             ) : null
         }
         {personWithMostBeers[0] != '-'

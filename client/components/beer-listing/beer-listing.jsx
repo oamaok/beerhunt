@@ -6,7 +6,7 @@ import { range } from 'ramda'
 const css = classNames.bind(styles);
 
 export default function BeerListing({
-  beerType, volume, abv, price, location, personName, personId, rating, showRating = true, description,
+  beerType, volume, abv, price, location, personName, personId, rating, showRating = false, description,
 }) {
   return (
     <div className={css('beer-listing')}>

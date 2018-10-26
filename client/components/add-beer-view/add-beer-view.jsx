@@ -110,8 +110,8 @@ class AddBeerView extends React.Component {
       && abv > 0 && abv <= MAX_ABV
       && price > 0) && price <= MAX_PRICE;
     
-    const abvHint = abv >= 12 ? true : false;
-    const priceHint = price >= 30 ? true : false;
+    const abvHint = abv >= 12;
+    const priceHint = price >= 30;
 
     if (addedBeer) {
       return <ReviewEditor onSubmit={this.addReview} backToStats={() => setCurrentView(1)} />;
@@ -167,7 +167,6 @@ class AddBeerView extends React.Component {
               volume={volume}
               abv={abv}
               price={price}
-              showRating={false}
               description={description}
             />
             <button
