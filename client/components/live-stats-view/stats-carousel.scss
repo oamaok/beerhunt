@@ -1,0 +1,36 @@
+.status-blocks {
+  width: 100%;
+  display: grid;
+  grid-template-columns: calc(50vw - 3em) calc(50vw - 3em);
+  grid-template-rows: calc(50vw - 3em) calc(50vw - 3em);
+  grid-column-gap: 2em;
+  grid-row-gap: 2em;
+
+  margin-bottom: 2em;
+
+  .block {
+    padding: 0.5em;
+    &.height-1 {
+      grid-row-end: span 1;
+    }
+    &.width-1 {
+      grid-column-end: span 1;
+    }
+    &.height-2 {
+      grid-row-end: span 2;
+    }
+    &.width-2 {
+      grid-column-end: span 2;
+    }
+    background-color: $color-black;
+    color: $color-white;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+
+    .value { font-size: 2em; font-family: Podkova }
+    .label { text-transform: uppercase; font-size: 0.8em; }
+  }
+}
