@@ -19,6 +19,7 @@ class ViewContainer extends React.Component {
   state = {
     dragging: false,
     offset: 0,
+    scrolling: false,
   }
 
   animationFrame = null;
@@ -28,7 +29,7 @@ class ViewContainer extends React.Component {
   lastPosition = { x: 0, y: 0 };
 
   onTouchStart = (evt) => {
-    this.setState({ dragging: true });
+    this.setState({ dragging: true, scrolling: false });
     this.startPosition = getTouchCoordinates(evt);
     this.lastPosition = getTouchCoordinates(evt);
     this.startTime = new Date().getTime();
@@ -41,7 +42,25 @@ class ViewContainer extends React.Component {
     this.animationFrame = window.requestAnimationFrame(() => {
       // NOTE: This might fire after the touch has ended
       // so better to have a guard here.
-      if (!this.state.dragging) return;
+      if (!this.state.dragging || this.state.scrolling) return;
+
+
+      const deltaX = (this.lastPosition.x - this.startPosition.x);
+      const deltaY = (this.lastPosition.y - this.startPosition.y);
+
+      if (Math.abs(deltaY) > 30 && Math.abs(deltaY) > Math.abs(deltaX)) {
+        this.setState({
+          offset: 0,
+          scrolling: true,
+        });
+
+        return;
+      }
+
+      if (Math.abs(deltaX) < 20) {
+        this.setState({ offset: 0 });
+        return;
+      }
 
       // NOTE: React re-uses synthetic events, so don't use the `evt` in here
       // as it might be nullified or pointing to some other event.
@@ -55,7 +74,7 @@ class ViewContainer extends React.Component {
 
   onTouchEnd = () => {
     if (!this.state.dragging) return;
-    this.setState({ dragging: false, offset: 0 });
+    this.setState({ dragging: false, offset: 0, scrolling: false });
 
     const scalar = 1 / window.innerWidth * 100;
     const deltaX = (this.lastPosition.x - this.startPosition.x) * scalar;
