@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import { range } from 'ramda';
 import styles from './beer-listing.scss';
 
 const css = classNames.bind(styles);
 
 export default function BeerListing({
-  beerType, volume, abv, price, location, personName, personId, rating, description,
+  beerType, volume, abv, price, location, personName, personId, rating, showRating = false, description,
 }) {
   return (
     <div className={css('beer-listing')}>
@@ -17,6 +18,19 @@ export default function BeerListing({
       ) : null}
       <div className={css('essentials')}>{beerType} / {volume}l / {abv}% / {price}€
       </div>
+      {showRating && rating > 0
+        ? (
+          <div className={css('star-rating')}>
+            {range(1, 6).map(star => (
+              <img
+                alt=""
+                src={rating >= star ? '/assets/images/star.png' : '/assets/images/star-outline.png'}
+                className={css('star')}
+              />
+            ))}
+          </div>
+        ) : null
+      }
       <div className={css('location')}>
         <img src="/assets/images/location-marker.png" alt="" />
         {location}
