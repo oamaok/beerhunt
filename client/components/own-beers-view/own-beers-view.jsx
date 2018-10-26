@@ -2,7 +2,7 @@ import React from 'react';
 import * as R from 'ramda';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
-import styles from '../add-beer-view/add-beer-view'; // TODO using addbeer, make own
+import styles from './own-beers-view.scss';
 import {
   getBars, getBeers, getBeerTypes, getUserId, getToken,
 } from '../../selectors';
@@ -47,6 +47,7 @@ class OwnBeersView extends React.Component {
         rating={beer.starRating}
         showRating
         description={beer.review}
+        showDescription
         onDelete={() => this.onDelete(beer.rowid)}
       />
     ));

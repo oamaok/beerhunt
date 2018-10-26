@@ -10,6 +10,7 @@
     text-transform: uppercase;
     font-size: 0.9em;
     letter-spacing: 0.05em;
+    margin-bottom: 0.5em;
     img {
       margin-right: 0.5em;
       height: 0.8em;
@@ -31,13 +32,23 @@
   }
 
   .star-rating {
-    width: 30%;
+    width: 100%;
+    margin-bottom: 0.5em;
     .star {
       background-color: transparent;
-      width: 20%;
+      width: auto;
+      height: 1.0em;
+      margin-right: 0.5em;
       img {
         width: 100%;
       }
     }
+  }
+
+  .description {
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5em;
+    font-style: italic;
+    font-family: Podkova;
   }
 }
