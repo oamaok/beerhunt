@@ -36,7 +36,7 @@ export default class RandomReview extends React.Component {
   newReview = () => {
     // Reset the timeout if the button was clicked
     window.clearTimeout(this.newReviewTimeout);
-    this.newReviewTimeout = window.setTimeout(this.newReview, 15000);
+    this.newReviewTimeout = window.setTimeout(this.newReview, 30000);
 
     const { beers, bars, beerTypes } = this.props;
 
