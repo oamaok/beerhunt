@@ -6,8 +6,8 @@ import { getBars, getBeers, getBeerTypes } from '../../selectors';
 import styles from './live-stats-view.scss';
 
 import BeerListing from '../beer-listing/beer-listing';
-import StatsCarousel from './stats-carousel.jsx';
-import RandomReview from './random-review.jsx';
+import StatsCarousel from './stats-carousel';
+import RandomReview from './random-review';
 
 const css = classNames.bind(styles);
 

@@ -19,7 +19,7 @@ function AppFrame({ currentView, setCurrentView }) {
     <div className={css('app-frame')}>
       <div className={css('masthead')}>
         <div className={css('logo')}>
-          <img src="/assets/images/hbh-title.png" />
+          <img src="/assets/images/hbh-title.png" alt="" />
         </div>
         <div className={css('navigation')}>
           {navOptions.map((option, index) => (
@@ -28,7 +28,7 @@ function AppFrame({ currentView, setCurrentView }) {
               onClick={() => setCurrentView(index)}
               className={css('nav-option', { active: index === currentView })}
             >
-              <img src={`/assets/images/icons/${option}.png`} />
+              <img src={`/assets/images/icons/${option}.png`} alt="" />
             </button>
           ))}
         </div>

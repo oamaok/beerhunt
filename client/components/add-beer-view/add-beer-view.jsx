@@ -125,7 +125,7 @@ class AddBeerView extends React.Component {
           <label>Sijainti?</label>
           <select {...bind('bar')} disabled={isSubmitting}>
             <option value={DEFAULT_BAR} selected disabled hidden>{DEFAULT_BAR}</option>
-            {bars.map((bar, index) => <option value={index} key={index}>{bar}</option>)}
+            {bars.map((bar, index) => <option value={index} key={bar}>{bar}</option>)}
           </select>
         </div>
         <div className={css('input-group')}>
@@ -133,7 +133,9 @@ class AddBeerView extends React.Component {
           <label>Tyyppi?</label>
           <select {...bind('beerType')} disabled={isSubmitting}>
             <option value={DEFAULT_BEER_TYPE} selected disabled hidden>{DEFAULT_BEER_TYPE}</option>
-            {beerTypes.map((beerType, index) => <option value={index} key={index}>{beerType}</option>)}
+            {beerTypes.map((beerType, index) => (
+              <option value={index} key={beerType}>{beerType}</option>
+            ))}
           </select>
         </div>
         <div className={css('input-group')}>
@@ -147,13 +149,29 @@ class AddBeerView extends React.Component {
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Vahvuus?</label>
-          <input type="number" placeholder="Anna vahvuus" step="0.1" min="0" max={MAX_ABV} {...bind('abv')} disabled={isSubmitting} />
+          <input
+            type="number"
+            placeholder="Anna vahvuus"
+            step="0.1"
+            min="0"
+            max={MAX_ABV}
+            {...bind('abv')}
+            disabled={isSubmitting}
+          />
         </div>
         {abvHint ? <div>No nyt on vahvaa kamaa! ({abv}%)</div> : null}
         <div className={css('input-group')}>
           <div className={css('icon')} />
           <label>Hinta?</label>
-          <input type="number" placeholder="Anna hinta" step="0.1" min="0" max={MAX_PRICE} {...bind('price')} disabled={isSubmitting} />
+          <input
+            type="number"
+            placeholder="Anna hinta"
+            step="0.1"
+            min="0"
+            max={MAX_PRICE}
+            {...bind('price')}
+            disabled={isSubmitting}
+          />
         </div>
         {priceHint ? <div>Kuulostaa kalliilta, varmasti oikea hinta? ({price}€)</div> : null}
         {!isValid ? <div>Täytähän kaikki kentät!</div> : null}

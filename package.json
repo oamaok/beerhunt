@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development BABEL_ENV=development babel-node server/server.development",
     "lint": "eslint --fix --ext=js,jsx .",
-    "build": "rm -rf build/ && NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.production.config.js",
+    "build": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.production.config.js && rm -rf build && mv temp-build build",
     "analyse": "NODE_ENV=production BABEL_ENV=production webpack -p --config webpack.production.config.js --profile --json > analyse.json",
     "start:server": "NODE_ENV=production BABEL_ENV=production babel-node server/server"
   },

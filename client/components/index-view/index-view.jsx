@@ -18,7 +18,7 @@ function IndexView({
       <div className="input-group">
         <select className="form-control" onChange={evt => navigateTo('bar', { barId: evt.target.value })}>
           <option selected disabled>Select a bar!</option>
-          {bars.map((bar, index) => <option value={index} key={index}>{bar}</option>)}
+          {bars.map((bar, index) => <option value={index} key={bar}>{bar}</option>)}
         </select>
       </div>
       <hr />

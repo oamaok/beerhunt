@@ -19,7 +19,7 @@ module.exports = {
 
   output: {
     publicPath: '/',
-    path: path.resolve(__dirname, 'build/client/'),
+    path: path.resolve(__dirname, 'temp-build/client/'),
     filename: '[name]-[hash:8].js',
   },
 
