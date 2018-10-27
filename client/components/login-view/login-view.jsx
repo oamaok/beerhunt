@@ -10,7 +10,7 @@ const css = classNames.bind(styles);
 function LoginView({ auth, facebookLoaded, loginWithFacebook }) {
   return (
     <div className={css('login-view')}>
-      <img src="/assets/images/login-logo.png" className={css('logo')} />
+      <img src="/assets/images/login-logo.png" className={css('logo')} alt="" />
       <h2>
         Trapped in <span className={css('highlight')}>amber</span>
       </h2>

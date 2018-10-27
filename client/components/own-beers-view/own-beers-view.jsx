@@ -1,5 +1,4 @@
 import React from 'react';
-import * as R from 'ramda';
 import { connect } from 'react-redux';
 import classNames from 'classnames/bind';
 import styles from './own-beers-view.scss';
@@ -62,7 +61,7 @@ class OwnBeersView extends React.Component {
             value={`${totalBeerVolume}l`}
           />
         </div>
-        {R.intersperse(<hr />, ownBeers.map(beer => (
+        {ownBeers.map(beer => (
           <div className={css('listing')}>
             <BeerListing
               key={beer.id}
@@ -78,10 +77,10 @@ class OwnBeersView extends React.Component {
               showDescription
             />
             <button type="button" onClick={() => this.onDelete(beer.id)}>
-              <img src="/assets/images/delete.png" />
+              <img src="/assets/images/delete.png" alt="" />
             </button>
           </div>
-        )))}
+        ))}
 
       </div>
     );

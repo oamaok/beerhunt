@@ -39,11 +39,13 @@ export default class StatsCarousel extends React.Component {
 
     const amberAleIndex = beerTypes.indexOf('Amber ale');
 
-    const amberAleVolume = beers.filter(beer => beer.typeId === amberAleIndex).reduce((acc, { volume }) => acc + volume, 0).toFixed(1);
+    const amberAleVolume = beers
+      .filter(beer => beer.typeId === amberAleIndex)
+      .reduce((acc, { volume }) => acc + volume, 0).toFixed(1);
 
     const typeWithMostBeers = groupedType.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
     const volumeWithMostBeers = groupedVolume.reduce(R.maxBy(([, beers]) => beers.length), ['-', []]);
-    const volumeLabel = volumeWithMostBeers[0] != '-' ? volumes.find(volume => volume.value.toString() === volumeWithMostBeers[0]) : '';
+    const volumeLabel = volumeWithMostBeers[0] !== '-' ? volumes.find(volume => volume.value.toString() === volumeWithMostBeers[0]) : '';
     const mostExpensiveBar = groupedBar
       .map(([bar, beers]) => [bar, R.sum(beers.map(R.prop('price')))])
       .reduce(R.maxBy(([, totalPrice]) => totalPrice), ['-', []]);
@@ -62,7 +64,7 @@ export default class StatsCarousel extends React.Component {
       };
     }, { name: '-', price: 0, type: '-' });
 
-    const fullPriceLabel = totalBeerPrice > 1000 ? 'Juomiin käytetty yhteensä (vitun juopot)' : 'Juomiin käytetty yhteensä';
+    const fullPriceLabel = totalBeerPrice > 750 ? 'Juomiin käytetty yhteensä (vitun juopot)' : 'Juomiin käytetty yhteensä';
 
     const views = [
       <StatusBlockContainer>

@@ -39,7 +39,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
       <RandomReview bars={bars} beers={beers} beerTypes={beerTypes} />
       <h3>Viisi viimeisintä</h3>
       <div className={css('latest-beers-list')}>
-        {R.intersperse(<hr />, latestFiveBeers)}
+        {latestFiveBeers}
       </div>
     </div>
   );
