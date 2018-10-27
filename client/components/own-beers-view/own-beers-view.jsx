@@ -48,6 +48,7 @@ class OwnBeersView extends React.Component {
           rating={beer.starRating}
           showRating
           description={beer.review}
+          disabled={isSubmitting}
           showDescription
         />
         <button type="button" onClick={() => this.onDelete(beer.id)}>

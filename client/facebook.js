@@ -9,9 +9,13 @@ export function onceFacebookLoaded(fn) {
   }
 }
 
+const FB_APP_ID = process.env.NODE_ENV === 'production'
+  ? '1805325732897696'
+  : '2020798498212220';
+
 window.fbAsyncInit = () => {
   FB.init({
-    appId: '1805325732897696',
+    appId: FB_APP_ID,
     cookie: true,
     xfbml: true,
     version: 'v3.1',

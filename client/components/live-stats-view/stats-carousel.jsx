@@ -97,6 +97,8 @@ export default class StatsCarousel extends React.Component {
           label="Suosituin ravintola"
           value={`${bars[mostExpensiveBar[0]] || '-'} (${Number.parseFloat(mostExpensiveBar[1]).toFixed(2)}€)`}
         />
+      </StatusBlockContainer>,
+      <StatusBlockContainer>
         <StatusBlock
           width="1"
           height="1"
