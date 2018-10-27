@@ -14,3 +14,13 @@
     }
   }
 }
+
+.status-blocks {
+  width: 100%;
+  display: grid;
+  grid-template-columns: calc(50vw - 3em) calc(50vw - 3em);
+  grid-template-rows: calc(50vw - 3em);
+  grid-column-gap: 2em;
+
+  margin-bottom: 2em;
+}

@@ -17,7 +17,7 @@ const adverbs = ['kaihosti', 'väkevästi', 'aurinkoisesti', 'väkivaltaisesti',
   'ilkeästi', 'roisisti', 'selvästi', 'siististi', 'kehitysvammaisesti', 'haltioituneesti', 'erikoisesti', 'sivistyneesti', 'surkeasti', 'vittumaisesti',
   'paskasti', 'urposti', 'vammaisesti', 'aivovammaisesti', 'tympeästi', 'tyrmäävästi', 'onnistuneesti', 'jyrkästi', 'kusipäisesti', 'ivallisesti'];
 
-function StatusBlock({
+export function StatusBlock({
   width,
   height,
   label,
@@ -32,7 +32,7 @@ function StatusBlock({
   );
 }
 
-function StatusBlockContainer({ children }) {
+export function StatusBlockContainer({ children }) {
   return <div className={css('status-blocks')}>{children}</div>;
 }
 

@@ -17,6 +17,7 @@ function LiveStatsView({ beers, bars, beerTypes }) {
     .slice(0, 5)
     .map(beer => (
       <BeerListing
+        key={beer.id}
         location={bars[beer.barId]}
         beerType={beerTypes[beer.typeId]}
         volume={beer.volume}
