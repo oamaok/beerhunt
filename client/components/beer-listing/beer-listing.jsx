@@ -33,7 +33,7 @@ export default function BeerListing({
         ) : null
       }
       <div className={css('location')}>
-        <img src="/assets/images/location-marker.png" alt="" />
+        <img src="/assets/images/location-marker.png?white" alt="" />
         {location}
       </div>
       { showDescription && description
